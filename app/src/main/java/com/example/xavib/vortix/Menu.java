@@ -18,42 +18,7 @@ public class Menu extends AppCompatActivity {
         MediaPlayer song1 = MediaPlayer.create(Menu.this, R.raw.song1);
         song2.start();
 
-        //botons
-        //new game
-        Button newGameBtn = (Button) findViewById(R.id.newGame);
-        newGameBtn.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Intent intent = new Intent(Menu.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        //options
-        Button optionsBtn = (Button) findViewById(R.id.optionsBtn);
-        optionsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Intent intent = new Intent(Menu.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //continuee
-        Button continueBtwn = (Button) findViewById(R.id.continueBtn);
-        continueBtwn.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Intent intent = new Intent(Menu.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //quit
-        Button quitBtn = (Button) findViewById(R.id.quitBtn);
-        quitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
-            }
-        });
 
 
 

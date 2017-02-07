@@ -9,9 +9,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
-public class GameView extends View {
+public class GameView extends View implements View.OnTouchListener{
 
     private Paint paint;
     private int level;
@@ -31,17 +32,70 @@ public class GameView extends View {
     }
 
     @Override public void draw(Canvas canvas) {
-        canvas.drawColor(Color.RED);
-        canvas.drawLine(0, 0, 200, 100, paint);
-        r1.top=0;
-        r1.left=50;
-        r1.right=menu.getWidth()-50;
-        r1.bottom=menu.getHeight();
-        r2.top=-50;
-        r2.left=0;
+        //canvas.drawColor(Color.RED);
+        //canvas.drawLine(0, 0, 200, 100, paint);
+
+        //botó1
+
+        r1.top=(menu.getHeight()*122)/1000; // a una pantalla de amplada 1000 la cantonada estaria al pixel 131
+        r1.left=(menu.getWidth()*1272)/1000;
+        r1.right=(menu.getWidth()*1816)/1000;
+        r1.bottom=(menu.getHeight()*277)/1000;
+
+        //r1.top=(menu.getHeight()-122)/menu.getHeight(); //percentatge sobre el tamany original
+       // r1.left=(menu.getWidth()-1272)/menu.getWidth();
+       // r1.right=(menu.getWidth()-1816)/menu.getWidth();
+       // r1.bottom=(menu.getHeight()-277)/menu.getHeight();
+
+        r2.top=getHeight();
+        r2.left=getWidth();
         r2.right=getWidth();
         r2.bottom=getHeight();
-        canvas.drawBitmap(menu, r1, r2, paint);
+
+        //canvas.drawBitmap(menu, r1, r2, paint); //origen, rectacngle original, rectangle destí
         //decidir una amplada per ex 1000, i despres multiplicar pel tamany real i dividir per mil
+        //utilitzar touch events, que defineixen una àrea de la pantalla
+
+        //menu 1272 x 122 superior esquerre. inferior dret 1816 x 227
+        //original 1920 x 1078
+
     }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        switch (event.getAction()){
+
+            case MotionEvent.ACTION_DOWN:
+                if (r1.contains(x, y)){
+                    
+
+                }
+                break;
+
+        }
+
+        return false;
+    }
+
+    //touch
+   // @Override public boolean onTouchEvent(MotionEvent event){
+
+        //float x = event.getX(); //xy sobre la posició esquerre superior del control (de 0 al width/height)
+        //float y = event.getY();
+        //int action = event.getAction();
+        //switch (action) {
+        // case MotionEvent.ACTION_DOWN:
+        //       Log.d("xxx", "DOWN en " + x + "," + y); break;
+
+
+        // }
+
+
+     //   return true; //rebem array de punts de contacte i si tenene esdeveniment down, move, up
+
+    //}
 }
