@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameView extends View implements View.OnTouchListener{
+public class GameView extends View {
 
     private Paint paint;
     private int level;
@@ -61,41 +61,7 @@ public class GameView extends View implements View.OnTouchListener{
 
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-
-        switch (event.getAction()){
-
-            case MotionEvent.ACTION_DOWN:
-                if (r1.contains(x, y)){
-                    
-
-                }
-                break;
-
-        }
-
-        return false;
-    }
-
-    //touch
-   // @Override public boolean onTouchEvent(MotionEvent event){
-
-        //float x = event.getX(); //xy sobre la posició esquerre superior del control (de 0 al width/height)
-        //float y = event.getY();
-        //int action = event.getAction();
-        //switch (action) {
-        // case MotionEvent.ACTION_DOWN:
-        //       Log.d("xxx", "DOWN en " + x + "," + y); break;
 
 
-        // }
 
-
-     //   return true; //rebem array de punts de contacte i si tenene esdeveniment down, move, up
-
-    //}
 }

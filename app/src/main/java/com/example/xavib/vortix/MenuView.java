@@ -1,6 +1,7 @@
 package com.example.xavib.vortix;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,6 +16,12 @@ public class MenuView extends View {
     public MenuView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+    /*private void launch() {
+
+        Intent intent = new Intent(getContext(), GameView.class);
+        startActivity(intent);
+    }*/
 
 
     @Override public boolean onTouchEvent(MotionEvent event){
@@ -35,6 +42,10 @@ public class MenuView extends View {
 
              if ((relative_y > 11) && (relative_y < 21)){
                  Log.d("xxx", "new game");
+                 //launch();
+                 Intent intent = new Intent(getContext(), MainActivity.class);
+                 getContext().startActivity(intent);
+
              }
 
              if ((relative_y > 24) && (relative_y < 33)){

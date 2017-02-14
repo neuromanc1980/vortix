@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppFullScreenTheme">
 
-        <activity android:name=".Menu"
+        <activity android:name=".MenuActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
