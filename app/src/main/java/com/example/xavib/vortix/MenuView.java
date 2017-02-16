@@ -1,5 +1,7 @@
 package com.example.xavib.vortix;
 
+//vista del menú
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
@@ -35,7 +37,7 @@ public class MenuView extends View {
     int action = event.getAction();
     switch (action) {
      case MotionEvent.ACTION_DOWN:
-           //Log.d("xxx", "DOWN en " + x + "," + y);
+           Log.d("xxx", "DOWN en " + x + "," + y);
            Log.d("xxx", "\nDOWN en y:" + relative_y + "%, x:" + relative_x + "%");
 
          if ( (relative_x > 66)&&(relative_x < 94) ){

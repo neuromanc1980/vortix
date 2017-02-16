@@ -1,5 +1,7 @@
 package com.example.xavib.vortix;
 
+
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,6 +62,8 @@ public class GameView extends View {
         //original 1920 x 1078
 
     }
+
+
 
 
 

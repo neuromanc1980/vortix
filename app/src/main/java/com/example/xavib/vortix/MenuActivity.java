@@ -1,5 +1,7 @@
 package com.example.xavib.vortix;
 
+//activitat del menu
+
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
