@@ -46,6 +46,7 @@ public class GridView extends View{
 
     HexagonalGrid grid;
 
+
     public GridView(Context context) {        super(context);        init();    }
     public GridView(Context context, AttributeSet attrs) {        super(context, attrs);        init();    }
     public GridView(Context context, AttributeSet attrs, int defStyleAttr) {        super(context, attrs, defStyleAttr);        init();    }
@@ -57,13 +58,12 @@ public class GridView extends View{
         if ( (lvl > 5) && (lvl < 10) ) {            GRID_HEIGHT = 7;            GRID_WIDTH = 7;      RADIUS = 85;  }
         if (lvl >9 ){                               GRID_HEIGHT = 9;            GRID_WIDTH = 9;      RADIUS = 65; }
 
-//        switch (lvl) {
-//            case 1:
-//                GRID_HEIGHT = 5;
-//                GRID_WIDTH = 5;
-//                break;
-//
-//        }
+        switch (lvl) {
+            case 1:
+
+                break;
+
+        }
 
 
         //construim el grid
