@@ -8,8 +8,6 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
         GridView grid = (GridView) findViewById(R.id.grid);
 
         //grid.setBackgroundResource(findViewById(R.drawable.l));
+        //grid.setBackground(R.drawable.lvl1);
+        grid.setBackgroundResource(R.drawable.lvl1);
+
 
 
     }
