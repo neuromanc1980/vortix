@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         //creem una vista de tipus gridview
         GridView grid = (GridView) findViewById(R.id.grid);
 
+        //grid.setBackgroundResource(findViewById(R.drawable.l));
+
 
     }
 
