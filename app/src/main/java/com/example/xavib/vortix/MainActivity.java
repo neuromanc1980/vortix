@@ -2,8 +2,10 @@ package com.example.xavib.vortix;
 
 //activitat principal del joc
 
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,11 +18,16 @@ public class MainActivity extends AppCompatActivity {
         //holder.id = (TextView) myView.findViewById(R.id.id);
 
         //creem una vista de tipus gridview
-        GridView grid = (GridView) findViewById(R.id.grid);
+        GridView gridView = (GridView) findViewById(R.id.grid);
+        ImageView background = (ImageView) findViewById(R.id.background);
 
-        //grid.setBackgroundResource(findViewById(R.drawable.l));
+        //gridView.setBackgroundResource(findViewById(R.drawable.lvl1));
         //grid.setBackground(R.drawable.lvl1);
-        grid.setBackgroundResource(R.drawable.lvl1);
+        //gridView.setBackground(R.drawable.lvl1);
+        //gridView.setBackgroundResource(R.drawable.lvl1);
+        //background.setImageResource(R.drawable.lvl1);
+        background.setBackgroundResource(R.drawable.lvl2);
+        //grid.setBackground(R.drawable.lvl1);
 
 
 

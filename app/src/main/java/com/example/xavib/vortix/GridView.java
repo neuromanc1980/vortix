@@ -30,7 +30,6 @@ import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
-
 public class GridView extends View{
 
     private Paint linea = new Paint();
@@ -43,9 +42,7 @@ public class GridView extends View{
     private static final HexagonOrientation ORIENTATION = POINTY_TOP;
     private static  double RADIUS;
 
-
     HexagonalGrid grid;
-
 
     public GridView(Context context) {        super(context);        init();    }
     public GridView(Context context, AttributeSet attrs) {        super(context, attrs);        init();    }
@@ -59,12 +56,11 @@ public class GridView extends View{
         if (lvl >9 ){                               GRID_HEIGHT = 9;            GRID_WIDTH = 9;      RADIUS = 65; }
 
         switch (lvl) {
-            case 1:
-
+            case 6:
+                this.setBackgroundResource(R.drawable.lvl1);
                 break;
 
         }
-
 
         //construim el grid
         HexagonalGridBuilder builder = new HexagonalGridBuilder()
@@ -75,18 +71,14 @@ public class GridView extends View{
                 .setRadius(RADIUS);
         grid = builder.build();
 
-
     }
-
 
 
     @Override public void draw(Canvas canvas) {
 
-
-        linea.setColor(Color.rgb(255, 153, 51));
-        linea.setStrokeWidth(10);
-
-
+        linea.setColor(Color.rgb(153, 255, 204));
+        linea.setStrokeWidth(8);
+        linea.setAlpha(60);
 
         final List<Hexagon> hexas = new ArrayList<Hexagon>();
         Observable<Hexagon> hexagons = grid.getHexagons();
@@ -111,7 +103,6 @@ public class GridView extends View{
             float offset =  (float) (this.getHeight()*0.1);
             float offset_hor =  (float) (this.getHeight()*0.04);
 
-
             for (Object pointObj : hexagon.getPoints()) {
 
                 //punt inicial
@@ -130,15 +121,11 @@ public class GridView extends View{
 
  //                   Point point = (Point) pointObj;
 
-                //nou origen
+                    //nou origen
                     x_origen = ((float) ((Point) pointObj).getCoordinateX() + offset_hor) * factor_conversio;
                     y_origen = ((float) ((Point) pointObj).getCoordinateY() + offset) * factor_conversio;
-//
+
                   y_final = y_origen;   x_final = x_origen;
-//
-
-
-
 
 
             }
