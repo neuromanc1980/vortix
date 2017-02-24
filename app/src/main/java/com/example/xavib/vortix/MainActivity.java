@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         //gridView.setBackground(R.drawable.lvl1);
         //gridView.setBackgroundResource(R.drawable.lvl1);
         //background.setImageResource(R.drawable.lvl1);
-        background.setBackgroundResource(R.drawable.lvl2);
+        background.setBackgroundResource(R.drawable.lvl1);
         //grid.setBackground(R.drawable.lvl1);
 
 
