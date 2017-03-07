@@ -20,6 +20,9 @@ import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
 import org.codetome.hexameter.core.api.Point;
+import org.codetome.hexameter.core.api.contract.SatelliteData;
+import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
+import org.codetome.hexameter.core.backport.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ import java.util.List;
 import rx.Observable;
 import rx.functions.Action1;
 
+import static android.R.attr.data;
 import static org.codetome.hexameter.core.api.HexagonOrientation.FLAT_TOP;
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
@@ -80,7 +84,7 @@ public class GridView extends View{
         float factor_conversio = ((float)(this.getHeight())/grid_height);
 
         //construim el grid
-        HexagonalGridBuilder builder = new HexagonalGridBuilder()
+        HexagonalGridBuilder builder = new HexagonalGridBuilder<DefaultSatelliteData>()
                 .setGridHeight(GRID_HEIGHT)
                 .setGridWidth(GRID_WIDTH)
                 .setGridLayout(GRID_LAYOUT)
@@ -108,6 +112,25 @@ public class GridView extends View{
             //coordenades dels vertexs
             float x_origen=0;     float y_origen=0;     float x_final=0;
             float x_inicial=0;    float y_inicial=0;    float y_final=0;
+
+            SatelliteData myData = new DefaultSatelliteData();
+
+            myData.setMovementCost(2);
+            myData.setOpaque(true);
+
+            hexagon.setSatelliteData(myData);
+
+            //boolean test = hexagon.setSatelliteData(isOpaque());
+            Optional<SatelliteData> data = hexagon.getSatelliteData();
+
+            if (data.isPresent()){
+                SatelliteData satelliteData = data.get();
+
+                double coste = satelliteData.getMovementCost();
+
+
+            }
+
 
 
 
@@ -155,6 +178,8 @@ public class GridView extends View{
 
 
     }
+
+
 
     @Override public boolean onTouchEvent(MotionEvent event){
 
