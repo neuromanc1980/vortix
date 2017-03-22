@@ -9,11 +9,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -21,7 +23,6 @@ import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
 import org.codetome.hexameter.core.api.Point;
 import org.codetome.hexameter.core.api.contract.SatelliteData;
-import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 import org.codetome.hexameter.core.backport.Optional;
 
 import java.util.ArrayList;
@@ -30,18 +31,19 @@ import java.util.List;
 import rx.Observable;
 import rx.functions.Action1;
 
-import static android.R.attr.data;
-import static org.codetome.hexameter.core.api.HexagonOrientation.FLAT_TOP;
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
-import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 public class GridView extends View{
 
     private Paint linea = new Paint();
+    private Paint blur = new Paint();
 
-    int lvl = 3; double mod = 0;
-    double size_modifier;
+    private int lvl = 7, id = 1; private double mod = 0;
+    private String center, first, last;
+
+    Ship playerShip = new Ship();
+    Optional<Hexagon> vei;
 
     private static  int GRID_HEIGHT;
     private static  int GRID_WIDTH;
@@ -52,7 +54,6 @@ public class GridView extends View{
     Bitmap playerShipBm = BitmapFactory.decodeResource(getResources(),
             R.drawable.ship1_s);
 
-
     HexagonalGrid grid;
 
     public GridView(Context context) {        super(context);        init();    }
@@ -62,10 +63,22 @@ public class GridView extends View{
     public void init(){
 
         //dimensions segons el nivell
-        if (lvl < 6){                               GRID_HEIGHT = 5;            GRID_WIDTH = 5;      mod = 8.1;   }
-        if ( (lvl > 5) && (lvl < 10) ) {            GRID_HEIGHT = 7;            GRID_WIDTH = 7;      mod = 11;  }
-        if (lvl >9 ){                               GRID_HEIGHT = 9;            GRID_WIDTH = 9;      mod = 14;   }
+        if (lvl < 6){
+            GRID_HEIGHT = 5;            GRID_WIDTH = 5;      mod = 8.1;     linea.setColor(Color.rgb(153, 255, 204));  center = "1,2";  first = "0,0";  last = "3,2";
+            playerShip.setShipX(1);     playerShip.setShipZ(2);
+        }
 
+        if ( (lvl > 5) && (lvl < 10) ) {
+            GRID_HEIGHT = 7;            GRID_WIDTH = 7;      mod = 11;      linea.setColor(Color.rgb(255, 204, 153));  center = "2,3";  first = "2,3";  last = "1,4";
+            playerShip.setShipX(2);     playerShip.setShipZ(3);
+        }
+
+        if (lvl >9 ){
+            GRID_HEIGHT = 9;            GRID_WIDTH = 9;      mod = 14;      linea.setColor(Color.rgb(204, 153, 255));  center = "2,4";  first = "2,3";  last = "1,4";
+            playerShip.setShipX(2);     playerShip.setShipZ(4);
+        }
+
+        //fons segons el nivell
         switch (lvl) {
             case 6:
                 this.setBackgroundResource(R.drawable.lvl1);
@@ -75,6 +88,26 @@ public class GridView extends View{
 
     }
 
+    public void setVisibility(){    //métode que estableix visibilitat de rang1
+
+        Optional <Hexagon> playerShipPosition = grid.getByCubeCoordinate(playerShip.getCoordinates());   //hexagon de la nau del jugador
+
+
+        if (playerShipPosition.isPresent()){
+
+            HexagonSatelliteData dataCentral = new HexagonSatelliteData();
+            dataCentral.setVisible(true);
+            playerShipPosition.get().setSatelliteData(dataCentral);
+
+            for (int i = 0; i <= 5 ; i++){      //6 veins per index
+                vei = grid.getNeighborByIndex(playerShipPosition.get(), i);
+                HexagonSatelliteData data = new HexagonSatelliteData();
+                data.setVisible(true);
+                vei.get().setSatelliteData(data);
+                Log.d("xxx", "\nVei N: " + i + " coordenada: "+vei.get().getCubeCoordinate()+" visibilitat: "+data.isVisible());
+            }
+        }
+    }
 
     @Override public void draw(Canvas canvas) {
 
@@ -84,20 +117,23 @@ public class GridView extends View{
         float factor_conversio = ((float)(this.getHeight())/grid_height);
 
         //construim el grid
-        HexagonalGridBuilder builder = new HexagonalGridBuilder<DefaultSatelliteData>()
+        HexagonalGridBuilder builder = new HexagonalGridBuilder<HexagonSatelliteData>()
                 .setGridHeight(GRID_HEIGHT)
                 .setGridWidth(GRID_WIDTH)
                 .setGridLayout(GRID_LAYOUT)
                 .setOrientation(ORIENTATION)
                 .setRadius(RADIUS*factor_conversio);
-        //Log.d("xxx",  "alçada "+Double.toString(RADIUS));
-        //Log.d("xxx",  "alçada2 "+Double.toString(builder.getRadius()));
+
+        //construim la graella
         grid = builder.build();
 
-        linea.setColor(Color.rgb(153, 255, 204));
-        linea.setStrokeWidth(8);
-        linea.setAlpha(60);
+        //pinzell de les línices
+        linea.setStrokeWidth(4);        linea.setAlpha(60);        linea.setStyle(Paint.Style.FILL);
 
+        //pinzell del blur
+        blur.setStyle(Paint.Style.FILL);        blur.setColor(Color.DKGRAY);        blur.setAlpha(200);
+
+        //tots els hexagons
         final List<Hexagon> hexas = new ArrayList<Hexagon>();
         Observable<Hexagon> hexagons = grid.getHexagons();
         hexagons.forEach(new Action1<Hexagon>() {
@@ -107,46 +143,100 @@ public class GridView extends View{
             }
         });
 
+        int count = 0;
+
+
+
+        for(Hexagon hexagon : hexas){
+            HexagonSatelliteData dataInicial = new HexagonSatelliteData();
+            dataInicial.setVisible(false);
+            hexagon.setSatelliteData(dataInicial);
+        }
+
+        setVisibility();
+
+        //els recorrem
         for(Hexagon hexagon : hexas) {
+
+//            //amaguem tots els hexagons
+//            if (hexagon.getSatelliteData().isPresent()){
+//                HexagonSatelliteData dataInicial = (HexagonSatelliteData) hexagon.getSatelliteData().get();
+//                dataInicial.setVisible(false);
+//                hexagon.setSatelliteData(dataInicial);
+//            }
+
+            //posem els veins a visible
+
+            if (hexagon.getSatelliteData().isPresent()){count++;}
+
+            //Log.d("xxx",  "contador de hexagonos que tienen satelita data vinculado: "+count);
+
+
+            //blurrejem els no visibles
+            if (hexagon.getSatelliteData().isPresent()){
+                HexagonSatelliteData data = (HexagonSatelliteData) hexagon.getSatelliteData().get();
+
+                Log.d("xxx",  "hexagono visible: "+data.isVisible());
+
+                if (data.isVisible()==false) {
+                    canvas.drawCircle((float) hexagon.getCenterX(), (float) hexagon.getCenterY(), (float) RADIUS/2, blur);
+
+//                    canvas.drawPaint(linea);
+//                    Path path = new Path();
+//                    float x_inicial = 0;    float next_x = 0;
+//                    float y_inicial = 0;    float next_y = 0;
+//                    for (Object pointObj : hexagon.getPoints()){
+//                        if (x_inicial == 0) { x_inicial = (float) ( (Point) pointObj).getCoordinateX();
+//                                              y_inicial = (float) ( (Point) pointObj).getCoordinateY();
+//                                              path.moveTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());   }
+//                        else {
+//                            path.lineTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());
+//                        }
+//
+//
+//                    }
+//                    path.moveTo(x_inicial,y_inicial);
+//                    path.close();
+//                    canvas.drawPath(path, linea);
+                }
+            }
 
             //coordenades dels vertexs
             float x_origen=0;     float y_origen=0;     float x_final=0;
             float x_inicial=0;    float y_inicial=0;    float y_final=0;
 
-            SatelliteData myData = new DefaultSatelliteData();
+//            //satellite data
+//            HexagonSatelliteData myData = new HexagonSatelliteData();
+//
+//            myData.setMovementCost(2);
+//            myData.setOpaque(true);
+//            //myData.setVisible(false);
 
-            myData.setMovementCost(2);
-            myData.setOpaque(true);
+            //hexagon.setSatelliteData(myData);
 
-            hexagon.setSatelliteData(myData);
+//            //boolean test = hexagon.setSatelliteData(isOpaque());
+//            Optional<SatelliteData> data = hexagon.getSatelliteData();
+//
+//            if (data.isPresent()){
+//                SatelliteData satelliteData = data.get();
+//
+//                double coste = satelliteData.getMovementCost();
+//            }
 
-            //boolean test = hexagon.setSatelliteData(isOpaque());
-            Optional<SatelliteData> data = hexagon.getSatelliteData();
-
-            if (data.isPresent()){
-                SatelliteData satelliteData = data.get();
-
-                double coste = satelliteData.getMovementCost();
-
-
+            //si és l'hexagon on és la nau
+            if (hexagon.getCubeCoordinate().equals(playerShip.getCoordinates())){
+                canvas.drawBitmap(playerShipBm, (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
+                Log.d("xxx",  playerShip.getCoordinates().toString());
             }
 
-
-
-
-            //col.loquem una nau d prova
-            canvas.drawBitmap(playerShipBm, (float) hexagon.getCenterX()-playerShipBm.getWidth()/2, (float) hexagon.getCenterY()-playerShipBm.getHeight()/2, null);
-
+            //dibuixem la graella
             for (Object pointObj : hexagon.getPoints()) {
-
-
 
                 //punt inicial
                 if (x_origen == 0){
                     //guardem les coordinades inicials
                     x_inicial = ((float) ((Point) pointObj).getCoordinateX());
                     y_inicial = ((float) ((Point) pointObj).getCoordinateY());
-
                 }
 
                    //si hi ha origen, dibuixem entre una línia origen i el punt actual
@@ -162,23 +252,14 @@ public class GridView extends View{
                   y_final = y_origen;   x_final = x_origen;
             }
 
-
-
             //dibuixem l'últim traç
             canvas.drawLine(x_inicial, y_inicial, x_final, y_final, linea);
 
-            //Log.d("xxx",  "alçada "+Float.toString(grid_height));
-
             //reiniciem origen
             x_origen = 0; y_origen = 0;
+            id += 1;    //salt del bucle
         }
-
-
-
-
-
     }
-
 
 
     @Override public boolean onTouchEvent(MotionEvent event){
@@ -192,19 +273,13 @@ public class GridView extends View{
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                Log.d("xxx", "DOWN en " + x + "," + y);
-                Log.d("xxx", "\nDOWN en y:" + relative_y + "%, x:" + relative_x + "%");
+                //Log.d("xxx", "DOWN en " + x + "," + y);
+                //Log.d("xxx", "\nDOWN en y:" + relative_y + "%, x:" + relative_x + "%");
 
-                if ( (relative_x > 66)&&(relative_x < 94) ){
 
-                    if ((relative_y > 11) && (relative_y < 21)){
-                        Log.d("xxx", "new game");
-                        //launch();
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        getContext().startActivity(intent);
-
-                    }
-                }
+                Optional<Hexagon> touchedHexagon =  grid.getByPixelCoordinate(x,y);
+                Optional<HexagonSatelliteData> dataTouched = touchedHexagon.get().getSatelliteData();
+                Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible());
 
                 break;
 

@@ -2,11 +2,16 @@ package com.example.xavib.vortix;
 
 //classe de nau
 
+import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.backport.Optional;
+
 public class Ship {
 
     private int hp, scanner, energy, shields, engine;
     private String model;
     private Weapon weapon1, weapon2, weapon3;
+    private int shipX, shipZ;
 
     //nau de dues armes
     public Ship(int hp, int scanner, int energy, int shields, String model, Weapon weapon1, Weapon weapon2, int engine) {
@@ -16,12 +21,29 @@ public class Ship {
         this.weapon2 = weapon2;      this.engine = engine;
     }
 
+    public Ship (){
+
+    }
+
+    public CubeCoordinate getCoordinates(){
+        CubeCoordinate coordinate = CubeCoordinate.fromCoordinates(this.getShipX(), this.getShipZ());
+        return coordinate;
+    }
+
+
+    public int getShipX() {        return shipX;    }
+    public void setShipX(int shipX) {        this.shipX = shipX;    }
+
+    public int getShipZ() {        return shipZ;    }
+    public void setShipZ(int shipZ) {        this.shipZ = shipZ;    }
+
     //nau de tres armes
     public Ship(int hp, int scanner, int energy, int shields, String model, Weapon weapon1, Weapon weapon2, Weapon weapon3, int engine) {
         this.hp = hp;               this.scanner = scanner;
         this.energy = energy;       this.shields = shields;
         this.model = model;         this.weapon1 = weapon1;
         this.weapon2 = weapon2;     this.weapon3 = weapon3;
+
         this.engine = engine;
     }
 
@@ -32,6 +54,7 @@ public class Ship {
         this.model = model;        this.weapon1 = weapon1;
         this.engine = engine;
     }
+
 
     public int getHp() {        return hp;    }
     public void setHp(int hp) {        this.hp = hp;    }
