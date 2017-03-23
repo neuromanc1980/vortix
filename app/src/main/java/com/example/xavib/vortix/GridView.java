@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
@@ -100,16 +101,21 @@ public class GridView extends View{
             playerShipPosition.get().setSatelliteData(dataCentral);
 
             for (int i = 0; i <= 5 ; i++){      //6 veins per index
-                vei = grid.getNeighborByIndex(playerShipPosition.get(), i);
-                HexagonSatelliteData data = new HexagonSatelliteData();
-                data.setVisible(true);
-                vei.get().setSatelliteData(data);
-                Log.d("xxx", "\nVei N: " + i + " coordenada: "+vei.get().getCubeCoordinate()+" visibilitat: "+data.isVisible());
+                if (grid.getNeighborByIndex(playerShipPosition.get(),i).isPresent() ){
+                    vei = grid.getNeighborByIndex(playerShipPosition.get(), i);
+                    HexagonSatelliteData data = new HexagonSatelliteData();
+                    data.setVisible(true);
+                    vei.get().setSatelliteData(data);
+                    Log.d("xxx", "\nVei N: " + i + " coordenada: "+vei.get().getCubeCoordinate()+" visibilitat: "+data.isVisible());
+                }
+
             }
         }
     }
 
     @Override public void draw(Canvas canvas) {
+
+        this.postInvalidateDelayed(50);
 
         //alçada modificada
         float grid_height = (float) ((float) RADIUS * mod);
@@ -179,25 +185,27 @@ public class GridView extends View{
                 Log.d("xxx",  "hexagono visible: "+data.isVisible());
 
                 if (data.isVisible()==false) {
-                    canvas.drawCircle((float) hexagon.getCenterX(), (float) hexagon.getCenterY(), (float) RADIUS/2, blur);
+                    //canvas.drawCircle((float) hexagon.getCenterX(), (float) hexagon.getCenterY(), (float) RADIUS/2, blur);
 
-//                    canvas.drawPaint(linea);
-//                    Path path = new Path();
-//                    float x_inicial = 0;    float next_x = 0;
-//                    float y_inicial = 0;    float next_y = 0;
-//                    for (Object pointObj : hexagon.getPoints()){
-//                        if (x_inicial == 0) { x_inicial = (float) ( (Point) pointObj).getCoordinateX();
-//                                              y_inicial = (float) ( (Point) pointObj).getCoordinateY();
-//                                              path.moveTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());   }
-//                        else {
-//                            path.lineTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());
-//                        }
-//
-//
-//                    }
-//                    path.moveTo(x_inicial,y_inicial);
-//                    path.close();
-//                    canvas.drawPath(path, linea);
+                    //canvas.drawPaint(linea);
+                    Path path = new Path();
+                    float x_inicial = 0;    float next_x = 0;
+                    float y_inicial = 0;    float next_y = 0;
+
+                    for (Object pointObj : hexagon.getPoints()){
+                        if (x_inicial == 0) { x_inicial = (float) ( (Point) pointObj).getCoordinateX();
+                                              y_inicial = (float) ( (Point) pointObj).getCoordinateY();
+                                              path.moveTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());
+                        }
+                        else {
+                            path.lineTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());
+                        }
+
+
+                    }
+                    path.lineTo(x_inicial,y_inicial);   //traç final
+                    path.close();
+                    canvas.drawPath(path, blur);
                 }
             }
 
@@ -225,7 +233,8 @@ public class GridView extends View{
 
             //si és l'hexagon on és la nau
             if (hexagon.getCubeCoordinate().equals(playerShip.getCoordinates())){
-                canvas.drawBitmap(playerShipBm, (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
+
+                canvas.drawBitmap(RotateBitmap(playerShipBm, 145), (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
                 Log.d("xxx",  playerShip.getCoordinates().toString());
             }
 
@@ -281,11 +290,23 @@ public class GridView extends View{
                 Optional<HexagonSatelliteData> dataTouched = touchedHexagon.get().getSatelliteData();
                 Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible());
 
+                if (dataTouched.get().isVisible()){ //ens movem a la casella
+                    playerShip.setShipX(touchedHexagon.get().getGridX());
+                    playerShip.setShipZ(touchedHexagon.get().getGridZ());
+
+                }
+
                 break;
 
 
         }
         return true; //rebem array de punts de contacte i si tenene esdeveniment down, move, up
 
+    }
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle){  //encarar al nou hexagon
+        Matrix matrix = new Matrix();
+        matrix.setRotate(angle, source.getWidth()/2,  source.getHeight()/2);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }

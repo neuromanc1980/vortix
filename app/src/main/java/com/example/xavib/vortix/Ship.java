@@ -12,6 +12,7 @@ public class Ship {
     private String model;
     private Weapon weapon1, weapon2, weapon3;
     private int shipX, shipZ;
+    private int orientacio;
 
     //nau de dues armes
     public Ship(int hp, int scanner, int energy, int shields, String model, Weapon weapon1, Weapon weapon2, int engine) {
@@ -19,6 +20,7 @@ public class Ship {
         this.energy = energy;        this.shields = shields;
         this.model = model;          this.weapon1 = weapon1;
         this.weapon2 = weapon2;      this.engine = engine;
+        this.orientacio = 1;
     }
 
     public Ship (){
@@ -30,6 +32,8 @@ public class Ship {
         return coordinate;
     }
 
+    public int getOrientacio() {        return orientacio;    }
+    public void setOrientacio(int orientacio) {        this.orientacio = orientacio;    }
 
     public int getShipX() {        return shipX;    }
     public void setShipX(int shipX) {        this.shipX = shipX;    }
