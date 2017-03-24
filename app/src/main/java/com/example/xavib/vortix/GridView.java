@@ -106,7 +106,7 @@ public class GridView extends View{
                     HexagonSatelliteData data = new HexagonSatelliteData();
                     data.setVisible(true);
                     vei.get().setSatelliteData(data);
-                    Log.d("xxx", "\nVei N: " + i + " coordenada: "+vei.get().getCubeCoordinate()+" visibilitat: "+data.isVisible());
+                    //Log.d("xxx", "\nVei N: " + i + " coordenada: "+vei.get().getCubeCoordinate()+" visibilitat: "+data.isVisible());
                 }
 
             }
@@ -182,7 +182,7 @@ public class GridView extends View{
             if (hexagon.getSatelliteData().isPresent()){
                 HexagonSatelliteData data = (HexagonSatelliteData) hexagon.getSatelliteData().get();
 
-                Log.d("xxx",  "hexagono visible: "+data.isVisible());
+                //Log.d("xxx",  "hexagono visible: "+data.isVisible());
 
                 if (data.isVisible()==false) {
                     //canvas.drawCircle((float) hexagon.getCenterX(), (float) hexagon.getCenterY(), (float) RADIUS/2, blur);
@@ -234,8 +234,28 @@ public class GridView extends View{
             //si és l'hexagon on és la nau
             if (hexagon.getCubeCoordinate().equals(playerShip.getCoordinates())){
 
-                canvas.drawBitmap(RotateBitmap(playerShipBm, 145), (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
-                Log.d("xxx",  playerShip.getCoordinates().toString());
+                //RotateBitmap(playerShipBm,145);
+                //canvas.drawBitmap(RotateBitmap(playerShipBm, 120), (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
+
+                canvas.drawBitmap(rotate(playerShipBm, 120), (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
+
+//                Matrix matrix = new Matrix();
+//                matrix.reset();
+//
+//                matrix.postRotate(120, playerShipBm.getHeight()/2 , playerShipBm.getWidth()/2 );
+//
+//                Bitmap test =  Bitmap.createBitmap(playerShipBm, 0, 0, playerShipBm.getWidth(), playerShipBm.getHeight(), matrix, true);
+//                canvas.drawBitmap(test, (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
+
+                //Log.d("xxx",  playerShip.getCoordinates().toString());
+
+
+                //--felix--
+//                Bitmap destBitmap = Bitmap.createBitmap(playerShipBm.getWidth(), playerShipBm.getHeight(), playerShipBm.getConfig());
+//                Canvas canvas2 = new Canvas(destBitmap);
+//                Matrix matrix = new Matrix();
+//                matrix.setRotate(180, playerShipBm.getWidth()/2, playerShipBm.getHeight()/2);
+//                canvas2.drawBitmap(playerShipBm, matrix, linea);
             }
 
             //dibuixem la graella
@@ -306,7 +326,64 @@ public class GridView extends View{
 
     public static Bitmap RotateBitmap(Bitmap source, float angle){  //encarar al nou hexagon
         Matrix matrix = new Matrix();
-        matrix.setRotate(angle, source.getWidth()/2,  source.getHeight()/2);
+        matrix.reset();
+        //matrix.postTranslate(-source.getWidth() / 2, -source.getHeight() / 2);  //centra
+        matrix.postRotate(angle, source.getHeight()/2 , source.getWidth()/2 );
+        //matrix.postTranslate(source.getWidth(), source.getWidth());
+
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+
+        //matrix.postRotate(0);
+
+        //Bitmap scaledBitmap = Bitmap.createScaledBitmap(source,source.getWidth(),source.getHeight(),true);
+
+        //Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap .getWidth(), scaledBitmap .getHeight(), matrix, true);
+
+
+        //matrix.postRotate(angle, source.getWidth()/2,  source.getHeight()/2);
+        //return rotatedBitmap;
+
+
+
+
+        //Canvas canvas2 = new Canvas();
+        //canvas2.drawBitmap(source, matrix, new Paint())
+//        int width = source.getWidth();
+//        int height = source.getHeight();
+//
+//        Matrix matrix = new Matrix();
+//        matrix.preRotate(angle, source.getWidth()/2,  source.getHeight()/2);
+//
+//        Bitmap rotatedBitmap = Bitmap.createBitmap(source, 0, 0, width, height, matrix, true);
+//        Canvas canvas = new Canvas(rotatedBitmap);
+//        //canvas.drawBitmap(rotatedBitmap, 5.0f, 0.0f, null);
+
+        //return rotatedBitmap;
+
     }
+
+//    public static Matrix RotateMatrix(Bitmap source, float angle){
+//        Matrix matrix = new Matrix();
+//        matrix.setRotate(angle, source.getWidth()/2,  source.getHeight()/2);
+//        return matrix;
+//    }
+
+    public Bitmap rotate(Bitmap paramBitmap, float angle)
+    {
+        if (angle% 360 == 0) {
+            return paramBitmap;
+        }
+        Matrix localMatrix = new Matrix();
+        float f1 = paramBitmap.getWidth() / 2;
+        float f2 = paramBitmap.getHeight() / 2;
+        localMatrix.postTranslate(-paramBitmap.getWidth() / 2, -paramBitmap.getHeight() / 2);
+        localMatrix.postRotate(angle);
+        localMatrix.postTranslate(f1, f2);
+        paramBitmap = Bitmap.createBitmap(paramBitmap, 0, 0, paramBitmap.getWidth(), paramBitmap.getHeight(), localMatrix, true);
+        new Canvas(paramBitmap).drawBitmap(paramBitmap, 0.0F, 0.0F, null);
+        return paramBitmap;
+    }
+
+
+
 }
