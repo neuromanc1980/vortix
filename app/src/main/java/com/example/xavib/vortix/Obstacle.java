@@ -8,5 +8,6 @@ public class Obstacle {
 
     private String type;
     private int XCoord, ZCoord, imatge;
+    private boolean passable;
 
 }

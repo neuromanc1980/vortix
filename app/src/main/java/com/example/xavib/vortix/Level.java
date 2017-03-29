@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Level {
 
     private int level, startingX, startingZ;
@@ -15,6 +18,7 @@ public class Level {
     private double mod;
     private Paint linea = new Paint();
     private String center;
+    private List<Obstacle> obstacles;
 
 
     //constructor

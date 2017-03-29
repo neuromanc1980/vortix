@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -68,6 +69,8 @@ public class GridView extends View{
         playerShip.setImatge(R.drawable.ship1_s);
         playerShipBm = BitmapFactory.decodeResource(getResources(),
                 playerShip.getImatge());
+        ImageView background = (ImageView) findViewById(R.id.background);
+        background.setBackgroundResource(level.getBackground());
 
     }
 
