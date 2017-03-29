@@ -21,6 +21,7 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.HexagonalGridBuilder;
+import org.codetome.hexameter.core.api.HexagonalGridCalculator;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
 import org.codetome.hexameter.core.api.Point;
 import org.codetome.hexameter.core.api.contract.SatelliteData;
@@ -37,18 +38,18 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 
 public class GridView extends View{
 
-    private Paint linea = new Paint();
     private Paint blur = new Paint();
+    private int lvl = 7, id = 1;
 
-    private int lvl = 7, id = 1; private double mod = 0;
-    private String center, first, last;
-    int angle = 0;
+    Level level = new Level(lvl);
 
-    Ship playerShip = new Ship();
-    Optional<Hexagon> vei;
+    private Paint linea = level.getLinea();
+    private String center = level.getCenter();
 
-    private static  int GRID_HEIGHT;
-    private static  int GRID_WIDTH;
+    Ship playerShip = new Ship(level.getStartingX(),level.getStartingZ());
+    int rang = playerShip.getScanner();
+
+    //paràmetres del grid comuns a tots els nivells
     private static final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
     private static final HexagonOrientation ORIENTATION = POINTY_TOP;
     private static  double RADIUS = 100;
@@ -64,53 +65,58 @@ public class GridView extends View{
 
     public void init(){
 
-        //dimensions segons el nivell
-        if (lvl < 6){
-            GRID_HEIGHT = 5;            GRID_WIDTH = 5;      mod = 8.1;     linea.setColor(Color.rgb(153, 255, 204));  center = "1,2";  first = "0,0";  last = "3,2";
-            playerShip.setShipX(1);     playerShip.setShipZ(2);
-        }
-
-        if ( (lvl > 5) && (lvl < 10) ) {
-            GRID_HEIGHT = 7;            GRID_WIDTH = 7;      mod = 11;      linea.setColor(Color.rgb(255, 204, 153));  center = "2,3";  first = "2,3";  last = "1,4";
-            playerShip.setShipX(2);     playerShip.setShipZ(3);
-        }
-
-        if (lvl >9 ){
-            GRID_HEIGHT = 9;            GRID_WIDTH = 9;      mod = 14;      linea.setColor(Color.rgb(204, 153, 255));  center = "2,4";  first = "2,3";  last = "1,4";
-            playerShip.setShipX(2);     playerShip.setShipZ(4);
-        }
-
-        //fons segons el nivell
-        switch (lvl) {
-            case 6:
-                this.setBackgroundResource(R.drawable.lvl1);
-                break;
-
-        }
+        playerShip.setImatge(R.drawable.ship1_s);
+        playerShipBm = BitmapFactory.decodeResource(getResources(),
+                playerShip.getImatge());
 
     }
 
     public void setVisibility(){    //métode que estableix visibilitat de rang1
 
-        Optional <Hexagon> playerShipPosition = grid.getByCubeCoordinate(playerShip.getCoordinates());   //hexagon de la nau del jugador
-
+        Optional <Hexagon> playerShipPosition = grid.getByCubeCoordinate(playerShip.getCoordinates());   //hexagon de la nau del
 
         if (playerShipPosition.isPresent()){
 
+            //hexagon jugador visible
             HexagonSatelliteData dataCentral = new HexagonSatelliteData();
-            dataCentral.setVisible(true);
+
             playerShipPosition.get().setSatelliteData(dataCentral);
+
+            //de fora cap a endins
+
+            Optional<Hexagon> vei;            Optional<Hexagon> vei2;
 
             for (int i = 0; i <= 5 ; i++){      //6 veins per index
                 if (grid.getNeighborByIndex(playerShipPosition.get(),i).isPresent() ){
+
+                    vei = grid.getNeighborByIndex(playerShipPosition.get(), i);
+
+                    //rang2
+                    if (rang == 2){
+                        for (int y = 0; y <= 5 ; y++){
+                            if (grid.getNeighborByIndex(vei.get(),y).isPresent()){
+                                 vei2 = grid.getNeighborByIndex(vei.get(),y);
+                                HexagonSatelliteData data2 = new HexagonSatelliteData();
+                                data2.setVisible(true);         data2.setMoveable(false);       vei2.get().setSatelliteData(data2);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //rang1
+            for (int i = 0; i <= 5 ; i++){
+                if (grid.getNeighborByIndex(playerShipPosition.get(),i).isPresent() ){
                     vei = grid.getNeighborByIndex(playerShipPosition.get(), i);
                     HexagonSatelliteData data = new HexagonSatelliteData();
-                    data.setVisible(true);
-                    vei.get().setSatelliteData(data);
-                    //Log.d("xxx", "\nVei N: " + i + " coordenada: "+vei.get().getCubeCoordinate()+" visibilitat: "+data.isVisible());
+                    data.setVisible(true);                    data.setMoveable(true);           vei.get().setSatelliteData(data);
                 }
-
             }
+
+            //hexagon jugador
+            dataCentral.setVisible(true);
+            dataCentral.setMoveable(false);
+            playerShipPosition.get().setSatelliteData(dataCentral);
         }
     }
 
@@ -119,23 +125,19 @@ public class GridView extends View{
         this.postInvalidateDelayed(50);
 
         //alçada modificada
-        float grid_height = (float) ((float) RADIUS * mod);
+        float grid_height = (float) ((float) RADIUS * level.getMod());
         //compensem tamany de pantalla
         float factor_conversio = ((float)(this.getHeight())/grid_height);
 
-        //construim el grid
         HexagonalGridBuilder builder = new HexagonalGridBuilder<HexagonSatelliteData>()
-                .setGridHeight(GRID_HEIGHT)
-                .setGridWidth(GRID_WIDTH)
+                .setGridHeight(level.getGridH())
+                .setGridWidth(level.getGridW())
                 .setGridLayout(GRID_LAYOUT)
                 .setOrientation(ORIENTATION)
                 .setRadius(RADIUS*factor_conversio);
 
         //construim la graella
         grid = builder.build();
-
-        //pinzell de les línices
-        linea.setStrokeWidth(4);        linea.setAlpha(60);        linea.setStyle(Paint.Style.FILL);
 
         //pinzell del blur
         blur.setStyle(Paint.Style.FILL);        blur.setColor(Color.DKGRAY);        blur.setAlpha(200);
@@ -150,10 +152,6 @@ public class GridView extends View{
             }
         });
 
-        int count = 0;
-
-
-
         for(Hexagon hexagon : hexas){
             HexagonSatelliteData dataInicial = new HexagonSatelliteData();
             dataInicial.setVisible(false);
@@ -165,18 +163,12 @@ public class GridView extends View{
         //els recorrem
         for(Hexagon hexagon : hexas) {
 
-            //posem els veins a visible
-            if (hexagon.getSatelliteData().isPresent()){count++;}
-
             //blurrejem els no visibles
             if (hexagon.getSatelliteData().isPresent()){
                 HexagonSatelliteData data = (HexagonSatelliteData) hexagon.getSatelliteData().get();
 
-                //Log.d("xxx",  "hexagono visible: "+data.isVisible());
-
                 if (data.isVisible()==false) {
 
-                    //canvas.drawPaint(linea);
                     Path path = new Path();
                     float x_inicial = 0;    float next_x = 0;
                     float y_inicial = 0;    float next_y = 0;
@@ -189,8 +181,6 @@ public class GridView extends View{
                         else {
                             path.lineTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());
                         }
-
-
                     }
                     path.lineTo(x_inicial,y_inicial);   //traç final
                     path.close();
@@ -202,14 +192,10 @@ public class GridView extends View{
             float x_origen=0;     float y_origen=0;     float x_final=0;
             float x_inicial=0;    float y_inicial=0;    float y_final=0;
 
-
-
             //si és l'hexagon on és la nau
             if (hexagon.getCubeCoordinate().equals(playerShip.getCoordinates())){
 
-                angle = angle + 5;
                 rotate(playerShipBm, playerShip.getOrientacio()*60, canvas, (int) hexagon.getCenterX(), (int) hexagon.getCenterY());
-                //canvas.drawBitmap(playerShipBm, (float) hexagon.getCenterX() - playerShipBm.getWidth() / 2, (float) hexagon.getCenterY() - playerShipBm.getHeight() / 2, null);
             }
 
             //dibuixem la graella
@@ -263,18 +249,19 @@ public class GridView extends View{
                 Optional<Hexagon> touchedHexagon =  grid.getByPixelCoordinate(x,y);
                 if (touchedHexagon.isPresent()){
                 Optional<HexagonSatelliteData> dataTouched = touchedHexagon.get().getSatelliteData();
-                Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible());
+                Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible() + " moveable?: "+dataTouched.get().isMoveable());
 
-                    if (dataTouched.get().isVisible()){ //ens movem a la casella
+                    if (dataTouched.get().isMoveable()){ //ens movem a la casella
 
                         //coordinades cúbiques origen i destí
                         int origenX = playerShip.getShipX();                    int origenZ = playerShip.getShipZ();
                         int destiX = touchedHexagon.get().getGridX();                    int destiZ = touchedHexagon.get().getGridZ();
 
                         //orientem
-                        if (origenX == destiX){    if (origenZ > destiZ)   {    playerShip.setOrientacio(4);     }   else {    playerShip.setOrientacio(1);  }  Log.d("xxx", "\nHexagon:1") ;    }
-                        if (origenX > destiX){     if (origenZ == destiZ)  {    playerShip.setOrientacio(3);     }   else {    playerShip.setOrientacio(2);  }  Log.d("xxx", "\nHexagon:2") ;    }
-                        if (origenX < destiX){     if (origenZ > destiZ)   {    playerShip.setOrientacio(5);     }   else {    playerShip.setOrientacio(6);  }   Log.d("xxx", "\nHexagon:3") ;   }
+                        if (origenX == destiX){    if (origenZ > destiZ)   {    playerShip.setOrientacio(4);     }   if (origenZ < destiZ) {    playerShip.setOrientacio(1);  } }// Log.d("xxx", "\nHexagon:1") ;
+                        if (origenX > destiX){     if (origenZ == destiZ)  {    playerShip.setOrientacio(3);     }   else {    playerShip.setOrientacio(2);  } }// Log.d("xxx", "\nHexagon:2") ;    }
+                        if (origenX < destiX){     if (origenZ > destiZ)   {    playerShip.setOrientacio(5);     }   else {    playerShip.setOrientacio(6);  }  }// Log.d("xxx", "\nHexagon:3") ;   }
+                        if ( (origenX == destiX) &&  (origenZ == destiZ) )   {    playerShip.setOrientacio(playerShip.getOrientacio()+1);     }
 
                         playerShip.setShipX(destiX);
                         playerShip.setShipZ(destiZ);

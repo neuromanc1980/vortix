@@ -8,10 +8,10 @@ import org.codetome.hexameter.core.backport.Optional;
 
 public class Ship {
 
-    private int hp, scanner, energy, shields, engine;
+    private int hp, scanner = 1, energy, shields, engine;
     private String model;
     private Weapon weapon1, weapon2, weapon3;
-    private int shipX, shipZ;
+    private int shipX, shipZ, imatge;
     private int orientacio;
 
     //nau de dues armes
@@ -23,8 +23,16 @@ public class Ship {
         this.orientacio = 1;
     }
 
+    public int getImatge() {        return imatge;    }
+    public void setImatge(int imatge) {        this.imatge = imatge;    }
+
     public Ship (){
 
+    }
+
+    public Ship (int x, int z){
+        this.shipX = x;
+        this.shipZ = z;
     }
 
     public CubeCoordinate getCoordinates(){
