@@ -127,7 +127,7 @@ public class GridView extends View{
 
     @Override public void draw(Canvas canvas) {
 
-        this.postInvalidateDelayed(50);
+        this.postInvalidateDelayed(50); //kjdfhkjsdfhkj
 
         //alçada modificada
         float grid_height = (float) ((float) RADIUS * level.getMod());
