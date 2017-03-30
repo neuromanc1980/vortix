@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Level {
 
@@ -18,7 +19,7 @@ public class Level {
     private double mod;
     private Paint linea = new Paint();
     private String center;
-    private List<Obstacle> obstacles;
+    private int obstacles;
 
 
     //constructor
@@ -66,11 +67,10 @@ public class Level {
             case 13:                this.background = (R.drawable.lvl2);                break;
             case 14:                this.background = (R.drawable.lvl2);                break;
             case 15:                this.background = (R.drawable.lvl2);                break;
-
-
         }
 
-
+        Random random = new Random();   int min = this.level;   int max = this.level*2 + 1;
+        this.obstacles = random.nextInt(max-min) + min;
 
     }
 

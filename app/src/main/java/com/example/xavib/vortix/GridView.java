@@ -25,11 +25,13 @@ import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.api.HexagonalGridCalculator;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
 import org.codetome.hexameter.core.api.Point;
+import org.codetome.hexameter.core.api.RotationDirection;
 import org.codetome.hexameter.core.api.contract.SatelliteData;
 import org.codetome.hexameter.core.backport.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import rx.Observable;
 import rx.functions.Action1;
@@ -70,7 +72,7 @@ public class GridView extends View{
         playerShipBm = BitmapFactory.decodeResource(getResources(),
                 playerShip.getImatge());
         ImageView background = (ImageView) findViewById(R.id.background);
-        background.setBackgroundResource(level.getBackground());
+        //background.setBackgroundResource(level.getBackground());
 
     }
 
@@ -142,6 +144,8 @@ public class GridView extends View{
         //construim la graella
         grid = builder.build();
 
+
+
         //pinzell del blur
         blur.setStyle(Paint.Style.FILL);        blur.setColor(Color.DKGRAY);        blur.setAlpha(200);
 
@@ -162,6 +166,8 @@ public class GridView extends View{
         }
 
         setVisibility();
+
+
 
         //els recorrem
         for(Hexagon hexagon : hexas) {
@@ -200,6 +206,8 @@ public class GridView extends View{
 
                 rotate(playerShipBm, playerShip.getOrientacio()*60, canvas, (int) hexagon.getCenterX(), (int) hexagon.getCenterY());
             }
+             HexagonalGridCalculator hexCalc = builder.buildCalculatorFor(grid);
+
 
             //dibuixem la graella
             for (Object pointObj : hexagon.getPoints()) {
