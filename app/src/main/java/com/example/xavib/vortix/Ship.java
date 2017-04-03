@@ -12,7 +12,7 @@ public class Ship {
     private String model;
     private Weapon weapon1, weapon2, weapon3;
     private int shipX, shipZ, imatge;
-    private int orientacio;
+    private int orientacio = 1;
 
     //nau de dues armes
     public Ship(int hp, int scanner, int energy, int shields, String model, Weapon weapon1, Weapon weapon2, int engine) {

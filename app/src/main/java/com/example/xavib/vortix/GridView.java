@@ -42,14 +42,12 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 public class GridView extends View{
 
     private Paint blur = new Paint();
-    private int lvl = 7, id = 1;
+    GameState gameState;
+    int id = 0;
+    Level level;
 
-    Level level = new Level(lvl);
-
-    private Paint linea = level.getLinea();
-    private String center = level.getCenter();
-
-    Ship playerShip = new Ship(level.getStartingX(),level.getStartingZ());
+    private Paint linea = gameState.getLevel().getLinea();
+    Ship playerShip = gameState.getPlayerShip();
     int rang = playerShip.getScanner();
 
     //paràmetres del grid comuns a tots els nivells
@@ -57,8 +55,7 @@ public class GridView extends View{
     private static final HexagonOrientation ORIENTATION = POINTY_TOP;
     private static  double RADIUS = 100;
 
-    Bitmap playerShipBm = BitmapFactory.decodeResource(getResources(),
-            R.drawable.ship1_s);
+    Bitmap playerShipBm = BitmapFactory.decodeResource(getResources(), gameState.getImatge());
 
     HexagonalGrid grid;
 
@@ -71,8 +68,12 @@ public class GridView extends View{
         playerShip.setImatge(R.drawable.ship1_s);
         playerShipBm = BitmapFactory.decodeResource(getResources(),
                 playerShip.getImatge());
-        ImageView background = (ImageView) findViewById(R.id.background);
-        //background.setBackgroundResource(level.getBackground());
+        //ImageView background = (ImageView) findViewById(R.id.background);
+        //Log.d("xxx", "DOWN en " +level.getBackground());
+
+        //myActivity.setBackground();
+
+
 
     }
 
@@ -127,7 +128,18 @@ public class GridView extends View{
 
     @Override public void draw(Canvas canvas) {
 
+
+        //background segons nivell
+        //myActivity.setBackground(level.getBackground());
+        this.setBackgroundResource(level.getBackground());
+
+        //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),level.getBackground()),0,0,null);
+
+
         this.postInvalidateDelayed(50); //kjdfhkjsdfhkj
+        if (gameState == null) return;
+
+        level = gameState.getLevel();
 
         //alçada modificada
         float grid_height = (float) ((float) RADIUS * level.getMod());
@@ -143,6 +155,7 @@ public class GridView extends View{
 
         //construim la graella
         grid = builder.build();
+        HexagonalGridCalculator hexCalc = builder.buildCalculatorFor(grid);
 
 
 
@@ -206,7 +219,7 @@ public class GridView extends View{
 
                 rotate(playerShipBm, playerShip.getOrientacio()*60, canvas, (int) hexagon.getCenterX(), (int) hexagon.getCenterY());
             }
-             HexagonalGridCalculator hexCalc = builder.buildCalculatorFor(grid);
+
 
 
             //dibuixem la graella
@@ -239,6 +252,10 @@ public class GridView extends View{
             x_origen = 0; y_origen = 0;
             id += 1;    //salt del bucle
         }
+    }
+
+    public void setBackground (int backgroundID){
+        this.setBackgroundResource(backgroundID);
     }
 
 
@@ -288,6 +305,7 @@ public class GridView extends View{
 
     }
 
+
     public void rotate(Bitmap paramBitmap, float angle, Canvas canvas, int x, int y)
     {
         canvas.save();
@@ -299,6 +317,6 @@ public class GridView extends View{
 
     }
 
-
+    public void setGameState(GameState gameState){        this.gameState = gameState;    }
 
 }

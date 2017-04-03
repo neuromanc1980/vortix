@@ -27,7 +27,6 @@ public class Level {
 
         this.level = level;
 
-
         //stats segons el nivell
         if (this.level < 6){
             this.gridH = 5;            this.gridW = 5;      this.mod = 8.1;
