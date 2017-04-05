@@ -51,21 +51,21 @@ public class Level {
 
 
         switch (level) {
-            case 1:                this.background = (R.drawable.lvl1);                 break;
-            case 2:                this.background = (R.drawable.lvl1);                 break;
-            case 3:                this.background = (R.drawable.lvl2);                 break;
-            case 4:                this.background = (R.drawable.lvl2);                 break;
-            case 5:                this.background = (R.drawable.lvl2);                 break;
-            case 6:                this.background = (R.drawable.lvl2);                 break;
-            case 7:                this.background = (R.drawable.lvl2);                 break;
-            case 8:                this.background = (R.drawable.lvl2);                 break;
-            case 9:                this.background = (R.drawable.lvl2);                 break;
-            case 10:                this.background = (R.drawable.lvl2);                break;
-            case 11:                this.background = (R.drawable.lvl2);                break;
-            case 12:                this.background = (R.drawable.lvl2);                break;
-            case 13:                this.background = (R.drawable.lvl2);                break;
-            case 14:                this.background = (R.drawable.lvl2);                break;
-            case 15:                this.background = (R.drawable.lvl2);                break;
+            case 1:                this.background = (R.drawable.LVL1);                 break;
+            case 2:                this.background = (R.drawable.LVL1);                 break;
+            case 3:                this.background = (R.drawable.LVL1);                 break;
+            case 4:                this.background = (R.drawable.LVL2);                 break;
+            case 5:                this.background = (R.drawable.LVL2);                 break;
+            case 6:                this.background = (R.drawable.LVL3);                 break;
+            case 7:                this.background = (R.drawable.LVL3);                 break;
+            case 8:                this.background = (R.drawable.LVL4);                 break;
+            case 9:                this.background = (R.drawable.LVL4);                 break;
+            case 10:                this.background = (R.drawable.LVL5);                break;
+            case 11:                this.background = (R.drawable.LVL6);                break;
+            case 12:                this.background = (R.drawable.LVL7);                break;
+            case 13:                this.background = (R.drawable.LVL8);                break;
+            case 14:                this.background = (R.drawable.LVL9);                break;
+            case 15:                this.background = (R.drawable.LVL10);                break;
         }
 
         Random random = new Random();   int min = this.level;   int max = this.level*2 + 1;

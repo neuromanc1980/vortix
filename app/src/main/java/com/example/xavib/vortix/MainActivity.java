@@ -12,8 +12,6 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private int lvl = 7;
-    //Level level = new Level(lvl);
     public GameState gameState;
     public GridView gridView;
     public ImageView background;
@@ -25,26 +23,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-
         //creem una vista de tipus gridview
         gridView = (GridView) findViewById(R.id.grid);
         gameState = new GameState();
+
+        //carregame el gameState, si no n'hi ha en creem un amb defaults
+        loadGameData();
+
+        Log.d("xxx", "Loaded data: level: " + gameState.getLevel().getLevel());
+        Log.d("xxx", "Loaded data: background: " + gameState.getLevel().getBackground());
+        Log.d("xxx", "Loaded data: ship pos: " + gameState.getPlayerShip().getShipX() + " <= X/Z => " + gameState.getPlayerShip().getShipZ() );
+        Log.d("xxx", "Loaded data: ship stats: " + gameState.getPlayerShip().getHp() + " <= HP/Shields => " + gameState.getPlayerShip().getShields() );
+
         playerShip = gameState.getPlayerShip();
         level = gameState.getLevel();
-
-
-        //Log.d("xxx", "ship en: " +playerShip.getCoordinates());
 
         //li passem el gameState a la vista
         gridView.setGameState(gameState);
         background = (ImageView) findViewById(R.id.background);
         background.setImageResource(gameState.getLevel().getBackground());
 
+        gridView.setBackground(level.getBackground());
 
-        //gridView.setBackgroundResource(level.getBackground());
-
-        //background.setBackgroundResource(level.getBackground());
-        //gridView.setBackground(level.getBackground());
 
     }
 
@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        loadGameData();
+    }
+
+    public void loadGameData(){
         //carreguem dades
         SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this);
         int shipX = gameData.getInt("ShipX", gameState.getLevel().getStartingX());
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         int shipEngine = gameData.getInt("ShipEngine", 1);
         int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
         int levelSaved = gameData.getInt("Level", 1);
+        gameState.updateLevel(new Level(levelSaved));
         //reconstruim la nau en funció a les dades que carreguem, si no existia creem una de nova
         if (playerShip==null){
             playerShip = new Ship();
@@ -89,11 +94,10 @@ public class MainActivity extends AppCompatActivity {
         playerShip.setShields(shipShield);
         //construim el nivell en funció a les dades que carreguem
         this.level = new Level(levelSaved);
+        gameState.setLevel(level);
         gameState.updateShip(playerShip);
 
-    }
 
-    public void loadGameData(){
 
     }
 

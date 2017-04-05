@@ -11,6 +11,7 @@ public class HexagonSatelliteData extends DefaultSatelliteData {
 
     private boolean visible = false;
     private boolean moveable = false;
+    private String element = "";
 
     public final boolean isVisible() {
         return visible;
@@ -21,4 +22,7 @@ public class HexagonSatelliteData extends DefaultSatelliteData {
 
     public boolean isMoveable() {        return moveable;    }
     public void setMoveable(boolean moveable) {        this.moveable = moveable;    }
+
+    public String getElement() {        return element;    }
+    public void setElement(String element) {        this.element = element;    }
 }
