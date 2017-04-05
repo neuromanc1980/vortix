@@ -64,7 +64,7 @@ public class MenuView extends View {
 
              if ((relative_y > 63) && (relative_y < 72)){
                  Log.d("xxx", "instructions");
-                 Intent intent = new Intent(getContext(), Instructions.class);
+                 Intent intent = new Intent(getContext(), InstructionsActivity.class);
                  getContext().startActivity(intent);
              }
 
