@@ -24,6 +24,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".InstructionsActivity"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
     </application>
 
