@@ -48,6 +48,11 @@ public class GridView extends View{
     Level level;
     Ship playerShip;
     Bitmap playerShipBm;
+    boolean built = false;
+    private List<Hexagon> hexas = new ArrayList<Hexagon>();
+    Optional<Hexagon> touchedHexagon;
+    Observable<Hexagon> hexagons;
+    HexagonSatelliteData data = new HexagonSatelliteData();
 
     //paràmetres del grid comuns a tots els nivells
     private static final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
@@ -72,12 +77,9 @@ public class GridView extends View{
         if (playerShipPosition.isPresent()){
 
             //hexagon jugador visible
-            HexagonSatelliteData dataCentral = new HexagonSatelliteData();
-
-            playerShipPosition.get().setSatelliteData(dataCentral);
+            data = (HexagonSatelliteData) playerShipPosition.get().getSatelliteData().get();
 
             //de fora cap a endins
-
             Optional<Hexagon> vei;            Optional<Hexagon> vei2;
 
             for (int i = 0; i <= 5 ; i++){      //6 veins per index
@@ -90,7 +92,7 @@ public class GridView extends View{
                         for (int y = 0; y <= 5 ; y++){
                             if (grid.getNeighborByIndex(vei.get(),y).isPresent()){
                                  vei2 = grid.getNeighborByIndex(vei.get(),y);
-                                HexagonSatelliteData data2 = new HexagonSatelliteData();
+                                HexagonSatelliteData data2 = (HexagonSatelliteData) vei2.get().getSatelliteData().get();
                                 data2.setVisible(true);         data2.setMoveable(false);       vei2.get().setSatelliteData(data2);
                             }
                         }
@@ -102,113 +104,107 @@ public class GridView extends View{
             for (int i = 0; i <= 5 ; i++){
                 if (grid.getNeighborByIndex(playerShipPosition.get(),i).isPresent() ){
                     vei = grid.getNeighborByIndex(playerShipPosition.get(), i);
-                    HexagonSatelliteData data = new HexagonSatelliteData();
+                    HexagonSatelliteData data = (HexagonSatelliteData) vei.get().getSatelliteData().get();
                     data.setVisible(true);                    data.setMoveable(true);           vei.get().setSatelliteData(data);
                 }
             }
 
             //hexagon jugador
-            dataCentral.setVisible(true);
-            dataCentral.setMoveable(false);
-            playerShipPosition.get().setSatelliteData(dataCentral);
+            data.setVisible(true);
+            data.setMoveable(false);
+            playerShipPosition.get().setSatelliteData(data);
         }
     }
 
     @Override public void draw(Canvas canvas) {
 
-        //Log.d("xxx", "level: " + gameState.getLevel().getLevel());
-
         if (gameState == null) return;
         this.postInvalidateDelayed(50); //taxa de refresc
 
+        if (!built) {
+            built = true;       //només construirem una vegada
 
-        //background segons nivell
-        //this.setBackgroundResource(level.getBackground());
+            Log.d("xxx", "\nBuilding grid: "
+            );
 
-        linea = gameState.getLevel().getLinea();
-        level = gameState.getLevel();
-        playerShip = gameState.getPlayerShip();
-        rang = playerShip.getScanner();
-        //playerShipBm = BitmapFactory.decodeResource(getResources(), gameState.getImatge());
-        playerShipBm = BitmapFactory.decodeResource(getResources(), playerShip.getImatge());
-        playerShip.setImatge(gameState.getPlayerShip().getImatge());
+            linea = gameState.getLevel().getLinea();
+            level = gameState.getLevel();
+            playerShip = gameState.getPlayerShip();
+            rang = playerShip.getScanner();
+            playerShipBm = BitmapFactory.decodeResource(getResources(), playerShip.getImatge());
+            playerShip.setImatge(gameState.getPlayerShip().getImatge());
 
-        //alçada modificada
-        float grid_height = (float) ((float) RADIUS * level.getMod());
-        //compensem tamany de pantalla
-        float factor_conversio = ((float)(this.getHeight())/grid_height);
+            //alçada modificada
+            float grid_height = (float) ((float) RADIUS * level.getMod());
+            //compensem tamany de pantalla
+            float factor_conversio = ((float) (this.getHeight()) / grid_height);
 
-        HexagonalGridBuilder builder = new HexagonalGridBuilder<HexagonSatelliteData>()
-                .setGridHeight(level.getGridH())
-                .setGridWidth(level.getGridW())
-                .setGridLayout(GRID_LAYOUT)
-                .setOrientation(ORIENTATION)
-                .setRadius(RADIUS*factor_conversio);
+            HexagonalGridBuilder builder = new HexagonalGridBuilder<HexagonSatelliteData>()
+                    .setGridHeight(level.getGridH())
+                    .setGridWidth(level.getGridW())
+                    .setGridLayout(GRID_LAYOUT)
+                    .setOrientation(ORIENTATION)
+                    .setRadius(RADIUS * factor_conversio);
 
-        //construim la graella
-        grid = builder.build();
-        HexagonalGridCalculator hexCalc = builder.buildCalculatorFor(grid);
+            //construim la graella
+            grid = builder.build();
+            HexagonalGridCalculator hexCalc = builder.buildCalculatorFor(grid);
+
+            //tots els hexagons
+            hexagons = grid.getHexagons();
+            hexagons.forEach(new Action1<Hexagon>() {
+                 @Override
+                 public void call(Hexagon hexagon) {                                     hexas.add(hexagon);
+                     }
+                 }            );
 
 
+            //pinzell del blur
+            blur.setStyle(Paint.Style.FILL);
+            blur.setColor(Color.DKGRAY);
+            blur.setAlpha(200);
 
-        //pinzell del blur
-        blur.setStyle(Paint.Style.FILL);        blur.setColor(Color.DKGRAY);        blur.setAlpha(200);
-
-        //tots els hexagons
-        final List<Hexagon> hexas = new ArrayList<Hexagon>();
-        Observable<Hexagon> hexagons = grid.getHexagons();
-        hexagons.forEach(new Action1<Hexagon>() {
-            @Override
-            public void call(Hexagon hexagon) {
-                hexas.add(hexagon);
+            for (Hexagon hexagon : hexas) {
+                HexagonSatelliteData dataInicial = new HexagonSatelliteData();
+                dataInicial.setVisible(false);
+                hexagon.setSatelliteData(dataInicial);
             }
-        });
-
-        for(Hexagon hexagon : hexas){
-            HexagonSatelliteData dataInicial = new HexagonSatelliteData();
-            dataInicial.setVisible(false);
-            hexagon.setSatelliteData(dataInicial);
         }
 
-        setVisibility();
-
-        List<Hexagon> hexasInvisible = new ArrayList<Hexagon>();
 
         //els recorrem
         for(Hexagon hexagon : hexas) {
 
-            hexasInvisible.add(hexagon);
-
-
             if (hexagon.getSatelliteData().isPresent()){
 
                 HexagonSatelliteData data = (HexagonSatelliteData) hexagon.getSatelliteData().get();
+                data.setVisible(false);     //tots invisibles de base
+                data.setMoveable(false);    //tots son no travessables de base
+                hexagon.setSatelliteData(data);
+
+                setVisibility();    //visibles els veins segons el scanner
 
                 //portal
-                if (data.getElement()=="Portal"){
-                    //canvas.drawBitmap(findViewById(R.drawable.portal), );
-                    //canvas.drawBitmap();
+                if (data.getElement() instanceof Portal){
+                    Bitmap portalBm = BitmapFactory.decodeResource(getResources(), R.drawable.portal);
+                    canvas.drawBitmap(portalBm, (float) hexagon.getCenterX() - portalBm.getHeight()/2, (float) hexagon.getCenterY() - portalBm.getWidth()/2, new Paint() );
                 }
 
                 //blurrejem els no visibles
                 if (data.isVisible()==false) {
 
-                    Path path = new Path();
-                    float x_inicial = 0;    float next_x = 0;
-                    float y_inicial = 0;    float next_y = 0;
+                    Path path = new Path();                    float x_inicial = 0;    float next_x = 0;                    float y_inicial = 0;    float next_y = 0;
 
                     for (Object pointObj : hexagon.getPoints()){
                         if (x_inicial == 0) { x_inicial = (float) ( (Point) pointObj).getCoordinateX();
                                               y_inicial = (float) ( (Point) pointObj).getCoordinateY();
                                               path.moveTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());
-                        }
-                        else {
+                        }   else {
                             path.lineTo( (float) ( (Point) pointObj).getCoordinateX(), (float) ( (Point) pointObj).getCoordinateY());
                         }
                     }
                     path.lineTo(x_inicial,y_inicial);   //traç final
-                    path.close();
-                    canvas.drawPath(path, blur);
+                    path.close();                    canvas.drawPath(path, blur);
                 }
             }
 
@@ -220,8 +216,6 @@ public class GridView extends View{
             if (hexagon.getCubeCoordinate().equals(playerShip.getCoordinates())){
                 rotate(playerShipBm, playerShip.getOrientacio()*60, canvas, (int) hexagon.getCenterX(), (int) hexagon.getCenterY());
             }
-
-
 
             //dibuixem la graella
             for (Object pointObj : hexagon.getPoints()) {
@@ -251,19 +245,24 @@ public class GridView extends View{
 
             //reiniciem origen
             x_origen = 0; y_origen = 0;
-            id += 1;    //salt del bucle
+            //id += 1;    //salt del bucle
         }
 
-        //col.loquem el portal en una casella invisible
-        placePortal(hexasInvisible);
+        //col.loquem el portal en una casella invisible si no està colocat ja
+        if (!level.isPortalPlaced()){
+            Log.d("xxx", "\nPortal is not placed yet, placing it.....: ");
+            placePortal(hexas);
+            level.setPortalPlaced(true);
+        }
     }
 
     public void setBackground (int backgroundID){
         this.setBackgroundResource(backgroundID);
     }
 
-
     @Override public boolean onTouchEvent(MotionEvent event){
+
+        Log.d("xxx", "level: " + gameState.getLevel().getLevel());
 
         float x = event.getX(); //xy sobre la posició esquerre superior del control (de 0 al width/height)
         float y = event.getY();
@@ -275,13 +274,17 @@ public class GridView extends View{
         switch (action) {
             case MotionEvent.ACTION_DOWN:
 
-                //Log.d("xxx", "DOWN en " + x + "," + y);
-                //Log.d("xxx", "\nDOWN en y:" + relative_y + "%, x:" + relative_x + "%");
-
-                Optional<Hexagon> touchedHexagon =  grid.getByPixelCoordinate(x,y);
+                touchedHexagon =  grid.getByPixelCoordinate(x,y);
                 if (touchedHexagon.isPresent()){
+
+                    if (playerShip.getCoordinates().equals(touchedHexagon.get().getCubeCoordinate())){
+                        //Log.d("xxx", "\nSortir");
+                        return false;  //no activa el propi hexagon
+                    }
+
                 Optional<HexagonSatelliteData> dataTouched = touchedHexagon.get().getSatelliteData();
-                Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible() + " moveable?: "+dataTouched.get().isMoveable());
+                Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible() + " moveable?: "+dataTouched.get().isMoveable() + " element: " + dataTouched.get().getElement());
+                Log.d("xxx", "\nPortal is in: " + level.getPortal().getXCoord() + " <= X/Z => " + level.getPortal().getZCoord());
 
                     if (dataTouched.get().isMoveable()){ //ens movem a la casella
 
@@ -295,22 +298,29 @@ public class GridView extends View{
                         if (origenX < destiX){     if (origenZ > destiZ)   {    playerShip.setOrientacio(5);     }   else {    playerShip.setOrientacio(6);  }  }// Log.d("xxx", "\nHexagon:3") ;   }
                         if ( (origenX == destiX) &&  (origenZ == destiZ) )   {    playerShip.setOrientacio(playerShip.getOrientacio()+1);     }
 
-                        playerShip.setShipX(destiX);
-                        playerShip.setShipZ(destiZ);
+                        playerShip.setShipX(destiX);                        playerShip.setShipZ(destiZ);
+                    }
+
+                    //portal
+                    if (dataTouched.get().getElement() instanceof Portal){
+                        level = new Level (level.getLevel()+1); //pujem de nivell
+                        gameState.setLevel(level);
+
+                        playerShip.setShipX(gameState.getLevel().getStartingX());   //recol.loquem la nau
+                        playerShip.setShipZ(gameState.getLevel().getStartingZ());
+                        cleanBoard();
+
+                        Log.d("xxx", "\nEnter portal");
+                        Log.d("xxx", "\nBackground: "+ gameState.getLevel().getBackground());
                     }
 
                 }
-
                 break;
-
-
         }
-        return true; //rebem array de punts de contacte i si tenene esdeveniment down, move, up
-
+        return true; //rebem array de punts de contacte i si tenen esdeveniment down, move, up
     }
 
-
-    public void rotate(Bitmap paramBitmap, float angle, Canvas canvas, int x, int y)
+    public void rotate(Bitmap paramBitmap, float angle, Canvas canvas, int x, int y)    //mètode per encarar la nau segons on es mou
     {
         canvas.save();
         canvas.translate(x, y);
@@ -321,14 +331,37 @@ public class GridView extends View{
 
     }
 
-    public void setGameState(GameState gameState){        this.gameState = gameState;    }
+    public void setGameState(GameState gameState){        this.gameState = gameState;    }  //mètode per updatejar el gameState
 
-    public void placePortal(List <Hexagon> lista){
+    public void placePortal(List <Hexagon> lista){      //mètode per col.locar el portal
+
+        //triem un hexagon a l'atzar
         Random r = new Random();
         int pos = r.nextInt(lista.size() - 1) + 1;
-        HexagonSatelliteData data = (HexagonSatelliteData) lista.get(pos).getSatelliteData().get();
-        data.setElement("Portal");
-        lista.get(pos).setSatelliteData(data);
+        Hexagon hexa = lista.get(pos);
+        HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+
+        while (data.isVisible()){   //reroll de hexàgon si resulta que era visible
+            r = new Random();
+            pos = r.nextInt(lista.size() - 1) + 1;
+            hexa = lista.get(pos);
+            data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+        }
+
+        Portal portal = new Portal();
+        portal.setXCoord(hexa.getGridX());
+        portal.setZCoord(hexa.getGridZ());
+        //col.loquem el portal com a element del hexagon, i guardem les coordenades en el nivell
+        data.setElement(portal);
+        hexa.setSatelliteData(data);
+        level.setPortal(portal);
+        Log.d("xxx", "\nPlaced portal in: " + hexa.getCubeCoordinate());
     }
+
+    public void cleanBoard(){   //neteja tots els objectes
+        hexas.clear();
+        built = false;
+    }
+
 
 }

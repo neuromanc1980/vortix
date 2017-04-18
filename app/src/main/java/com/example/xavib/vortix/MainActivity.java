@@ -31,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
         loadGameData();
 
         Log.d("xxx", "Loaded data: level: " + gameState.getLevel().getLevel());
+        Log.d("xxx", "Loaded data: imatge: " + gameState.getPlayerShip().getImatge());
         Log.d("xxx", "Loaded data: background: " + gameState.getLevel().getBackground());
         Log.d("xxx", "Loaded data: ship pos: " + gameState.getPlayerShip().getShipX() + " <= X/Z => " + gameState.getPlayerShip().getShipZ() );
         Log.d("xxx", "Loaded data: ship stats: " + gameState.getPlayerShip().getHp() + " <= HP/Shields => " + gameState.getPlayerShip().getShields() );
+        Log.d("xxx", "Loaded data: start pos: " + gameState.getLevel().getStartingX() + " <= X/Z => " + gameState.getLevel().getStartingZ() );
 
         playerShip = gameState.getPlayerShip();
         level = gameState.getLevel();
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor ed = prefs.edit();
+        playerShip = gameState.getPlayerShip();
+        level = gameState.getLevel();
         ed.putInt("ShipX", playerShip.getShipX());
         ed.putInt("ShipZ", playerShip.getShipZ());
         ed.putInt("ShipHP", playerShip.getHp());
@@ -70,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         loadGameData();
+        gridView.setBackground(level.getBackground());
     }
 
     public void loadGameData(){
@@ -99,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void updateBackground(){
+        gridView.setBackground(level.getBackground());
     }
 
 }

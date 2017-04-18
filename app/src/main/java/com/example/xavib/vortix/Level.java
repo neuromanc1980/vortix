@@ -5,10 +5,7 @@ package com.example.xavib.vortix;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Level {
@@ -19,13 +16,20 @@ public class Level {
     private double mod;
     private Paint linea = new Paint();
     private String center;
+
+    public boolean isPortalPlaced() {        return portalPlaced;    }
+    public void setPortalPlaced(boolean portalPlaced) {        this.portalPlaced = portalPlaced;    }
+
     private int obstacles;
+    private Portal portal;
+    private boolean portalPlaced;
 
 
     //constructor
     public Level(int level) {
 
         this.level = level;
+        this.portalPlaced = false;
 
         //stats segons el nivell
         if (this.level < 6){
@@ -51,25 +55,28 @@ public class Level {
 
 
         switch (level) {
-            case 1:                this.background = (R.drawable.LVL1);                 break;
-            case 2:                this.background = (R.drawable.LVL1);                 break;
-            case 3:                this.background = (R.drawable.LVL1);                 break;
-            case 4:                this.background = (R.drawable.LVL2);                 break;
-            case 5:                this.background = (R.drawable.LVL2);                 break;
-            case 6:                this.background = (R.drawable.LVL3);                 break;
-            case 7:                this.background = (R.drawable.LVL3);                 break;
-            case 8:                this.background = (R.drawable.LVL4);                 break;
-            case 9:                this.background = (R.drawable.LVL4);                 break;
-            case 10:                this.background = (R.drawable.LVL5);                break;
-            case 11:                this.background = (R.drawable.LVL6);                break;
-            case 12:                this.background = (R.drawable.LVL7);                break;
-            case 13:                this.background = (R.drawable.LVL8);                break;
-            case 14:                this.background = (R.drawable.LVL9);                break;
-            case 15:                this.background = (R.drawable.LVL10);                break;
+            case 1:                this.background = (R.drawable.lvl1);                 break;
+            case 2:                this.background = (R.drawable.lvl1);                 break;
+            case 3:                this.background = (R.drawable.lvl1);                 break;
+            case 4:                this.background = (R.drawable.lvl2);                 break;
+            case 5:                this.background = (R.drawable.lvl2);                 break;
+            case 6:                this.background = (R.drawable.lvl3);                 break;
+            case 7:                this.background = (R.drawable.lvl3);                 break;
+            case 8:                this.background = (R.drawable.lvl4);                 break;
+            case 9:                this.background = (R.drawable.lvl4);                 break;
+            case 10:                this.background = (R.drawable.lvl5);                break;
+            case 11:                this.background = (R.drawable.lvl6);                break;
+            case 12:                this.background = (R.drawable.lvl7);                break;
+            case 13:                this.background = (R.drawable.lvl8);                break;
+            case 14:                this.background = (R.drawable.lvl9);                break;
+            case 15:                this.background = (R.drawable.lvl10);               break;
         }
 
         Random random = new Random();   int min = this.level;   int max = this.level*2 + 1;
         this.obstacles = random.nextInt(max-min) + min;
+
+        this.portal = new Portal();
+
 
     }
 
@@ -99,4 +106,7 @@ public class Level {
 
     public String getCenter() {        return center;    }
     public void setCenter(String center) {        this.center = center;    }
+
+    public Portal getPortal() {        return portal;    }
+    public void setPortal(Portal portal) {        this.portal = portal;    }
 }
