@@ -3,6 +3,7 @@ package com.example.xavib.vortix;
 //aquesta classe conté la vista de joc, amb graella
 
 import android.content.Context;
+import static java.lang.Math.*;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,7 +45,8 @@ public class GridView extends View{
 
     private Paint blur = new Paint();   private Paint linea;
     GameState gameState;
-    int id = 0, rang = 0;
+    int rang = 0;
+    public ImageView background2;
     Level level;
     Ship playerShip;
     Bitmap playerShipBm;
@@ -53,6 +55,7 @@ public class GridView extends View{
     Optional<Hexagon> touchedHexagon;
     Observable<Hexagon> hexagons;
     HexagonSatelliteData data = new HexagonSatelliteData();
+    MainActivity mainActivity;
 
     //paràmetres del grid comuns a tots els nivells
     private static final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
@@ -61,9 +64,12 @@ public class GridView extends View{
 
     HexagonalGrid grid;
 
+
     public GridView(Context context) {        super(context);        init();    }
     public GridView(Context context, AttributeSet attrs) {        super(context, attrs);        init();    }
     public GridView(Context context, AttributeSet attrs, int defStyleAttr) {        super(context, attrs, defStyleAttr);        init();    }
+
+
 
     public void init(){
 
@@ -124,8 +130,7 @@ public class GridView extends View{
         if (!built) {
             built = true;       //només construirem una vegada
 
-            Log.d("xxx", "\nBuilding grid: "
-            );
+            Log.d("xxx", "\nBuilding grid: "            );
 
             linea = gameState.getLevel().getLinea();
             level = gameState.getLevel();
@@ -133,6 +138,13 @@ public class GridView extends View{
             rang = playerShip.getScanner();
             playerShipBm = BitmapFactory.decodeResource(getResources(), playerShip.getImatge());
             playerShip.setImatge(gameState.getPlayerShip().getImatge());
+
+            background2 = (ImageView) findViewById(R.id.background);
+            //int test = level.getBackground();
+            //background2.setBackgroundResource(gameState.getLevel().getBackground());
+            //background2.setImageResource(level.getBackground());
+            //setBackground(level.getBackground());
+
 
             //alçada modificada
             float grid_height = (float) ((float) RADIUS * level.getMod());
@@ -154,10 +166,8 @@ public class GridView extends View{
             hexagons = grid.getHexagons();
             hexagons.forEach(new Action1<Hexagon>() {
                  @Override
-                 public void call(Hexagon hexagon) {                                     hexas.add(hexagon);
-                     }
-                 }            );
-
+                 public void call(Hexagon hexagon) {    hexas.add(hexagon);  }
+                 }    );
 
             //pinzell del blur
             blur.setStyle(Paint.Style.FILL);
@@ -303,11 +313,13 @@ public class GridView extends View{
 
                     //portal
                     if (dataTouched.get().getElement() instanceof Portal){
-                        level = new Level (level.getLevel()+1); //pujem de nivell
+                        level = new Level (min(level.getLevel()+1,15)); //pujem de nivell
+
                         gameState.setLevel(level);
 
                         playerShip.setShipX(gameState.getLevel().getStartingX());   //recol.loquem la nau
                         playerShip.setShipZ(gameState.getLevel().getStartingZ());
+                        mainActivity.updateBackground(gameState.getLevel().getBackground());
                         cleanBoard();
 
                         Log.d("xxx", "\nEnter portal");
@@ -363,5 +375,6 @@ public class GridView extends View{
         built = false;
     }
 
-
+    public MainActivity getMainActivity() {        return mainActivity;    }
+    public void setMainActivity(MainActivity mainActivity) {        this.mainActivity = mainActivity;    }
 }

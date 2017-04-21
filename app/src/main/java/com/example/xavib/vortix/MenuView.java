@@ -44,14 +44,17 @@ public class MenuView extends View {
 
              if ((relative_y > 11) && (relative_y < 21)){
                  Log.d("xxx", "new game");
-                 //launch();
                  Intent intent = new Intent(getContext(), MainActivity.class);
+                 intent.putExtra("new", true);      //reinicia el joc
                  getContext().startActivity(intent);
 
              }
 
              if ((relative_y > 24) && (relative_y < 33)){
                  Log.d("xxx", "continue");
+                 Intent intent = new Intent(getContext(), MainActivity.class);
+                 intent.putExtra("new", false);
+                 getContext().startActivity(intent);
              }
 
              if ((relative_y > 37) && (relative_y < 46)){
