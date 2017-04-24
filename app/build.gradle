@@ -52,5 +52,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'org.codetome:hexameter-core:3.0.0'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     testCompile 'junit:junit:4.12'
 }

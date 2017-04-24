@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -321,7 +322,10 @@ public class GridView extends View{
                         playerShip.setShipZ(gameState.getLevel().getStartingZ());
                         mainActivity.updateBackground(gameState.getLevel().getBackground());
                         cleanBoard();
-
+                        //ACTUALITZAR NIVELL QUE ES MOSTRA
+                        /*TextView mostrarlvl = (TextView) findViewById(R.id.lvlEnJuego);
+                        mostrarlvl.setText(String.valueOf(level));
+                        */
                         Log.d("xxx", "\nEnter portal");
                         Log.d("xxx", "\nBackground: "+ gameState.getLevel().getBackground());
                     }

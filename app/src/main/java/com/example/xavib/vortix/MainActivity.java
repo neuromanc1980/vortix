@@ -28,10 +28,7 @@ public class MainActivity extends AppCompatActivity {
         gameState = new GameState();
 
         //carregame el gameState, si no n'hi ha en creem un amb defaults
-        Bundle extras = getIntent().getExtras();
-        boolean newGame = extras.getBoolean("new");
-        if (newGame == true)    {   newGameData();                    }   else loadGameData();
-
+        loadGameData();
 
         Log.d("xxx", "Loaded data: level: " + gameState.getLevel().getLevel());
         Log.d("xxx", "Loaded data: imatge: " + gameState.getPlayerShip().getImatge());
@@ -45,9 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
         //li passem el gameState a la vista
         gridView.setGameState(gameState);
-        gridView.setMainActivity(this);
         background = (ImageView) findViewById(R.id.background);
         background.setImageResource(gameState.getLevel().getBackground());
+
+        gridView.setBackground(level.getBackground());
+
+
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         loadGameData();
-        //updateBackground();
+        gridView.setBackground(level.getBackground());
     }
 
     public void loadGameData(){
@@ -89,51 +89,25 @@ public class MainActivity extends AppCompatActivity {
         int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
         int levelSaved = gameData.getInt("Level", 1);
         gameState.updateLevel(new Level(levelSaved));
-
         //reconstruim la nau en funció a les dades que carreguem, si no existia creem una de nova
-        if (playerShip==null){            playerShip = new Ship();        }
-
+        if (playerShip==null){
+            playerShip = new Ship();
+        }
         playerShip.setImatge(shipImatge);     playerShip.setEngine(shipEngine);
         playerShip.setShipX(shipX);           playerShip.setShipZ(shipZ);
         playerShip.setHp(shipHP);             playerShip.setScanner(shipScanner);
         playerShip.setShields(shipShield);
-
         //construim el nivell en funció a les dades que carreguem
         this.level = new Level(levelSaved);
         gameState.setLevel(level);
         gameState.updateShip(playerShip);
 
+
+
     }
 
-    public void newGameData(){
-        //gnerem dades inicials
-        SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this);
-        int shipX = gameData.getInt("", gameState.getLevel().getStartingX());
-        int shipZ = gameData.getInt("", gameState.getLevel().getStartingZ());
-        int shipHP = gameData.getInt("", 100);
-        int shipShield = gameData.getInt("", 100);
-        int shipScanner = gameData.getInt("", 1);
-        int shipEngine = gameData.getInt("", 1);
-        int shipImatge = gameData.getInt("", (R.drawable.ship1_s));
-        int levelSaved = gameData.getInt("", 1);
-        gameState.updateLevel(new Level(levelSaved));
-
-        //nova nau
-        if (playerShip==null){            playerShip = new Ship();           }
-
-        playerShip.setImatge(shipImatge);     playerShip.setEngine(shipEngine);
-        playerShip.setShipX(shipX);           playerShip.setShipZ(shipZ);
-        playerShip.setHp(shipHP);             playerShip.setScanner(shipScanner);
-        playerShip.setShields(shipShield);
-
-        //nivell inicial
-        this.level = new Level(1);
-        gameState.setLevel(level);
-        gameState.updateShip(playerShip);
-    }
-
-    public void updateBackground(int id){
-        background.setImageResource(id);
+    public void updateBackground(){
+        gridView.setBackground(level.getBackground());
     }
 
 }
