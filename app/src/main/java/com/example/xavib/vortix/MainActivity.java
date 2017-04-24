@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         level = gameState.getLevel();
 
         //li passem el gameState a la vista
-        gridView.setGameState(gameState);
         gridView.setMainActivity(this);
+        gridView.setGameState(gameState);
         background = (ImageView) findViewById(R.id.background);
         background.setImageResource(gameState.getLevel().getBackground());
     }
@@ -67,14 +67,12 @@ public class MainActivity extends AppCompatActivity {
         ed.putInt("Level", level.getLevel());
 
         ed.commit();
-
     }
 
     @Override
     public void onResume(){
         super.onResume();
         loadGameData();
-        //updateBackground();
     }
 
     public void loadGameData(){
@@ -128,12 +126,15 @@ public class MainActivity extends AppCompatActivity {
 
         //nivell inicial
         this.level = new Level(1);
-        gameState.setLevel(level);
+        gameState.setLevel(this.level);
         gameState.updateShip(playerShip);
+
+
     }
 
     public void updateBackground(int id){
         background.setImageResource(id);
     }
 
+    public GameState getGameState () {   return gameState;        }
 }

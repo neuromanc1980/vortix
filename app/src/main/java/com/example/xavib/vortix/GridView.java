@@ -64,7 +64,6 @@ public class GridView extends View{
 
     HexagonalGrid grid;
 
-
     public GridView(Context context) {        super(context);        init();    }
     public GridView(Context context, AttributeSet attrs) {        super(context, attrs);        init();    }
     public GridView(Context context, AttributeSet attrs, int defStyleAttr) {        super(context, attrs, defStyleAttr);        init();    }
@@ -72,7 +71,6 @@ public class GridView extends View{
 
 
     public void init(){
-
 
     }
 
@@ -127,10 +125,14 @@ public class GridView extends View{
         if (gameState == null) return;
         this.postInvalidateDelayed(50); //taxa de refresc
 
+        //gameState = mainActivity.getGameState();    //carreguem gameState
+
         if (!built) {
             built = true;       //només construirem una vegada
 
             Log.d("xxx", "\nBuilding grid: "            );
+
+
 
             linea = gameState.getLevel().getLinea();
             level = gameState.getLevel();
@@ -140,11 +142,6 @@ public class GridView extends View{
             playerShip.setImatge(gameState.getPlayerShip().getImatge());
 
             background2 = (ImageView) findViewById(R.id.background);
-            //int test = level.getBackground();
-            //background2.setBackgroundResource(gameState.getLevel().getBackground());
-            //background2.setImageResource(level.getBackground());
-            //setBackground(level.getBackground());
-
 
             //alçada modificada
             float grid_height = (float) ((float) RADIUS * level.getMod());
@@ -188,7 +185,7 @@ public class GridView extends View{
             if (hexagon.getSatelliteData().isPresent()){
 
                 HexagonSatelliteData data = (HexagonSatelliteData) hexagon.getSatelliteData().get();
-                data.setVisible(false);     //tots invisibles de base
+                //data.setVisible(false);     //tots invisibles de base
                 data.setMoveable(false);    //tots son no travessables de base
                 hexagon.setSatelliteData(data);
 
@@ -312,7 +309,7 @@ public class GridView extends View{
                     }
 
                     //portal
-                    if (dataTouched.get().getElement() instanceof Portal){
+                    if (dataTouched.get().getElement() instanceof Portal && dataTouched.get().isVisible()){
                         level = new Level (min(level.getLevel()+1,15)); //pujem de nivell
 
                         gameState.setLevel(level);
