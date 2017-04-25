@@ -333,9 +333,8 @@ public class GridView extends View{
                         mainActivity.updateBackground(gameState.getLevel().getBackground());
                         cleanBoard();
                         //ACTUALITZAR NIVELL QUE ES MOSTRA
-                        /*TextView mostrarlvl = (TextView) findViewById(R.id.lvlEnJuego);
-                        mostrarlvl.setText(String.valueOf(level));
-                        */
+                        mainActivity.updateLVL();
+
                         Log.d("xxx", "\nEnter portal");
                         Log.d("xxx", "\nBackground: "+ gameState.getLevel().getBackground());
                     }
