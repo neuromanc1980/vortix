@@ -197,6 +197,17 @@ public class GridView extends View{
                     canvas.drawBitmap(portalBm, (float) hexagon.getCenterX() - portalBm.getHeight()/2, (float) hexagon.getCenterY() - portalBm.getWidth()/2, new Paint() );
                 }
 
+                //asteroides
+                if (data.getElement() instanceof Asteroid){
+                    Bitmap asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides); //default
+                    if (((Asteroid) data.getElement()).getDensity() == 5) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides); }
+                    if (((Asteroid) data.getElement()).getDensity() == 10) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides2); }
+                    if (((Asteroid) data.getElement()).getDensity() == 25) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides3); }
+
+
+                    canvas.drawBitmap(asteroidBm, (float) hexagon.getCenterX() - asteroidBm.getHeight()/2, (float) hexagon.getCenterY() - asteroidBm.getWidth()/2, new Paint() );
+                }
+
                 //blurrejem els no visibles
                 if (data.isVisible()==false) {
 
@@ -261,6 +272,8 @@ public class GridView extends View{
             placePortal(hexas);
             level.setPortalPlaced(true);
         }
+
+        placeElements(hexas);
     }
 
     public void setBackground (int backgroundID){
@@ -372,6 +385,35 @@ public class GridView extends View{
         built = false;
     }
 
+    public void placeElements(List <Hexagon> lista){
+
+        //-----------------------------------------------   ASTEROIDES ------------------------------------------------
+        Random r = new Random();
+        int asteroidsNumber = r.nextInt(gameState.getLevel().getLevel()/2 +2) + 2;
+
+        for (int i = 0; i <= asteroidsNumber ; i++){        //posem asteroidsNumber asteroids
+
+            //triem un hexagon a l'atzar
+            Random r2 = new Random();
+            int pos = r2.nextInt(lista.size() - 1) + 1;
+            Hexagon hexa = lista.get(pos);
+            HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+                if (data.getElement() != null){           i++;        } //ja està ocupat
+                else{
+                    Asteroid asteroid = new Asteroid();
+                    asteroid.setXCoord(hexa.getGridX());
+                    asteroid.setZCoord(hexa.getGridZ());
+                    //densitat
+                    Random r3 = new Random();
+                    int densitat = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
+                        if (densitat < 25)  { asteroid.setDensity(5);  }
+                        if (densitat < 50)  { asteroid.setDensity(10);  }
+                        if (densitat >= 50)  { asteroid.setDensity(25);  }
+                }
+            }
+    }
+
     public MainActivity getMainActivity() {        return mainActivity;    }
     public void setMainActivity(MainActivity mainActivity) {        this.mainActivity = mainActivity;    }
+
 }
