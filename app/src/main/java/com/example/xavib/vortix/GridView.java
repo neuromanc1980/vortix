@@ -65,7 +65,6 @@ public class GridView extends View{
 
     HexagonalGrid grid;
 
-
     public GridView(Context context) {        super(context);        init();    }
     public GridView(Context context, AttributeSet attrs) {        super(context, attrs);        init();    }
     public GridView(Context context, AttributeSet attrs, int defStyleAttr) {        super(context, attrs, defStyleAttr);        init();    }
@@ -73,7 +72,6 @@ public class GridView extends View{
 
 
     public void init(){
-
 
     }
 
@@ -128,10 +126,14 @@ public class GridView extends View{
         if (gameState == null) return;
         this.postInvalidateDelayed(50); //taxa de refresc
 
+        //gameState = mainActivity.getGameState();    //carreguem gameState
+
         if (!built) {
             built = true;       //només construirem una vegada
 
             Log.d("xxx", "\nBuilding grid: "            );
+
+
 
             linea = gameState.getLevel().getLinea();
             level = gameState.getLevel();
@@ -141,11 +143,6 @@ public class GridView extends View{
             playerShip.setImatge(gameState.getPlayerShip().getImatge());
 
             background2 = (ImageView) findViewById(R.id.background);
-            //int test = level.getBackground();
-            //background2.setBackgroundResource(gameState.getLevel().getBackground());
-            //background2.setImageResource(level.getBackground());
-            //setBackground(level.getBackground());
-
 
             //alçada modificada
             float grid_height = (float) ((float) RADIUS * level.getMod());
@@ -189,7 +186,7 @@ public class GridView extends View{
             if (hexagon.getSatelliteData().isPresent()){
 
                 HexagonSatelliteData data = (HexagonSatelliteData) hexagon.getSatelliteData().get();
-                data.setVisible(false);     //tots invisibles de base
+                //data.setVisible(false);     //tots invisibles de base
                 data.setMoveable(false);    //tots son no travessables de base
                 hexagon.setSatelliteData(data);
 
@@ -199,6 +196,17 @@ public class GridView extends View{
                 if (data.getElement() instanceof Portal){
                     Bitmap portalBm = BitmapFactory.decodeResource(getResources(), R.drawable.portal);
                     canvas.drawBitmap(portalBm, (float) hexagon.getCenterX() - portalBm.getHeight()/2, (float) hexagon.getCenterY() - portalBm.getWidth()/2, new Paint() );
+                }
+
+                //asteroides
+                if (data.getElement() instanceof Asteroid){
+                    Bitmap asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides); //default
+                    if (((Asteroid) data.getElement()).getDensity() == 5) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides); }
+                    if (((Asteroid) data.getElement()).getDensity() == 10) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides2); }
+                    if (((Asteroid) data.getElement()).getDensity() == 25) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides3); }
+
+
+                    canvas.drawBitmap(asteroidBm, (float) hexagon.getCenterX() - asteroidBm.getHeight()/2, (float) hexagon.getCenterY() - asteroidBm.getWidth()/2, new Paint() );
                 }
 
                 //blurrejem els no visibles
@@ -265,6 +273,8 @@ public class GridView extends View{
             placePortal(hexas);
             level.setPortalPlaced(true);
         }
+
+        placeElements(hexas);
     }
 
     public void setBackground (int backgroundID){
@@ -313,7 +323,7 @@ public class GridView extends View{
                     }
 
                     //portal
-                    if (dataTouched.get().getElement() instanceof Portal){
+                    if (dataTouched.get().getElement() instanceof Portal && dataTouched.get().isVisible()){
                         level = new Level (min(level.getLevel()+1,15)); //pujem de nivell
 
                         gameState.setLevel(level);
@@ -379,6 +389,35 @@ public class GridView extends View{
         built = false;
     }
 
+    public void placeElements(List <Hexagon> lista){
+
+        //-----------------------------------------------   ASTEROIDES ------------------------------------------------
+        Random r = new Random();
+        int asteroidsNumber = r.nextInt(gameState.getLevel().getLevel()/2 +2) + 2;
+
+        for (int i = 0; i <= asteroidsNumber ; i++){        //posem asteroidsNumber asteroids
+
+            //triem un hexagon a l'atzar
+            Random r2 = new Random();
+            int pos = r2.nextInt(lista.size() - 1) + 1;
+            Hexagon hexa = lista.get(pos);
+            HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+                if (data.getElement() != null){           i++;        } //ja està ocupat
+                else{
+                    Asteroid asteroid = new Asteroid();
+                    asteroid.setXCoord(hexa.getGridX());
+                    asteroid.setZCoord(hexa.getGridZ());
+                    //densitat
+                    Random r3 = new Random();
+                    int densitat = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
+                        if (densitat < 25)  { asteroid.setDensity(5);  }
+                        if (densitat < 50)  { asteroid.setDensity(10);  }
+                        if (densitat >= 50)  { asteroid.setDensity(25);  }
+                }
+            }
+    }
+
     public MainActivity getMainActivity() {        return mainActivity;    }
     public void setMainActivity(MainActivity mainActivity) {        this.mainActivity = mainActivity;    }
+
 }
