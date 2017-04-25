@@ -130,8 +130,8 @@ public class GridView extends View{
         if (!built) {
             built = true;       //només construirem una vegada
 
-            Log.d("xxx", "\nBuilding grid: "            );
-
+            Log.d("xxx", "\nBuilding grid level: "   + gameState.getLevel().getLevel()         );
+            //Log.d("xxx", "level: " + gameState.getLevel().getLevel());
 
 
             linea = gameState.getLevel().getLinea();
@@ -271,9 +271,10 @@ public class GridView extends View{
             Log.d("xxx", "\nPortal is not placed yet, placing it.....: ");
             placePortal(hexas);
             level.setPortalPlaced(true);
+            placeElements(hexas);
         }
 
-        placeElements(hexas);
+
     }
 
     public void setBackground (int backgroundID){
@@ -282,7 +283,7 @@ public class GridView extends View{
 
     @Override public boolean onTouchEvent(MotionEvent event){
 
-        Log.d("xxx", "level: " + gameState.getLevel().getLevel());
+
 
         float x = event.getX(); //xy sobre la posició esquerre superior del control (de 0 al width/height)
         float y = event.getY();
@@ -304,7 +305,7 @@ public class GridView extends View{
 
                 Optional<HexagonSatelliteData> dataTouched = touchedHexagon.get().getSatelliteData();
                 Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible() + " moveable?: "+dataTouched.get().isMoveable() + " element: " + dataTouched.get().getElement());
-                Log.d("xxx", "\nPortal is in: " + level.getPortal().getXCoord() + " <= X/Z => " + level.getPortal().getZCoord());
+                //Log.d("xxx", "\nPortal is in: " + level.getPortal().getXCoord() + " <= X/Z => " + level.getPortal().getZCoord());
 
                     if (dataTouched.get().isMoveable()){ //ens movem a la casella
 
@@ -391,6 +392,8 @@ public class GridView extends View{
         Random r = new Random();
         int asteroidsNumber = r.nextInt(gameState.getLevel().getLevel()/2 +2) + 2;
 
+        Log.d("xxx", "\nPlacing "+asteroidsNumber+" asteroids " );
+
         for (int i = 0; i <= asteroidsNumber ; i++){        //posem asteroidsNumber asteroids
 
             //triem un hexagon a l'atzar
@@ -409,8 +412,14 @@ public class GridView extends View{
                         if (densitat < 25)  { asteroid.setDensity(5);  }
                         if (densitat < 50)  { asteroid.setDensity(10);  }
                         if (densitat >= 50)  { asteroid.setDensity(25);  }
+                    Log.d("xxx", "\nDensitat "+asteroid.getDensity()+" a l'asteroide coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
+                    data.setElement(asteroid);
+                    hexa.setSatelliteData(data);
                 }
             }
+
+
+
     }
 
     public MainActivity getMainActivity() {        return mainActivity;    }
