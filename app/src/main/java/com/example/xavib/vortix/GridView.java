@@ -131,8 +131,8 @@ public class GridView extends View{
         if (!built) {
             built = true;       //només construirem una vegada
 
-            Log.d("xxx", "\nBuilding grid: "            );
-
+            Log.d("xxx", "\nBuilding grid level: "   + gameState.getLevel().getLevel()         );
+            //Log.d("xxx", "level: " + gameState.getLevel().getLevel());
 
 
             linea = gameState.getLevel().getLinea();
@@ -205,8 +205,16 @@ public class GridView extends View{
                     if (((Asteroid) data.getElement()).getDensity() == 10) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides2); }
                     if (((Asteroid) data.getElement()).getDensity() == 25) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides3); }
 
-
                     canvas.drawBitmap(asteroidBm, (float) hexagon.getCenterX() - asteroidBm.getHeight()/2, (float) hexagon.getCenterY() - asteroidBm.getWidth()/2, new Paint() );
+                }
+
+                //minerals
+                if (data.getElement() instanceof Mineral){
+                    Bitmap mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); //default
+                    if (((Mineral) data.getElement()).getValue() == 10) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); }
+                    if (((Mineral) data.getElement()).getValue() == 25) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals2); }
+
+                    canvas.drawBitmap(mineralBm, (float) hexagon.getCenterX() - mineralBm.getHeight()/2, (float) hexagon.getCenterY() - mineralBm.getWidth()/2, new Paint() );
                 }
 
                 //blurrejem els no visibles
@@ -272,9 +280,10 @@ public class GridView extends View{
             Log.d("xxx", "\nPortal is not placed yet, placing it.....: ");
             placePortal(hexas);
             level.setPortalPlaced(true);
+            placeElements(hexas);
         }
 
-        placeElements(hexas);
+
     }
 
     public void setBackground (int backgroundID){
@@ -283,7 +292,7 @@ public class GridView extends View{
 
     @Override public boolean onTouchEvent(MotionEvent event){
 
-        Log.d("xxx", "level: " + gameState.getLevel().getLevel());
+
 
         float x = event.getX(); //xy sobre la posició esquerre superior del control (de 0 al width/height)
         float y = event.getY();
@@ -305,7 +314,7 @@ public class GridView extends View{
 
                 Optional<HexagonSatelliteData> dataTouched = touchedHexagon.get().getSatelliteData();
                 Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible() + " moveable?: "+dataTouched.get().isMoveable() + " element: " + dataTouched.get().getElement());
-                Log.d("xxx", "\nPortal is in: " + level.getPortal().getXCoord() + " <= X/Z => " + level.getPortal().getZCoord());
+                //Log.d("xxx", "\nPortal is in: " + level.getPortal().getXCoord() + " <= X/Z => " + level.getPortal().getZCoord());
 
                     if (dataTouched.get().isMoveable()){ //ens movem a la casella
 
@@ -407,9 +416,11 @@ public class GridView extends View{
 
     public void placeElements(List <Hexagon> lista){
 
-        //-----------------------------------------------   ASTEROIDES ------------------------------------------------
+        //-----------------------------------------------   ASTEROIDES   ------------------------------------------------
         Random r = new Random();
         int asteroidsNumber = r.nextInt(gameState.getLevel().getLevel()/2 +2) + 2;
+
+        Log.d("xxx", "\nPlacing "+asteroidsNumber+" asteroids " );
 
         for (int i = 0; i <= asteroidsNumber ; i++){        //posem asteroidsNumber asteroids
 
@@ -425,12 +436,45 @@ public class GridView extends View{
                     asteroid.setZCoord(hexa.getGridZ());
                     //densitat
                     Random r3 = new Random();
-                    int densitat = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
+                    int densitat = r2.nextInt(gameState.getLevel().getLevel()*10 ) + 1;
                         if (densitat < 25)  { asteroid.setDensity(5);  }
                         if (densitat < 50)  { asteroid.setDensity(10);  }
                         if (densitat >= 50)  { asteroid.setDensity(25);  }
+                    Log.d("xxx", "\nDensitat "+asteroid.getDensity()+" a l'asteroide coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
+                    data.setElement(asteroid);
+                    hexa.setSatelliteData(data);
                 }
             }
+
+        //-----------------------------------------------   MINERALS   ------------------------------------------------
+        int mineralsNumber = r.nextInt(gameState.getLevel().getLevel()/3 +1) + 1;
+
+        Log.d("xxx", "\nPlacing "+mineralsNumber+" minerals " );
+
+        for (int i = 0; i <= mineralsNumber ; i++){        //posem asteroidsNumber asteroids
+
+            //triem un hexagon a l'atzar
+            Random r2 = new Random();
+            int pos = r2.nextInt(lista.size() - 1) + 1;
+            Hexagon hexa = lista.get(pos);
+            HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+            if (data.getElement() != null){           i++;        } //ja està ocupat
+            else{
+                Mineral mineral = new Mineral();
+                mineral.setXCoord(hexa.getGridX());
+                mineral.setZCoord(hexa.getGridZ());
+                //valor del mineral
+                Random r3 = new Random();
+                int value = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
+                if (value < 20)  { mineral.setValue(10);  }
+                if (value >= 20)  { mineral.setValue(25);  }
+                Log.d("xxx", "\nValor "+mineral.getValue()+" del mineral a coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
+                data.setElement(mineral);
+                hexa.setSatelliteData(data);
+            }
+        }
+
+
     }
 
     public MainActivity getMainActivity() {        return mainActivity;    }
