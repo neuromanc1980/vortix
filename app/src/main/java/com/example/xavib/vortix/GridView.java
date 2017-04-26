@@ -332,11 +332,28 @@ public class GridView extends View{
                         playerShip.setShipZ(gameState.getLevel().getStartingZ());
                         mainActivity.updateBackground(gameState.getLevel().getBackground());
                         cleanBoard();
-                        //ACTUALITZAR NIVELL QUE ES MOSTRA
+                        //canviar nivell label
                         mainActivity.updateLVL();
 
                         Log.d("xxx", "\nEnter portal");
                         Log.d("xxx", "\nBackground: "+ gameState.getLevel().getBackground());
+                    }
+
+                    if (dataTouched.get().getElement() instanceof Asteroid && dataTouched.get().isVisible()){
+
+                        //meteorits treuen
+
+                        if (playerShip.getShields() > 0)
+                        {
+                            playerShip.setShields(playerShip.getShields()-20);
+                        }
+
+                        if (playerShip.getShields() <= 0)
+                        {
+                            playerShip.setHp(playerShip.getHp()-10);
+                        }
+                        //mainActivity.updateVida();
+
                     }
 
                 }

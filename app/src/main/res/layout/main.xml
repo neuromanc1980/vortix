@@ -110,6 +110,19 @@
         android:textColor="@android:color/holo_green_light"
         android:textSize="18sp" />
 
+    <TextView
+        android:text="100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/grid"
+        android:layout_toRightOf="@+id/gifTextView"
+        android:layout_marginLeft="-20dp"
+        android:layout_marginStart="-23dp"
+        android:layout_marginTop="53dp"
+        android:id="@+id/vidaNave"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="12sp" />
+
 
 
 </RelativeLayout>
