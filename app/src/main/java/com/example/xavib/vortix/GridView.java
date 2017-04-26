@@ -204,8 +204,16 @@ public class GridView extends View{
                     if (((Asteroid) data.getElement()).getDensity() == 10) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides2); }
                     if (((Asteroid) data.getElement()).getDensity() == 25) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides3); }
 
-
                     canvas.drawBitmap(asteroidBm, (float) hexagon.getCenterX() - asteroidBm.getHeight()/2, (float) hexagon.getCenterY() - asteroidBm.getWidth()/2, new Paint() );
+                }
+
+                //minerals
+                if (data.getElement() instanceof Mineral){
+                    Bitmap mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); //default
+                    if (((Mineral) data.getElement()).getValue() == 10) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); }
+                    if (((Mineral) data.getElement()).getValue() == 25) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals2); }
+
+                    canvas.drawBitmap(mineralBm, (float) hexagon.getCenterX() - mineralBm.getHeight()/2, (float) hexagon.getCenterY() - mineralBm.getWidth()/2, new Paint() );
                 }
 
                 //blurrejem els no visibles
@@ -388,7 +396,7 @@ public class GridView extends View{
 
     public void placeElements(List <Hexagon> lista){
 
-        //-----------------------------------------------   ASTEROIDES ------------------------------------------------
+        //-----------------------------------------------   ASTEROIDES   ------------------------------------------------
         Random r = new Random();
         int asteroidsNumber = r.nextInt(gameState.getLevel().getLevel()/2 +2) + 2;
 
@@ -408,7 +416,7 @@ public class GridView extends View{
                     asteroid.setZCoord(hexa.getGridZ());
                     //densitat
                     Random r3 = new Random();
-                    int densitat = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
+                    int densitat = r2.nextInt(gameState.getLevel().getLevel()*10 ) + 1;
                         if (densitat < 25)  { asteroid.setDensity(5);  }
                         if (densitat < 50)  { asteroid.setDensity(10);  }
                         if (densitat >= 50)  { asteroid.setDensity(25);  }
@@ -418,6 +426,33 @@ public class GridView extends View{
                 }
             }
 
+        //-----------------------------------------------   MINERALS   ------------------------------------------------
+        int mineralsNumber = r.nextInt(gameState.getLevel().getLevel()/3 +1) + 1;
+
+        Log.d("xxx", "\nPlacing "+mineralsNumber+" minerals " );
+
+        for (int i = 0; i <= mineralsNumber ; i++){        //posem asteroidsNumber asteroids
+
+            //triem un hexagon a l'atzar
+            Random r2 = new Random();
+            int pos = r2.nextInt(lista.size() - 1) + 1;
+            Hexagon hexa = lista.get(pos);
+            HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+            if (data.getElement() != null){           i++;        } //ja està ocupat
+            else{
+                Mineral mineral = new Mineral();
+                mineral.setXCoord(hexa.getGridX());
+                mineral.setZCoord(hexa.getGridZ());
+                //valor del mineral
+                Random r3 = new Random();
+                int value = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
+                if (value < 20)  { mineral.setValue(10);  }
+                if (value >= 20)  { mineral.setValue(25);  }
+                Log.d("xxx", "\nValor "+mineral.getValue()+" del mineral a coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
+                data.setElement(mineral);
+                hexa.setSatelliteData(data);
+            }
+        }
 
 
     }
