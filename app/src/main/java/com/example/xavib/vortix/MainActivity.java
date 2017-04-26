@@ -50,9 +50,12 @@ public class MainActivity extends AppCompatActivity {
         background = (ImageView) findViewById(R.id.background);
         background.setImageResource(gameState.getLevel().getBackground());
 
-        //int lvl = gameState.getLevel().getLevel();
-        //TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
-        //lvlmomento.setText("Level: "+String.valueOf(lvl));
+
+        TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
+        lvlmomento.setText("Level: 1");
+
+        TextView vida = (TextView) findViewById(R.id.vidaNave);
+        vida.setText("5");
 
 
 
