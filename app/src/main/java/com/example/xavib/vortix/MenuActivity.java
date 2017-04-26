@@ -15,6 +15,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.menu);
         MediaPlayer song2 = MediaPlayer.create(MenuActivity.this, R.raw.song2);
         MediaPlayer song1 = MediaPlayer.create(MenuActivity.this, R.raw.song1);
+        song2.setVolume(0.5f,0.5f);
         song2.start();
 
 

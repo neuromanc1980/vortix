@@ -3,7 +3,9 @@ package com.example.xavib.vortix;
 //activitat principal del joc
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public ImageView background;
     public Ship playerShip;
     public Level level;
+    MediaPlayer effect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         int shipScanner = gameData.getInt("ShipScanner", 1);
         int shipEngine = gameData.getInt("ShipEngine", 1);
         int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
-        int levelSaved = gameData.getInt("Lel", 10);
+        int levelSaved = gameData.getInt("Level", 1);
         gameState.updateLevel(new Level(levelSaved));
 
         //reconstruim la nau en funció a les dades que carreguem, si no existia creem una de nova
@@ -131,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         //nova nau
         if (playerShip==null){            playerShip = new Ship();           }
 
-        playerShip.setImatge(shipImatge);     playerShip.setEngine(shipEngine);
+        playerShip.setImatge(R.drawable.ship1_s);     playerShip.setEngine(shipEngine);
         playerShip.setShipX(shipX);           playerShip.setShipZ(shipZ);
         playerShip.setHp(shipHP);             playerShip.setScanner(shipScanner);
         playerShip.setShields(shipShield);
@@ -155,4 +158,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public GameState getGameState () {   return gameState;        }
+
+    public void playSound(int sound){        effect = MediaPlayer.create(MainActivity.this, sound); effect.setVolume(0.8f,0.8f);   effect.start();  }
 }
+
