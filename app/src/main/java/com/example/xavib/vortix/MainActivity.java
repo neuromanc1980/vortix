@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public Level level;
     MediaPlayer effect;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         playerShip = gameState.getPlayerShip();
         level = gameState.getLevel();
+        int hp = gameState.getPlayerShip().getHp();
 
         //li passem el gameState a la vista
         gridView.setMainActivity(this);
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         lvlmomento.setText("Level: 1");
 
         TextView vida = (TextView) findViewById(R.id.vidaNave);
-        vida.setText("5");
+        vida.setText(""+hp);
 
 
 
@@ -155,6 +157,25 @@ public class MainActivity extends AppCompatActivity {
         int level = gameState.getLevel().getLevel();
         TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
         lvlmomento.setText("Level: "+String.valueOf(level));
+    }
+
+    public void updateHPShield(){
+
+
+        if (playerShip.getShields() > 0)
+        {
+            gameState.getPlayerShip().setShields(playerShip.getShields()-20);
+        }
+
+        if (playerShip.getShields() <= 0)
+        {
+            gameState.getPlayerShip().setHp(gameState.getPlayerShip().getHp()-15);
+        }
+
+        int hp = gameState.getPlayerShip().getHp();
+
+        TextView vidamomento = (TextView) findViewById(R.id.vidaNave);
+        vidamomento.setText(String.valueOf(hp));
     }
 
     public GameState getGameState () {   return gameState;        }
