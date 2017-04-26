@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
         gridView.setGameState(gameState);
         background = (ImageView) findViewById(R.id.background);
         background.setImageResource(gameState.getLevel().getBackground());
+
+        //int lvl = gameState.getLevel().getLevel();
+        //TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
+        //lvlmomento.setText("Level: "+String.valueOf(lvl));
+
+
+
+
     }
 
     @Override
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         int shipScanner = gameData.getInt("ShipScanner", 1);
         int shipEngine = gameData.getInt("ShipEngine", 1);
         int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
-        int levelSaved = gameData.getInt("Level", 1);
+        int levelSaved = gameData.getInt("Lel", 10);
         gameState.updateLevel(new Level(levelSaved));
 
         //reconstruim la nau en funció a les dades que carreguem, si no existia creem una de nova
@@ -134,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateBackground(int id){
         background.setImageResource(id);
+    }
+
+    public void updateLVL(){
+        int level = gameState.getLevel().getLevel();
+        TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
+        lvlmomento.setText("Level: "+String.valueOf(level));
     }
 
     public GameState getGameState () {   return gameState;        }

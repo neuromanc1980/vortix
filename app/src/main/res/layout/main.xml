@@ -28,4 +28,88 @@
         android:layout_marginBottom="25dp"
         android:layout_marginTop="25dp" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/menulateral"
+        android:id="@+id/imageView2"
+        android:layout_marginLeft="351dp"
+        android:layout_marginStart="351dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/grid"
+        android:layout_alignStart="@+id/grid" />
+
+    <pl.droidsonroids.gif.GifTextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/bala"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="110dp"
+        android:layout_alignTop="@+id/grid"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2" />
+
+
+    <pl.droidsonroids.gif.GifTextView
+        android:layout_width="23dp"
+        android:layout_height="16dp"
+        android:background="@drawable/moneda"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="160dp"
+        android:layout_alignTop="@+id/grid"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2"
+        android:id="@+id/gifTextView" />
+
+    <pl.droidsonroids.gif.GifTextView
+    android:layout_width="23dp"
+    android:layout_height="16dp"
+    android:background="@drawable/moneda"
+    android:layout_marginLeft="32dp"
+    android:layout_marginStart="117dp"
+    android:layout_marginTop="160dp"
+    android:layout_alignTop="@+id/grid"
+    android:layout_alignLeft="@+id/imageView2"
+    android:layout_alignStart="@+id/imageView2"
+        android:id="@+id/gifTextView2" />
+
+    <pl.droidsonroids.gif.GifTextView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/corazon"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="68dp"
+        android:layout_alignTop="@+id/grid"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2" />
+
+    <pl.droidsonroids.gif.GifTextView
+        android:layout_width="15dp"
+        android:layout_height="12dp"
+        android:background="@drawable/cohete"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="122dp"
+        android:layout_marginTop="113dp"
+        android:layout_alignTop="@+id/grid"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2" />
+
+    <TextView
+        android:text="h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/grid"
+        android:layout_toRightOf="@+id/gifTextView"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="-13dp"
+        android:layout_marginTop="9dp"
+        android:id="@+id/lvlEnJuego"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="18sp" />
+
+
+
 </RelativeLayout>
