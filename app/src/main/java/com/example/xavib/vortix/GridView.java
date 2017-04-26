@@ -343,6 +343,9 @@ public class GridView extends View{
 
                         gameState.setLevel(level);
 
+                        //play sound portal
+                        mainActivity.playSound(R.raw.portal);
+
                         playerShip.setShipX(gameState.getLevel().getStartingX());   //recol.loquem la nau
                         playerShip.setShipZ(gameState.getLevel().getStartingZ());
                         mainActivity.updateBackground(gameState.getLevel().getBackground());
