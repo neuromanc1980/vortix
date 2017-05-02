@@ -36,5 +36,4 @@ public class GameState {
     public void setLevel(Level level) {        this.level = level;    }
 
     public void updateShip(Ship ship){        this.PlayerShip = ship;    }
-    public void updateLevel(Level level){        this.level = level;    }
 }

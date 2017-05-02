@@ -10,7 +10,8 @@ import java.util.Random;
 
 public class Level {
 
-    private int level, startingX, startingZ;
+    private int level;
+    private int startingX, startingZ;
     private int background;
     private int gridH, gridW;
     private double mod;
@@ -87,7 +88,9 @@ public class Level {
     public void setStartingZ(int startingZ) {        this.startingZ = startingZ;    }
 
     public int getLevel() {        return level;    }
-    public void setLevel(int level) {        this.level = level;    }
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     public int getBackground() {        return background;    }
     public void setBackground(int background) {        this.background = background;    }

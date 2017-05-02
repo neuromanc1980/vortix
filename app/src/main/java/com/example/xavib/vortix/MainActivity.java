@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     public Ship playerShip;
     public Level level;
     MediaPlayer effect;
+    boolean newGame;
 
 
     @Override
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         //carregame el gameState, si no n'hi ha en creem un amb defaults
         Bundle extras = getIntent().getExtras();
-        boolean newGame = extras.getBoolean("new");
+         newGame = extras.getBoolean("new");
         if (newGame == true)    {   newGameData();                    }   else loadGameData();
 
 
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
-        lvlmomento.setText("Level: 1");
+        lvlmomento.setText("Level: "+gameState.getLevel().getLevel());
 
         TextView vida = (TextView) findViewById(R.id.vidaNave);
         vida.setText(""+hp);
@@ -89,11 +90,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        loadGameData();
+        if (!newGame) {    loadGameData();     }
+
     }
 
     public void loadGameData(){
-        //carreguem dades
+
+            //carreguem dades
         SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this);
         int shipX = gameData.getInt("ShipX", gameState.getLevel().getStartingX());
         int shipZ = gameData.getInt("ShipZ", gameState.getLevel().getStartingZ());
@@ -103,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         int shipEngine = gameData.getInt("ShipEngine", 1);
         int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
         int levelSaved = gameData.getInt("Level", 1);
-        gameState.updateLevel(new Level(levelSaved));
+        gameState.setLevel(new Level(levelSaved));
 
         //reconstruim la nau en funció a les dades que carreguem, si no existia creem una de nova
         if (playerShip==null){            playerShip = new Ship();        }
@@ -121,29 +124,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newGameData(){
-        //gnerem dades inicials
-        SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this);
-        int shipX = gameData.getInt("", gameState.getLevel().getStartingX());
-        int shipZ = gameData.getInt("", gameState.getLevel().getStartingZ());
-        int shipHP = gameData.getInt("", 100);
-        int shipShield = gameData.getInt("", 100);
-        int shipScanner = gameData.getInt("", 1);
-        int shipEngine = gameData.getInt("", 1);
-        int shipImatge = gameData.getInt("", (R.drawable.ship1_s));
-        int levelSaved = gameData.getInt("", 1);
-        gameState.updateLevel(new Level(levelSaved));
 
         //nova nau
-        if (playerShip==null){            playerShip = new Ship();           }
-
-        playerShip.setImatge(R.drawable.ship1_s);     playerShip.setEngine(shipEngine);
-        playerShip.setShipX(shipX);           playerShip.setShipZ(shipZ);
-        playerShip.setHp(shipHP);             playerShip.setScanner(shipScanner);
-        playerShip.setShields(shipShield);
-
+        playerShip = new Ship();
         //nivell inicial
         this.level = new Level(1);
-        gameState.setLevel(this.level);
+
+        playerShip.setImatge(R.drawable.ship1_s);
+        playerShip.setShipX(level.getStartingX());           playerShip.setShipZ(level.getStartingZ());
+        playerShip.setHp(100);             playerShip.setScanner(1);
+        playerShip.setShields(100);        playerShip.setEngine(1);
+
+        gameState.setLevel(level);
         gameState.updateShip(playerShip);
 
 

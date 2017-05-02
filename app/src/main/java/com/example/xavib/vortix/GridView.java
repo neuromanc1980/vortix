@@ -72,7 +72,6 @@ public class GridView extends View{
 
 
     public void init(){
-
     }
 
     public void setVisibility(){    //métode que estableix visibilitat de rang1
