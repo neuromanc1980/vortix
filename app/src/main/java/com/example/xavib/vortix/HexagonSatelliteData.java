@@ -25,4 +25,6 @@ public class HexagonSatelliteData extends DefaultSatelliteData {
 
     public Obstacle getElement() {        return element;    }
     public void setElement(Obstacle element) {        this.element = element;    }
+
+    public void removeElement() {     this.element = null;  }
 }

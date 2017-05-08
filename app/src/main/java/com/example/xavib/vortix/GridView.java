@@ -69,8 +69,6 @@ public class GridView extends View{
     public GridView(Context context, AttributeSet attrs) {        super(context, attrs);        init();    }
     public GridView(Context context, AttributeSet attrs, int defStyleAttr) {        super(context, attrs, defStyleAttr);        init();    }
 
-
-
     public void init(){
     }
 
@@ -131,8 +129,6 @@ public class GridView extends View{
             built = true;       //només construirem una vegada
 
             Log.d("xxx", "\nBuilding grid level: "   + gameState.getLevel().getLevel()         );
-            //Log.d("xxx", "level: " + gameState.getLevel().getLevel());
-
 
             linea = gameState.getLevel().getLinea();
             level = gameState.getLevel();
@@ -192,13 +188,13 @@ public class GridView extends View{
                 setVisibility();    //visibles els veins segons el scanner
 
                 //portal
-                if (data.getElement() instanceof Portal){
+                if (data.getElement() instanceof Portal && data.isVisible()){
                     Bitmap portalBm = BitmapFactory.decodeResource(getResources(), R.drawable.portal);
                     canvas.drawBitmap(portalBm, (float) hexagon.getCenterX() - portalBm.getHeight()/2, (float) hexagon.getCenterY() - portalBm.getWidth()/2, new Paint() );
                 }
 
                 //asteroides
-                if (data.getElement() instanceof Asteroid){
+                if (data.getElement() instanceof Asteroid && data.isVisible()){
                     Bitmap asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides1bueno); //default
                     if (((Asteroid) data.getElement()).getDensity() == 5) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides1bueno); }
                     if (((Asteroid) data.getElement()).getDensity() == 10) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides2bueno); }
@@ -208,7 +204,7 @@ public class GridView extends View{
                 }
 
                 //minerals
-                if (data.getElement() instanceof Mineral){
+                if (data.getElement() instanceof Mineral && data.isVisible()){
                     Bitmap mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); //default
                     if (((Mineral) data.getElement()).getValue() == 10) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); }
                     if (((Mineral) data.getElement()).getValue() == 25) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals2); }
@@ -281,8 +277,6 @@ public class GridView extends View{
             level.setPortalPlaced(true);
             placeElements(hexas);
         }
-
-
     }
 
     public void setBackground (int backgroundID){
@@ -290,8 +284,6 @@ public class GridView extends View{
     }
 
     @Override public boolean onTouchEvent(MotionEvent event){
-
-
 
         float x = event.getX(); //xy sobre la posició esquerre superior del control (de 0 al width/height)
         float y = event.getY();
@@ -342,6 +334,8 @@ public class GridView extends View{
                         playerShip.setShipX(gameState.getLevel().getStartingX());   //recol.loquem la nau
                         playerShip.setShipZ(gameState.getLevel().getStartingZ());
                         mainActivity.updateBackground(gameState.getLevel().getBackground());
+                        mainActivity.song.stop();
+                        mainActivity.playSong(level.getLevel());
                         cleanBoard();
                         //canviar nivell label
                         mainActivity.updateLVL();
@@ -350,10 +344,19 @@ public class GridView extends View{
                         Log.d("xxx", "\nBackground: "+ gameState.getLevel().getBackground());
                     }
 
+                    //asteroides
                     if (dataTouched.get().getElement() instanceof Asteroid && dataTouched.get().isVisible()){
 
-                      mainActivity.updateHPShield();
+                        mainActivity.playSound(R.raw.asteroid);
+                        mainActivity.updateHPShield();
+                    }
 
+                    //minerals
+                    if (dataTouched.get().getElement() instanceof Mineral && dataTouched.get().isVisible()){
+                        playerShip.setEnergy(playerShip.getEnergy()+((Mineral) dataTouched.get().getElement()).getValue());
+                        dataTouched.get().removeElement();
+                        mainActivity.playSound(R.raw.powerup);
+                        mainActivity.updateHPShield();
                     }
 
                 }
@@ -370,7 +373,6 @@ public class GridView extends View{
         canvas.translate(-paramBitmap.getWidth() / 2, -paramBitmap.getHeight() / 2);
         canvas.drawBitmap(paramBitmap, 0, 0, new Paint());
         canvas.restore();
-
     }
 
     public void setGameState(GameState gameState){        this.gameState = gameState;    }  //mètode per updatejar el gameState
@@ -463,10 +465,7 @@ public class GridView extends View{
                 data.setElement(mineral);
                 hexa.setSatelliteData(data);
             }
-        }
-
-
-    }
+        }    }
 
     public MainActivity getMainActivity() {        return mainActivity;    }
     public void setMainActivity(MainActivity mainActivity) {        this.mainActivity = mainActivity;    }

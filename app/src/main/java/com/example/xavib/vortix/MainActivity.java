@@ -20,8 +20,12 @@ public class MainActivity extends AppCompatActivity {
     public ImageView background;
     public Ship playerShip;
     public Level level;
-    MediaPlayer effect;
+    private MediaPlayer effect;
     boolean newGame;
+    public MediaPlayer song;
+    private int length=0, highscore, score;
+
+
 
 
     @Override
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
          newGame = extras.getBoolean("new");
         if (newGame == true)    {   newGameData();                    }   else loadGameData();
 
-
+        Log.d("xxx", "HIGHSCORE: " + highscore);
         Log.d("xxx", "Loaded data: level: " + gameState.getLevel().getLevel());
         Log.d("xxx", "Loaded data: imatge: " + gameState.getPlayerShip().getImatge());
         Log.d("xxx", "Loaded data: background: " + gameState.getLevel().getBackground());
@@ -63,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
         TextView vida = (TextView) findViewById(R.id.vidaNave);
         vida.setText(""+hp);
 
-
-
-
     }
 
     @Override
@@ -83,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
         ed.putInt("ShipEngine", playerShip.getEngine());
         ed.putInt("Imatge", playerShip.getImatge());
         ed.putInt("Level", level.getLevel());
+        ed.putInt("HighScore", highscore);
+        ed.putInt("Score", score);
+        song.pause();
+        length = song.getCurrentPosition();
 
         ed.commit();
     }
@@ -91,12 +96,13 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         if (!newGame) {    loadGameData();     }
+        playSong(gameState.getLevel().getLevel());
 
     }
 
     public void loadGameData(){
 
-            //carreguem dades
+        //carreguem dades
         SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this);
         int shipX = gameData.getInt("ShipX", gameState.getLevel().getStartingX());
         int shipZ = gameData.getInt("ShipZ", gameState.getLevel().getStartingZ());
@@ -106,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         int shipEngine = gameData.getInt("ShipEngine", 1);
         int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
         int levelSaved = gameData.getInt("Level", 1);
+        highscore = gameData.getInt("HighScore", 0);
+        score = gameData.getInt("Score", 0);
         gameState.setLevel(new Level(levelSaved));
 
         //reconstruim la nau en funció a les dades que carreguem, si no existia creem una de nova
@@ -127,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         //nova nau
         playerShip = new Ship();
+        this.score = 0;
         //nivell inicial
         this.level = new Level(1);
 
@@ -173,5 +182,35 @@ public class MainActivity extends AppCompatActivity {
     public GameState getGameState () {   return gameState;        }
 
     public void playSound(int sound){        effect = MediaPlayer.create(MainActivity.this, sound); effect.setVolume(0.8f,0.8f);   effect.start();  }
+
+    public void playSong(int level){
+        switch (level) {
+            case 1:               song =  MediaPlayer.create(MainActivity.this, R.raw.song2);                  break;
+            case 2:               song =  MediaPlayer.create(MainActivity.this, R.raw.song3);                  break;
+            case 3:               song =  MediaPlayer.create(MainActivity.this, R.raw.song4);                  break;
+            case 4:               song =  MediaPlayer.create(MainActivity.this, R.raw.song5);                  break;
+            case 5:               song =  MediaPlayer.create(MainActivity.this, R.raw.song6);                  break;
+            case 6:               song =  MediaPlayer.create(MainActivity.this, R.raw.song7);                  break;
+            case 7:               song =  MediaPlayer.create(MainActivity.this, R.raw.song8);                  break;
+            case 8:               song =  MediaPlayer.create(MainActivity.this, R.raw.song9);                  break;
+            case 9:               song =  MediaPlayer.create(MainActivity.this, R.raw.song10);                  break;
+            case 10:              song =  MediaPlayer.create(MainActivity.this, R.raw.song11);                  break;
+            case 11:              song =  MediaPlayer.create(MainActivity.this, R.raw.song12);                  break;
+            case 12:              song =  MediaPlayer.create(MainActivity.this, R.raw.song13);                  break;
+            case 13:              song =  MediaPlayer.create(MainActivity.this, R.raw.song14);                  break;
+            case 14:              song =  MediaPlayer.create(MainActivity.this, R.raw.song15);                  break;
+            case 15:              song =  MediaPlayer.create(MainActivity.this, R.raw.song1);                  break;
+
+        }
+        song.setVolume(0.3f,0.3f);
+        song.seekTo(length);
+        song.start();
+    }
+
+    public int getHighscore() {        return highscore;    }
+    public void setHighscore(int highscore) {        this.highscore = highscore;    }
+
+    public int getScore() {        return score;    }
+    public void setScore(int score) {        this.score = score;    }
 }
 
