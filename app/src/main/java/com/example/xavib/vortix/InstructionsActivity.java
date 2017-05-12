@@ -21,7 +21,7 @@ public class InstructionsActivity extends Activity{
 
     ImageView rl;
     private int currentImage = 0;
-    int[] images = { R.drawable.lvl1, R.drawable.lvl2, };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class InstructionsActivity extends Activity{
         setContentView(R.layout.instructions);
 
         rl = (ImageView) findViewById(R.id.imageView);
-        rl.setBackgroundResource(R.drawable.ship1);
+        rl.setImageResource(R.drawable.instrucciones);
 
         nextIns = (Button) findViewById(R.id.derecha);
         backIns = (Button) findViewById(R.id.izquierda);
@@ -45,9 +45,21 @@ public class InstructionsActivity extends Activity{
             @Override
             public void onClick(View v) {
                 currentImage++;
-                currentImage = currentImage % images.length;
-               rl.setBackgroundResource(images[currentImage]);
+                if(currentImage == 0){
+                    rl.setImageResource(R.drawable.instrucciones);
 
+                }
+                else if(currentImage == 1){
+                rl.setImageResource(R.drawable.instrucciones2);
+
+                }
+                else if (currentImage == 2){
+                rl.setImageResource(R.drawable.instrucciones3);
+
+                }
+                else if (currentImage == 3){
+                    rl.setImageResource(R.drawable.instrucciones4);
+                }
             }
         };
 
@@ -55,8 +67,22 @@ public class InstructionsActivity extends Activity{
 
         public void onClick(View v) {
             currentImage--;
-            currentImage = (currentImage + images.length) % images.length;
-            rl.setBackgroundResource(images[currentImage]);
+            if(currentImage == 0){
+                rl.setImageResource(R.drawable.instrucciones);
+
+            }
+            else if(currentImage == 1){
+                rl.setImageResource(R.drawable.instrucciones2);
+
+            }
+            else if (currentImage == 2){
+                rl.setImageResource(R.drawable.instrucciones3);
+
+            }
+            else if (currentImage == 3){
+                rl.setImageResource(R.drawable.instrucciones4);
+
+            }
 
         }
 
