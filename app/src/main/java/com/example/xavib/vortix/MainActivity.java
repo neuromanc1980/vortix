@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         playerShip = gameState.getPlayerShip();
         level = gameState.getLevel();
         int hp = gameState.getPlayerShip().getHp();
+        int shield = gameState.getPlayerShip().getShields();
 
         //li passem el gameState a la vista
         gridView.setMainActivity(this);

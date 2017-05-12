@@ -425,6 +425,7 @@ public class GridView extends View{
                     Asteroid asteroid = new Asteroid();
                     asteroid.setXCoord(hexa.getGridX());
                     asteroid.setZCoord(hexa.getGridZ());
+
                     //densitat
                     Random r3 = new Random();
                     int densitat = r2.nextInt(gameState.getLevel().getLevel()*10 ) + 1;
