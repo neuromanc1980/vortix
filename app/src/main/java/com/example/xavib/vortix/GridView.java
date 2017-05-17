@@ -57,6 +57,7 @@ public class GridView extends View{
     Observable<Hexagon> hexagons;
     HexagonSatelliteData data = new HexagonSatelliteData();
     MainActivity mainActivity;
+    HexagonalGridCalculator hexCalc;
 
     //paràmetres del grid comuns a tots els nivells
     private static final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
@@ -120,6 +121,7 @@ public class GridView extends View{
 
     @Override public void draw(Canvas canvas) {
 
+        super.draw(canvas);
         if (gameState == null) return;
         this.postInvalidateDelayed(50); //taxa de refresc
 
@@ -153,7 +155,8 @@ public class GridView extends View{
 
             //construim la graella
             grid = builder.build();
-            HexagonalGridCalculator hexCalc = builder.buildCalculatorFor(grid);
+            hexCalc = builder.buildCalculatorFor(grid);
+
 
             //tots els hexagons
             hexagons = grid.getHexagons();
@@ -208,8 +211,15 @@ public class GridView extends View{
                     Bitmap mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); //default
                     if (((Mineral) data.getElement()).getValue() == 10) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); }
                     if (((Mineral) data.getElement()).getValue() == 25) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals2); }
-
                     canvas.drawBitmap(mineralBm, (float) hexagon.getCenterX() - mineralBm.getHeight()/2, (float) hexagon.getCenterY() - mineralBm.getWidth()/2, new Paint() );
+                }
+
+                //nebula
+                if (data.getElement() instanceof Nebula && data.isVisible()){
+                    Bitmap nebulaBm = BitmapFactory.decodeResource(getResources(), R.drawable.nebula); //default
+                    if (((Nebula) data.getElement()).getDensity() == 2) { nebulaBm = BitmapFactory.decodeResource(getResources(), R.drawable.nebula); }
+                    if (((Nebula) data.getElement()).getDensity() == 3) { nebulaBm = BitmapFactory.decodeResource(getResources(), R.drawable.nebula2); }
+                    canvas.drawBitmap(nebulaBm, (float) hexagon.getCenterX() - nebulaBm.getHeight()/2, (float) hexagon.getCenterY() - nebulaBm.getWidth()/2, new Paint() );
                 }
 
                 //blurrejem els no visibles
@@ -237,6 +247,10 @@ public class GridView extends View{
             //si és l'hexagon on és la nau
             if (hexagon.getCubeCoordinate().equals(playerShip.getCoordinates())){
                 rotate(playerShipBm, playerShip.getOrientacio()*60, canvas, (int) hexagon.getCenterX(), (int) hexagon.getCenterY());
+                if (playerShip.getShields() > 0){   //dibuixem escuts
+                    Bitmap shieldsBM = BitmapFactory.decodeResource(getResources(), R.drawable.shields2);
+                    canvas.drawBitmap(shieldsBM, (float) hexagon.getCenterX() - shieldsBM.getHeight()/2, (float) hexagon.getCenterY() - shieldsBM.getWidth()/2, new Paint() );
+                }
             }
 
             //dibuixem la graella
@@ -296,12 +310,11 @@ public class GridView extends View{
             case MotionEvent.ACTION_DOWN:
 
                 touchedHexagon =  grid.getByPixelCoordinate(x,y);
+
                 if (touchedHexagon.isPresent()){
 
-                    if (playerShip.getCoordinates().equals(touchedHexagon.get().getCubeCoordinate())){
-                        //Log.d("xxx", "\nSortir");
-                        return false;  //no activa el propi hexagon
-                    }
+                    if (hexCalc.calculateDistanceBetween(touchedHexagon.get(), shipHexagon(playerShip).get())>1) { return false; }  //no considerem el touch de hexàgons llunyans
+                    if (playerShip.getCoordinates().equals(touchedHexagon.get().getCubeCoordinate())){            return false; } //no activa el propi hexagon
 
                 Optional<HexagonSatelliteData> dataTouched = touchedHexagon.get().getSatelliteData();
                 Log.d("xxx", "\nHexagon: " + touchedHexagon.get().getCubeCoordinate() + " visible?: "+dataTouched.get().isVisible() + " moveable?: "+dataTouched.get().isMoveable() + " element: " + dataTouched.get().getElement());
@@ -323,7 +336,7 @@ public class GridView extends View{
                     }
 
                     //portal
-                    if (dataTouched.get().getElement() instanceof Portal && dataTouched.get().isVisible()){
+                    if (dataTouched.get().getElement() instanceof Portal && dataTouched.get().isVisible() ){
                         level = new Level (min(level.getLevel()+1,15)); //pujem de nivell
 
                         gameState.setLevel(level);
@@ -338,7 +351,7 @@ public class GridView extends View{
                         mainActivity.playSong(level.getLevel());
                         cleanBoard();
                         //canviar nivell label
-                        mainActivity.updateLVL();
+                        mainActivity.refreshStats();
 
                         Log.d("xxx", "\nEnter portal");
                         Log.d("xxx", "\nBackground: "+ gameState.getLevel().getBackground());
@@ -346,9 +359,8 @@ public class GridView extends View{
 
                     //asteroides
                     if (dataTouched.get().getElement() instanceof Asteroid && dataTouched.get().isVisible()){
-
                         mainActivity.playSound(R.raw.asteroid);
-                        mainActivity.updateHPShield();
+                        mainActivity.updateHPShield(((Asteroid) dataTouched.get().getElement()).getDensity());
                     }
 
                     //minerals
@@ -356,7 +368,13 @@ public class GridView extends View{
                         playerShip.setEnergy(playerShip.getEnergy()+((Mineral) dataTouched.get().getElement()).getValue());
                         dataTouched.get().removeElement();
                         mainActivity.playSound(R.raw.powerup);
-                        mainActivity.updateHPShield();
+                    }
+
+                    //nebula
+                    if (dataTouched.get().getElement() instanceof Nebula && dataTouched.get().isVisible()){
+                        playerShip.setEnergy(playerShip.getEnergy()-((Nebula) dataTouched.get().getElement()).getDensity());
+                        mainActivity.playSound(R.raw.pulse);
+
                     }
 
                 }
@@ -466,9 +484,40 @@ public class GridView extends View{
                 data.setElement(mineral);
                 hexa.setSatelliteData(data);
             }
-        }    }
+        }
+
+        //-----------------------------------------------   NEBULA   ------------------------------------------------
+        int nebulaNumber = r.nextInt(gameState.getLevel().getLevel()/3 +1) + 1;
+
+        Log.d("xxx", "\nPlacing "+nebulaNumber+" minerals " );
+
+        for (int i = 0; i <= nebulaNumber ; i++){        //posem asteroidsNumber asteroids
+
+            //triem un hexagon a l'atzar
+            Random r2 = new Random();
+            int pos = r2.nextInt(lista.size() - 1) + 1;
+            Hexagon hexa = lista.get(pos);
+            HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+            if (data.getElement() != null){           i++;        } //ja està ocupat
+            else{
+                Nebula nebula = new Nebula();
+                nebula.setXCoord(hexa.getGridX());
+                nebula.setZCoord(hexa.getGridZ());
+                //valor de la nebula
+                Random r3 = new Random();
+                int value = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
+                if (value < 20)  { nebula.setDensity(2);  }
+                if (value >= 20)  { nebula.setDensity(3);  }
+
+                Log.d("xxx", "\nValor "+nebula.getDensity()+" de la nebula a coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
+                data.setElement(nebula);
+                hexa.setSatelliteData(data);
+            }
+        }
+    }
 
     public MainActivity getMainActivity() {        return mainActivity;    }
     public void setMainActivity(MainActivity mainActivity) {        this.mainActivity = mainActivity;    }
+    public Optional<Hexagon> shipHexagon(Ship ship) {    Optional<Hexagon> position = grid.getByCubeCoordinate(ship.getCoordinates());  return position;               }
 
 }

@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private int length=0, highscore, score;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         playerShip = gameState.getPlayerShip();
         level = gameState.getLevel();
-        int hp = gameState.getPlayerShip().getHp();
-        int shield = gameState.getPlayerShip().getShields();
 
         //li passem el gameState a la vista
         gridView.setMainActivity(this);
@@ -61,12 +57,9 @@ public class MainActivity extends AppCompatActivity {
         background = (ImageView) findViewById(R.id.background);
         background.setImageResource(gameState.getLevel().getBackground());
 
+        //refreshStats();
 
-        TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
-        lvlmomento.setText("Level: "+gameState.getLevel().getLevel());
 
-        TextView vida = (TextView) findViewById(R.id.vidaNave);
-        vida.setText(""+hp);
 
     }
 
@@ -98,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (!newGame) {    loadGameData();     }
         playSong(gameState.getLevel().getLevel());
+        //refreshStats();
 
     }
 
@@ -155,29 +149,18 @@ public class MainActivity extends AppCompatActivity {
         background.setImageResource(id);
     }
 
-    public void updateLVL(){
-        int level = gameState.getLevel().getLevel();
-        TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
-        lvlmomento.setText("Level: "+String.valueOf(level));
-    }
+    public void updateHPShield(int damage){
 
-    public void updateHPShield(){
+        if (gameState.getPlayerShip().getShields() > damage)
+        {            gameState.getPlayerShip().setShields(playerShip.getShields()-damage);        }
 
-
-        if (playerShip.getShields() > 0)
+        if (gameState.getPlayerShip().getShields() <= damage)
         {
-            gameState.getPlayerShip().setShields(playerShip.getShields()-20);
+            gameState.getPlayerShip().setHp(gameState.getPlayerShip().getHp()-damage+gameState.getPlayerShip().getShields());
+            gameState.getPlayerShip().setShields(0);
         }
 
-        if (playerShip.getShields() <= 0)
-        {
-            gameState.getPlayerShip().setHp(gameState.getPlayerShip().getHp()-15);
-        }
-
-        int hp = gameState.getPlayerShip().getHp();
-
-        TextView vidamomento = (TextView) findViewById(R.id.vidaNave);
-        vidamomento.setText(String.valueOf(hp));
+        refreshStats();
     }
 
     public GameState getGameState () {   return gameState;        }
@@ -213,5 +196,17 @@ public class MainActivity extends AppCompatActivity {
 
     public int getScore() {        return score;    }
     public void setScore(int score) {        this.score = score;    }
+
+    public void refreshStats(){
+        TextView vidamomento = (TextView) findViewById(R.id.vidaNave);
+        TextView escudosmomento = (TextView) findViewById(R.id.escudonave);
+        TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
+
+        lvlmomento.setText("Level: "+gameState.getLevel().getLevel());
+        vidamomento.setText(""+gameState.getPlayerShip().getHp());
+        escudosmomento.setText(""+gameState.getPlayerShip().getShields());
+    }
 }
+
+
 
