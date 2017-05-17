@@ -23,7 +23,9 @@ public class Level {
 
     private int obstacles;
     private Portal portal;
+    private Station station;
     private boolean portalPlaced;
+    private boolean stationPlaced;
 
 
     //constructor
@@ -31,6 +33,7 @@ public class Level {
 
         this.level = level;
         this.portalPlaced = false;
+        this.stationPlaced = false;
 
         //stats segons el nivell
         if (this.level < 6){
@@ -77,6 +80,7 @@ public class Level {
         this.obstacles = random.nextInt(max-min) + min;
 
         this.portal = new Portal();
+        this.station = new Station();
 
 
     }
@@ -112,4 +116,10 @@ public class Level {
 
     public Portal getPortal() {        return portal;    }
     public void setPortal(Portal portal) {        this.portal = portal;    }
+
+    public boolean isStationPlaced() {        return stationPlaced;    }
+    public void setStationPlaced(boolean stationPlaced) {        this.stationPlaced = stationPlaced;    }
+
+    public Station getStation() {        return station;    }
+    public void setStation(Station station) {        this.station = station;    }
 }

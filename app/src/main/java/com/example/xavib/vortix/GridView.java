@@ -196,12 +196,18 @@ public class GridView extends View{
                     canvas.drawBitmap(portalBm, (float) hexagon.getCenterX() - portalBm.getHeight()/2, (float) hexagon.getCenterY() - portalBm.getWidth()/2, new Paint() );
                 }
 
+                //station
+                if (data.getElement() instanceof Station && data.isVisible()){
+                    Bitmap stationBm = BitmapFactory.decodeResource(getResources(), R.drawable.station);
+                    canvas.drawBitmap(stationBm, (float) hexagon.getCenterX() - stationBm.getHeight()/2, (float) hexagon.getCenterY() - stationBm.getWidth()/2, new Paint() );
+                }
+
                 //asteroides
                 if (data.getElement() instanceof Asteroid && data.isVisible()){
                     Bitmap asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides1bueno); //default
-                    if (((Asteroid) data.getElement()).getDensity() == 5) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides1bueno); }
-                    if (((Asteroid) data.getElement()).getDensity() == 10) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides2bueno); }
-                    if (((Asteroid) data.getElement()).getDensity() == 25) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides3bueno); }
+                    if (((Asteroid) data.getElement()).getDensity() <= 5) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides1bueno); }
+                    if ((((Asteroid) data.getElement()).getDensity() > 5) && (((Asteroid) data.getElement()).getDensity() <= 25)) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides2bueno); }
+                    if (((Asteroid) data.getElement()).getDensity() > 25) { asteroidBm = BitmapFactory.decodeResource(getResources(), R.raw.asteroides3bueno); }
 
                     canvas.drawBitmap(asteroidBm, (float) hexagon.getCenterX() - asteroidBm.getHeight()/2, (float) hexagon.getCenterY() - asteroidBm.getWidth()/2, new Paint() );
                 }
@@ -209,8 +215,9 @@ public class GridView extends View{
                 //minerals
                 if (data.getElement() instanceof Mineral && data.isVisible()){
                     Bitmap mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); //default
-                    if (((Mineral) data.getElement()).getValue() == 10) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1); }
-                    if (((Mineral) data.getElement()).getValue() == 25) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals2); }
+                    if (((Mineral) data.getElement()).getValue() <= 20) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals1x); }
+                    if (((Mineral) data.getElement()).getValue() > 20) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.minerals2x); }
+                    if (((Mineral) data.getElement()).isExhausted()) { mineralBm = BitmapFactory.decodeResource(getResources(), R.drawable.planet); }
                     canvas.drawBitmap(mineralBm, (float) hexagon.getCenterX() - mineralBm.getHeight()/2, (float) hexagon.getCenterY() - mineralBm.getWidth()/2, new Paint() );
                 }
 
@@ -288,9 +295,13 @@ public class GridView extends View{
         if (!level.isPortalPlaced()){
             Log.d("xxx", "\nPortal is not placed yet, placing it.....: ");
             placePortal(hexas);
+            placeStation(hexas);
             level.setPortalPlaced(true);
+            level.setStationPlaced(true);
             placeElements(hexas);
         }
+
+
     }
 
     public void setBackground (int backgroundID){
@@ -322,6 +333,9 @@ public class GridView extends View{
 
                     if (dataTouched.get().isMoveable()){ //ens movem a la casella
 
+                        mainActivity.infoBox("");   //netejem text box
+                        gameState.getPlayerShip().setEnergy(gameState.getPlayerShip().getEnergy()-5+gameState.getPlayerShip().getEngine());
+
                         //coordinades cúbiques origen i destí
                         int origenX = playerShip.getShipX();                    int origenZ = playerShip.getShipZ();
                         int destiX = touchedHexagon.get().getGridX();                    int destiZ = touchedHexagon.get().getGridZ();
@@ -351,7 +365,8 @@ public class GridView extends View{
                         mainActivity.playSong(level.getLevel());
                         cleanBoard();
                         //canviar nivell label
-                        mainActivity.refreshStats();
+                        mainActivity.mensaje.setTextColor(Color.YELLOW);
+                        mainActivity.infoBox("You found an ancient portal to a new sector!");
 
                         Log.d("xxx", "\nEnter portal");
                         Log.d("xxx", "\nBackground: "+ gameState.getLevel().getBackground());
@@ -360,26 +375,56 @@ public class GridView extends View{
                     //asteroides
                     if (dataTouched.get().getElement() instanceof Asteroid && dataTouched.get().isVisible()){
                         mainActivity.playSound(R.raw.asteroid);
-                        mainActivity.updateHPShield(((Asteroid) dataTouched.get().getElement()).getDensity());
+                        int damage = ((Asteroid) dataTouched.get().getElement()).getDensity();
+                        mainActivity.updateHPShield(damage);
+                        mainActivity.mensaje.setTextColor(Color.CYAN);
+                        mainActivity.infoBox("You crossed an asteroid field, and suffered "+damage+" damage!");
+                    }
+
+                    //minerals - exhausted
+                    if (dataTouched.get().getElement() instanceof Mineral && dataTouched.get().isVisible() && ((Mineral) dataTouched.get().getElement()).isExhausted()){
+                        mainActivity.mensaje.setTextColor(Color.RED);
+                        mainActivity.infoBox("Planet does not have any more useful resources!");
                     }
 
                     //minerals
-                    if (dataTouched.get().getElement() instanceof Mineral && dataTouched.get().isVisible()){
-                        playerShip.setEnergy(playerShip.getEnergy()+((Mineral) dataTouched.get().getElement()).getValue());
-                        dataTouched.get().removeElement();
+                    if (dataTouched.get().getElement() instanceof Mineral && dataTouched.get().isVisible() && ((Mineral) dataTouched.get().getElement()).isExhausted() == false){
+                        int minerals = ((Mineral) dataTouched.get().getElement()).getValue();
+                        playerShip.setCredits(playerShip.getCredits()+minerals);
+                        ((Mineral) dataTouched.get().getElement()).setExhausted(true);
                         mainActivity.playSound(R.raw.powerup);
+                        mainActivity.mensaje.setTextColor(Color.YELLOW);
+                        mainActivity.infoBox("You collected "+minerals+" credits in minerals!");
                     }
 
                     //nebula
                     if (dataTouched.get().getElement() instanceof Nebula && dataTouched.get().isVisible()){
+                        int fuel = ((Nebula) dataTouched.get().getElement()).getDensity();
                         playerShip.setEnergy(playerShip.getEnergy()-((Nebula) dataTouched.get().getElement()).getDensity());
                         mainActivity.playSound(R.raw.pulse);
+                        mainActivity.mensaje.setTextColor(Color.WHITE);
+                        mainActivity.infoBox("Nebula area drained "+fuel+" fuel!");
+                    }
 
+                    //station
+                    if (dataTouched.get().getElement() instanceof Station && dataTouched.get().isVisible()){
+
+                        if (playerShip.getCredits() >= 25){
+                            playerShip.setEnergy(playerShip.getMaxenergy());
+                            playerShip.setCredits(playerShip.getCredits()-25);
+                            mainActivity.playSound(R.raw.pulse);
+                            mainActivity.mensaje.setTextColor(Color.BLUE);
+                            mainActivity.infoBox("Filled fuel tanks at a cost of 25 credits.");
+                        }   else {
+                            mainActivity.mensaje.setTextColor(Color.RED);
+                            mainActivity.infoBox("You need at least 25 credits to refuel.");
+                        }
                     }
 
                 }
                 break;
         }
+        mainActivity.refreshStats();
         return true; //rebem array de punts de contacte i si tenen esdeveniment down, move, up
     }
 
@@ -420,6 +465,31 @@ public class GridView extends View{
         Log.d("xxx", "\nPlaced portal in: " + hexa.getCubeCoordinate());
     }
 
+    public void placeStation(List <Hexagon> lista){      //mètode per col.locar la estació
+
+        //triem un hexagon a l'atzar
+        Random r = new Random();
+        int pos = r.nextInt(lista.size() - 1) + 1;
+        Hexagon hexa = lista.get(pos);
+        HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+
+        while (data.isVisible()){   //reroll de hexàgon si resulta que era visible
+            r = new Random();
+            pos = r.nextInt(lista.size() - 1) + 1;
+            hexa = lista.get(pos);
+            data = (HexagonSatelliteData) hexa.getSatelliteData().get();
+        }
+
+        Station station = new Station();
+        station.setXCoord(hexa.getGridX());
+        station.setZCoord(hexa.getGridZ());
+        //col.loquem la estació com a element del hexagon, i guardem les coordenades en el nivell
+        data.setElement(station);
+        hexa.setSatelliteData(data);
+        level.setStation(station);
+        Log.d("xxx", "\nPlaced station in: " + hexa.getCubeCoordinate());
+    }
+
     public void cleanBoard(){   //neteja tots els objectes
         hexas.clear();
         built = false;
@@ -448,10 +518,11 @@ public class GridView extends View{
 
                     //densitat
                     Random r3 = new Random();
+                    int daño = r3.nextInt(gameState.getLevel().getLevel()*2 ) + 1;
                     int densitat = r2.nextInt(gameState.getLevel().getLevel()*10 ) + 1;
-                        if (densitat < 25)  { asteroid.setDensity(5);  }
-                        if (densitat < 50)  { asteroid.setDensity(10);  }
-                        if (densitat >= 50)  { asteroid.setDensity(25);  }
+                        if (densitat < 25)  { asteroid.setDensity(daño);  }
+                        if (densitat < 50)  { asteroid.setDensity(daño*2);  }
+                        if (densitat >= 50)  { asteroid.setDensity(daño*3);  }
                     Log.d("xxx", "\nDensitat "+asteroid.getDensity()+" a l'asteroide coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
                     data.setElement(asteroid);
                     hexa.setSatelliteData(data);
@@ -477,9 +548,9 @@ public class GridView extends View{
                 mineral.setZCoord(hexa.getGridZ());
                 //valor del mineral
                 Random r3 = new Random();
-                int value = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
-                if (value < 20)  { mineral.setValue(10);  }
-                if (value >= 20)  { mineral.setValue(25);  }
+                int value = r2.nextInt(gameState.getLevel().getLevel()*4 ) + 10 + gameState.getLevel().getLevel()*2;
+                if (value < 20)  { mineral.setValue(value);  }
+                if (value >= 20)  { mineral.setValue(value);  }
                 Log.d("xxx", "\nValor "+mineral.getValue()+" del mineral a coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
                 data.setElement(mineral);
                 hexa.setSatelliteData(data);

@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer effect;
     boolean newGame;
     public MediaPlayer song;
-    private int length=0, highscore, score;
+    private int length=0, highscore, score, credits, maxEnergy;
+    TextView mensaje;
 
 
     @Override
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         gridView.setGameState(gameState);
         background = (ImageView) findViewById(R.id.background);
         background.setImageResource(gameState.getLevel().getBackground());
+        mensaje = (TextView) findViewById(R.id.info);
 
         //refreshStats();
 
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         ed.putInt("Level", level.getLevel());
         ed.putInt("HighScore", highscore);
         ed.putInt("Score", score);
+        ed.putInt("Credits", credits);
+        ed.putInt("MaxEnergy", maxEnergy);
         song.pause();
         length = song.getCurrentPosition();
 
@@ -107,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         int shipEngine = gameData.getInt("ShipEngine", 1);
         int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
         int levelSaved = gameData.getInt("Level", 1);
+        int shipCredits = gameData.getInt("Credits", 0);
+        int maxEnergy = gameData.getInt("MaxEnergy", 100);
         highscore = gameData.getInt("HighScore", 0);
         score = gameData.getInt("Score", 0);
         gameState.setLevel(new Level(levelSaved));
@@ -117,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
         playerShip.setImatge(shipImatge);     playerShip.setEngine(shipEngine);
         playerShip.setShipX(shipX);           playerShip.setShipZ(shipZ);
         playerShip.setHp(shipHP);             playerShip.setScanner(shipScanner);
-        playerShip.setShields(shipShield);
+        playerShip.setShields(shipShield);    playerShip.setCredits(shipCredits);
+        playerShip.setMaxenergy(maxEnergy);
 
         //construim el nivell en funció a les dades que carreguem
         this.level = new Level(levelSaved);
@@ -138,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         playerShip.setShipX(level.getStartingX());           playerShip.setShipZ(level.getStartingZ());
         playerShip.setHp(100);             playerShip.setScanner(1);
         playerShip.setShields(100);        playerShip.setEngine(1);
+        playerShip.setCredits(0);          playerShip.setMaxenergy(100);
 
         gameState.setLevel(level);
         gameState.updateShip(playerShip);
@@ -201,10 +209,19 @@ public class MainActivity extends AppCompatActivity {
         TextView vidamomento = (TextView) findViewById(R.id.vidaNave);
         TextView escudosmomento = (TextView) findViewById(R.id.escudonave);
         TextView lvlmomento = (TextView) findViewById(R.id.lvlEnJuego);
+        TextView fuelmomento = (TextView) findViewById(R.id.fuel);
+        TextView creditsmomento = (TextView) findViewById(R.id.monedas);
 
         lvlmomento.setText("Level: "+gameState.getLevel().getLevel());
         vidamomento.setText(""+gameState.getPlayerShip().getHp());
         escudosmomento.setText(""+gameState.getPlayerShip().getShields());
+        fuelmomento.setText(""+gameState.getPlayerShip().getEnergy());
+        creditsmomento.setText(""+gameState.getPlayerShip().getCredits());
+    }
+
+    public void infoBox(String message){
+        mensaje.setText(message);
+
     }
 }
 

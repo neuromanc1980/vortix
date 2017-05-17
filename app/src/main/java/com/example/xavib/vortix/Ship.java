@@ -8,7 +8,7 @@ import org.codetome.hexameter.core.backport.Optional;
 
 public class Ship {
 
-    private int hp, scanner = 1, energy, shields, engine;
+    private int hp, scanner = 1, energy, maxenergy, shields, engine, credits;
     private String model;
     private Weapon weapon1, weapon2, weapon3;
     private int shipX, shipZ, imatge;
@@ -20,14 +20,15 @@ public class Ship {
         this.energy = energy;        this.shields = shields;
         this.model = model;          this.weapon1 = weapon1;
         this.weapon2 = weapon2;      this.engine = engine;
-        this.orientacio = 1;
+        this.orientacio = 1;         this.credits = 0;
+        this.maxenergy = 100;
     }
 
     public int getImatge() {        return imatge;    }
     public void setImatge(int imatge) {        this.imatge = imatge;    }
 
     public Ship (){
-
+        this.maxenergy = 100;
     }
 
     public Ship (int x, int z){
@@ -94,4 +95,10 @@ public class Ship {
 
     public int getEngine() {        return engine;    }
     public void setEngine(int engine) {        this.engine = engine;    }
+
+    public int getCredits() {        return credits;    }
+    public void setCredits(int credits) {        this.credits = credits;    }
+
+    public int getMaxenergy() {        return maxenergy;    }
+    public void setMaxenergy(int maxenergy) {        this.maxenergy = maxenergy;    }
 }
