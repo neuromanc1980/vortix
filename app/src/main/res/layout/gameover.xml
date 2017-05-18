@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/gameOverBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/gameover" />
+
+    <EditText
+        android:id="@+id/levelReached"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="52sp"
+        android:text="5"
+        android:gravity="center"
+        android:inputType="number" />
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20dp"  >
+
+        <Button
+        android:id="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        style="@android:style/Widget.Button.Transparent"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="Return" />
+
+
+
+    </RelativeLayout>
+
+</FrameLayout>
