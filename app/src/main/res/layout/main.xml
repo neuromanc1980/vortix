@@ -68,15 +68,15 @@
         <TextView
             android:text="100"
             android:gravity="right"
-            android:layout_width="23dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:layout_marginStart="145dp"
-            android:layout_marginTop="93dp"
+            android:layout_marginTop="91dp"
             android:textStyle="bold"
             android:id="@+id/escudonave"
             android:textColor="@android:color/holo_blue_light"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/lvlEnJuego"
@@ -106,29 +106,29 @@
         <TextView
             android:text="0"
             android:gravity="right"
-            android:layout_width="23dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="206dp"
+            android:layout_marginTop="204dp"
             android:id="@+id/monedas"
             android:textStyle="bold"
             android:textColor="@android:color/holo_orange_light"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
 
         <TextView
             android:text="100"
             android:gravity="right"
-            android:layout_width="23dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:layout_marginStart="145dp"
-            android:layout_marginTop="206dp"
+            android:layout_marginTop="204dp"
             android:id="@+id/fuel"
             android:textStyle="bold"
-            android:textColor="@android:color/holo_purple"
-            android:textSize="12sp" />
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="14sp" />
 
         <pl.droidsonroids.gif.GifTextView
             android:id="@+id/rayo"
@@ -154,15 +154,15 @@
         <TextView
             android:text="100"
             android:gravity="right"
-            android:layout_width="23dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="93dp"
+            android:layout_marginTop="91dp"
             android:id="@+id/vidaNave"
             android:textStyle="bold"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/info"

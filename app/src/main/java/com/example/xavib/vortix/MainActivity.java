@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer effect;
     boolean newGame;
     public MediaPlayer song;
-    private int length=0, highscore, score, credits, maxEnergy;
+    private int length=0, highscore, score, credits, maxEnergy, maxHp, maxShields;
     TextView mensaje;
 
 
@@ -83,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
         ed.putInt("HighScore", highscore);
         ed.putInt("Score", score);
         ed.putInt("Credits", credits);
-        ed.putInt("MaxEnergy", maxEnergy);
+        ed.putInt("MaxEnergy", playerShip.getMaxenergy());
+        ed.putInt("MaxShields", playerShip.getMaxshields());
+        ed.putInt("MaxHp", playerShip.getMaxhp());
+        ed.putInt("Energy", playerShip.getEnergy());
         song.pause();
         length = song.getCurrentPosition();
 
@@ -113,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
         int levelSaved = gameData.getInt("Level", 1);
         int shipCredits = gameData.getInt("Credits", 0);
         int maxEnergy = gameData.getInt("MaxEnergy", 100);
+        int energy = gameData.getInt("Energy", 100);
+        int maxShields = gameData.getInt("MaxShields", 100);
+        int maxhp = gameData.getInt("MaxHp", 100);
         highscore = gameData.getInt("HighScore", 0);
         score = gameData.getInt("Score", 0);
         gameState.setLevel(new Level(levelSaved));
@@ -124,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
         playerShip.setShipX(shipX);           playerShip.setShipZ(shipZ);
         playerShip.setHp(shipHP);             playerShip.setScanner(shipScanner);
         playerShip.setShields(shipShield);    playerShip.setCredits(shipCredits);
-        playerShip.setMaxenergy(maxEnergy);
+        playerShip.setMaxenergy(maxEnergy);   playerShip.setMaxhp(maxhp);
+        playerShip.setMaxshields(maxShields); playerShip.setEnergy(energy);
 
         //construim el nivell en funció a les dades que carreguem
         this.level = new Level(levelSaved);
@@ -146,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
         playerShip.setHp(100);             playerShip.setScanner(1);
         playerShip.setShields(100);        playerShip.setEngine(1);
         playerShip.setCredits(0);          playerShip.setMaxenergy(100);
+        playerShip.setMaxshields(100);     playerShip.setMaxhp(100);
+        playerShip.setEnergy(100);
 
         gameState.setLevel(level);
         gameState.updateShip(playerShip);
@@ -221,8 +230,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void infoBox(String message){
         mensaje.setText(message);
+    }
+
+    public void updateFuel(){
+
+        int fuelCost;
+        fuelCost = 5 - gameState.getPlayerShip().getEngine();
+        if (fuelCost < 1) fuelCost = 1;
+
+        //si està regenerant escuts
+        if (gameState.getPlayerShip().getShields()<gameState.getPlayerShip().getMaxshields()){
+            fuelCost = fuelCost + 1;
+            gameState.getPlayerShip().setShields(gameState.getPlayerShip().getShields()+gameState.getPlayerShip().getEngine());
+            if (gameState.getPlayerShip().getShields()>gameState.getPlayerShip().getMaxshields()){
+                gameState.getPlayerShip().setShields(gameState.getPlayerShip().getMaxshields());
+            }
+        }
+
+       gameState.getPlayerShip().setEnergy(gameState.getPlayerShip().getEnergy()-fuelCost);
 
     }
+
 }
 
 

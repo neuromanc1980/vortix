@@ -123,12 +123,13 @@ public class GridView extends View{
 
         super.draw(canvas);
         if (gameState == null) return;
-        this.postInvalidateDelayed(50); //taxa de refresc
+        this.postInvalidateDelayed(150); //taxa de refresc
 
         //gameState = mainActivity.getGameState();    //carreguem gameState
 
         if (!built) {
             built = true;       //només construirem una vegada
+
 
             Log.d("xxx", "\nBuilding grid level: "   + gameState.getLevel().getLevel()         );
 
@@ -169,6 +170,8 @@ public class GridView extends View{
             blur.setStyle(Paint.Style.FILL);
             blur.setColor(Color.DKGRAY);
             blur.setAlpha(200);
+
+            mainActivity.refreshStats();
 
             for (Hexagon hexagon : hexas) {
                 HexagonSatelliteData dataInicial = new HexagonSatelliteData();
@@ -292,14 +295,20 @@ public class GridView extends View{
         }
 
         //col.loquem el portal en una casella invisible si no està colocat ja
+
+        if (!level.isStationPlaced()){
+            placeStation(hexas);
+            level.setStationPlaced(true);
+        }
+
         if (!level.isPortalPlaced()){
             Log.d("xxx", "\nPortal is not placed yet, placing it.....: ");
             placePortal(hexas);
-            placeStation(hexas);
             level.setPortalPlaced(true);
-            level.setStationPlaced(true);
             placeElements(hexas);
         }
+
+
 
 
     }
@@ -333,8 +342,10 @@ public class GridView extends View{
 
                     if (dataTouched.get().isMoveable()){ //ens movem a la casella
 
+
+                        mainActivity.updateFuel();
                         mainActivity.infoBox("");   //netejem text box
-                        gameState.getPlayerShip().setEnergy(gameState.getPlayerShip().getEnergy()-5+gameState.getPlayerShip().getEngine());
+                        //gameState.getPlayerShip().setEnergy(gameState.getPlayerShip().getEnergy()-5+gameState.getPlayerShip().getEngine());
 
                         //coordinades cúbiques origen i destí
                         int origenX = playerShip.getShipX();                    int origenZ = playerShip.getShipZ();
@@ -473,7 +484,7 @@ public class GridView extends View{
         Hexagon hexa = lista.get(pos);
         HexagonSatelliteData data = (HexagonSatelliteData) hexa.getSatelliteData().get();
 
-        while (data.isVisible()){   //reroll de hexàgon si resulta que era visible
+        while (data.isVisible() && data.getElement() == null){   //reroll de hexàgon si resulta que era visible i no te portal
             r = new Random();
             pos = r.nextInt(lista.size() - 1) + 1;
             hexa = lista.get(pos);

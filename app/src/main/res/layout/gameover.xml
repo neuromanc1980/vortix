@@ -34,14 +34,14 @@
         android:layout_marginBottom="20dp"  >
 
         <Button
-        android:id="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        style="@android:style/Widget.Button.Transparent"
-        android:layout_width="150dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom|center_horizontal"
-        android:text="Return" />
+            android:id="@+id/returnutton"
+            style="CodeFont.Red.Big"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="Return" />
 
 
 
