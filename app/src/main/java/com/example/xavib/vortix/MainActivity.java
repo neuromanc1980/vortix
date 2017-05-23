@@ -2,16 +2,25 @@ package com.example.xavib.vortix;
 
 //activitat principal del joc
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.Image;
 import android.media.MediaPlayer;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.puppycrawl.tools.checkstyle.Main;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         mensaje = (TextView) findViewById(R.id.info);
 
         //refreshStats();
-
+        highscore = gameState.getLevel().getLevel();
 
 
     }
@@ -68,10 +77,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor ed = prefs.edit();
         playerShip = gameState.getPlayerShip();
         level = gameState.getLevel();
+        highscore = gameState.getLevel().getLevel();
         ed.putInt("ShipX", playerShip.getShipX());
         ed.putInt("ShipZ", playerShip.getShipZ());
         ed.putInt("ShipHP", playerShip.getHp());
@@ -80,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
         ed.putInt("ShipEngine", playerShip.getEngine());
         ed.putInt("Imatge", playerShip.getImatge());
         ed.putInt("Level", level.getLevel());
-        ed.putInt("HighScore", highscore);
+        int maxScore = prefs.getInt("HighScore", 0);
+        if (maxScore < highscore)   {      ed.putInt("HighScore", 5);             }
         ed.putInt("Score", score);
         ed.putInt("Credits", credits);
         ed.putInt("MaxEnergy", playerShip.getMaxenergy());
@@ -105,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadGameData(){
 
         //carreguem dades
-        SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int shipX = gameData.getInt("ShipX", gameState.getLevel().getStartingX());
         int shipZ = gameData.getInt("ShipZ", gameState.getLevel().getStartingZ());
         int shipHP = gameData.getInt("ShipHP", 100);
@@ -250,6 +261,54 @@ public class MainActivity extends AppCompatActivity {
        gameState.getPlayerShip().setEnergy(gameState.getPlayerShip().getEnergy()-fuelCost);
 
     }
+
+    public void gameOver(){
+
+        //highscore check
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor ed = prefs.edit();
+
+        highscore = gameState.getLevel().getLevel();
+
+        int maxScore = prefs.getInt("HighScore", 0);
+        if (maxScore < highscore)   {
+            ed.putInt("HighScore", highscore);
+            ed.commit();
+        }
+
+        //dialog
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.gameover);
+        dialog.setTitle("Title...");
+
+        TextView text = (TextView) dialog.findViewById(R.id.levelReached);
+        text.setFocusable(false);
+        text.setClickable(true);
+        highscore = gameState.getLevel().getLevel();
+        text.setText(""+highscore);
+
+        ImageView image = (ImageView) dialog.findViewById(R.id.gameOverBackground);
+        image.setImageResource(R.drawable.gameover);
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.returnutton);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newGameData();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+
+
 
 }
 

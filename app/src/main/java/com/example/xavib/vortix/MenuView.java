@@ -2,13 +2,19 @@ package com.example.xavib.vortix;
 
 //vista del menú
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 public class MenuView extends View {
@@ -55,10 +61,39 @@ public class MenuView extends View {
                  Intent intent = new Intent(getContext(), MainActivity.class);
                  intent.putExtra("new", false);
                  getContext().startActivity(intent);
+
              }
 
              if ((relative_y > 37) && (relative_y < 46)){
                  Log.d("xxx", "score");
+                 //carreguem dades
+                 SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this.getContext().getApplicationContext());
+                 int highscore = gameData.getInt("HighScore",0);
+
+                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(super.getContext());
+
+                 final Dialog dialog = new Dialog(super.getContext());
+                 dialog.setContentView(R.layout.gameover);
+                 dialog.setTitle("Title...");
+
+                 TextView text = (TextView) dialog.findViewById(R.id.levelReached);
+                 text.setFocusable(false);
+                 text.setClickable(true);
+                 text.setText(""+highscore);
+
+                 ImageView image = (ImageView) dialog.findViewById(R.id.gameOverBackground);
+                 image.setImageResource(R.drawable.gameover);
+
+                 Button dialogButton = (Button) dialog.findViewById(R.id.returnutton);
+                 // tanquem dialog al clicar
+                 dialogButton.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {
+                         dialog.dismiss();
+                     }
+                 });
+
+                 dialog.show();
              }
 
              if ((relative_y > 50) && (relative_y < 59)){

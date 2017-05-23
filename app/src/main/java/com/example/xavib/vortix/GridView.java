@@ -436,6 +436,7 @@ public class GridView extends View{
                 break;
         }
         mainActivity.refreshStats();
+        gameOver();
         return true; //rebem array de punts de contacte i si tenen esdeveniment down, move, up
     }
 
@@ -601,5 +602,11 @@ public class GridView extends View{
     public MainActivity getMainActivity() {        return mainActivity;    }
     public void setMainActivity(MainActivity mainActivity) {        this.mainActivity = mainActivity;    }
     public Optional<Hexagon> shipHexagon(Ship ship) {    Optional<Hexagon> position = grid.getByCubeCoordinate(ship.getCoordinates());  return position;               }
+
+    public void gameOver(){
+        if (gameState.getPlayerShip().getHp() <= 0 || gameState.getPlayerShip().getEnergy() <= 0){
+            mainActivity.gameOver();
+        }
+    }
 
 }
