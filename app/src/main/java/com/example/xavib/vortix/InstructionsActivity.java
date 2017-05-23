@@ -60,8 +60,11 @@ public class InstructionsActivity extends Activity{
                 else if (currentImage == 3){
                     rl.setImageResource(R.drawable.instrucciones4);
                 }
-                if (currentImage>3){
-                    currentImage = 3;
+                else if (currentImage == 4){
+                    rl.setImageResource(R.drawable.instrucciones5);
+                }
+                if (currentImage>4){
+                    currentImage = 4;
                 }
             }
         };
@@ -86,8 +89,11 @@ public class InstructionsActivity extends Activity{
                 rl.setImageResource(R.drawable.instrucciones4);
 
             }
+            else if (currentImage == 4){
+                    rl.setImageResource(R.drawable.instrucciones5);
+                }
             if (currentImage<0){
-                currentImage = 0;
+                    currentImage = 0;
             }
 
         }
