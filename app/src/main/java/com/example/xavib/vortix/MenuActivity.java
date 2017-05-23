@@ -40,9 +40,6 @@ public class MenuActivity extends AppCompatActivity {
         length=song.getCurrentPosition();
     }
 
-    public SharedPreferences obtainPreferences(){
-        SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this);
-        return gameData;
-    }
+
 
 }

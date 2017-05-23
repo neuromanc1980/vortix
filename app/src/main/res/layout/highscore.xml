@@ -8,7 +8,7 @@
         android:id="@+id/gameOverBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/gameover" />
+        app:srcCompat="@drawable/score" />
 
     <EditText
         android:id="@+id/levelReached"

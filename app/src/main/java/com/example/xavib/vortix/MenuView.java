@@ -75,7 +75,7 @@ public class MenuView extends View {
 
                  //creem un dialog
                  final Dialog dialog = new Dialog(super.getContext());
-                 dialog.setContentView(R.layout.gameover);
+                 dialog.setContentView(R.layout.highscore);
 
                  //treiem el marc
                  dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
