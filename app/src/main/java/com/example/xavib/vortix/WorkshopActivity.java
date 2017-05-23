@@ -18,7 +18,7 @@ public class WorkshopActivity extends AppCompatActivity {
         setContentView(R.layout.workshop);
 
         eng = (ImageView) findViewById(R.id.imageView);
-        eng.setImageResource(R.drawable.shipbgengine);
+        //eng.setImageResource(R.drawable.shi);
 
     }
 

@@ -6,12 +6,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,16 +69,19 @@ public class MenuView extends View {
 
              if ((relative_y > 37) && (relative_y < 46)){
                  Log.d("xxx", "score");
-                 //carreguem dades
+                 //carreguem dades per mostrar el highscore
                  SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this.getContext().getApplicationContext());
                  int highscore = gameData.getInt("HighScore",0);
 
-                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(super.getContext());
-
+                 //creem un dialog
                  final Dialog dialog = new Dialog(super.getContext());
                  dialog.setContentView(R.layout.gameover);
-                 dialog.setTitle("Title...");
 
+                 //treiem el marc
+                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                 dialog.setTitle("");
+
+                 //customitzem el dialog
                  TextView text = (TextView) dialog.findViewById(R.id.levelReached);
                  text.setFocusable(false);
                  text.setClickable(true);

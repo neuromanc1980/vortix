@@ -5,6 +5,8 @@ package com.example.xavib.vortix;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
@@ -281,7 +283,10 @@ public class MainActivity extends AppCompatActivity {
 
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.gameover);
-        dialog.setTitle("Title...");
+
+        //treiem el marc
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setTitle("");
 
         TextView text = (TextView) dialog.findViewById(R.id.levelReached);
         text.setFocusable(false);
@@ -293,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
         image.setImageResource(R.drawable.gameover);
 
         Button dialogButton = (Button) dialog.findViewById(R.id.returnutton);
-        // if button is clicked, close the custom dialog
+        // tanquem dialeg on a click
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
