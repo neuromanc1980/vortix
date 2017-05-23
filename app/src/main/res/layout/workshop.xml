@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-   android:orientation="vertical"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10">
@@ -22,265 +22,265 @@
         android:layout_height="match_parent"
         android:weightSum="4">
 
-    <!--/Columna 1-->
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:weightSum="20">
-
-
+        <!--/Columna 1-->
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/engine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/engine" />
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6">
+            android:layout_weight="1"
+            android:weightSum="20">
 
-            <TextView
-                android:id="@+id/enginetxt"
-                android:layout_width="wrap_content"
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/engine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/engine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                android:layout_weight="6">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/enginetxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6">
-
-            <Button
-                android:id="@+id/enginebtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Upgrade" />
-
-        </LinearLayout>
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:layout_height="match_parent">
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <!--/Columna 2-->
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:weightSum="20">
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/shield"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/engine" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6">
-
-            <TextView
-                android:id="@+id/shieldtxt"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                android:layout_weight="6">
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/enginebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upgrade" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6">
-
-            <Button
-                android:id="@+id/shieldbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Upgrade" />
-
-        </LinearLayout>
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:layout_height="match_parent">
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <!--/Columna 3-->
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:weightSum="20">
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/scanner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/engine" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6">
-
-            <TextView
-                android:id="@+id/scannertxt"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                android:layout_weight="4"></LinearLayout>
+
 
         </LinearLayout>
 
 
+        <!--/Columna 2-->
+
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6">
-
-            <Button
-                android:id="@+id/scannerbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Upgrade" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"></LinearLayout>
-
-
-    </LinearLayout>
-
-    <!--/Columna 4-->
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:weightSum="20">
+            android:layout_weight="1"
+            android:weightSum="20">
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/vidahp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/engine" />
+                <ImageView
+                    android:id="@+id/shield"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/engine" />
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6">
-
-            <TextView
-                android:id="@+id/vidahptxt"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                android:layout_weight="6">
+
+                <TextView
+                    android:id="@+id/shieldtxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6">
+
+                <Button
+                    android:id="@+id/shieldbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upgrade" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="match_parent">
+            </LinearLayout>
+
 
         </LinearLayout>
 
+        <!--/Columna 3-->
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6">
+            android:layout_weight="1"
+            android:weightSum="20">
 
-            <Button
-                android:id="@+id/vidahpbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Upgrade" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/scanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/engine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6">
+
+                <TextView
+                    android:id="@+id/scannertxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6">
+
+                <Button
+                    android:id="@+id/scannerbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upgrade" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="match_parent">
+            </LinearLayout>
+
 
         </LinearLayout>
 
+        <!--/Columna 4-->
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="20">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/vidahp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/engine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6">
+
+                <TextView
+                    android:id="@+id/vidahptxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6">
+
+                <Button
+                    android:id="@+id/vidahpbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upgrade" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="match_parent">
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
-    </LinearLayout>
 
 
     </LinearLayout>
