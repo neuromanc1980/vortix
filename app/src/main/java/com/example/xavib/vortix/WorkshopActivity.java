@@ -29,8 +29,6 @@ public class WorkshopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.workshop);
 
-        gameState = new GameState();
-
         setContentView(R.layout.workshop);
 
         //botons
@@ -92,16 +90,16 @@ public class WorkshopActivity extends AppCompatActivity {
         //costos
         scannerCost = shipScanner*250;
 
-        hullText.setText("Upgrade plating cost: "+scannerCost);
-        hullDesc.setText("This is the amount of damage your ship can take. \n Current hull points: "+shipHP+"\nMaximum hull points: "+maxHp);
+        hullText.setText("Upgrade cost: "+hullCost);
+        hullDesc.setText("The damage your ship can take. \n Current points: "+shipHP+"\nMaximum points: "+maxHp);
 
-        scannerText.setText("Upgrade scanner cost: "+scannerCost);
+        scannerText.setText("Upgrade cost: "+scannerCost);
         scannerDesc.setText("How far you can detect objects in space. \n Current scanner range: "+shipScanner);
 
-        shieldText.setText("Upgrade shields cost: "+scannerCost);
+        shieldText.setText("Upgrade cost: "+shieldCost);
         shieldDesc.setText("Shields absorb damage and regenerate slowly. \n Current shield points: "+shipHP+"\nMaximum shield points: "+maxHp);
 
-        engineText.setText("Upgrade engine cost: "+scannerCost);
+        engineText.setText("Upgrade cost: "+engineCost);
         engineDesc.setText("Improving engine reduces energy cost of movement and increases shields regeneration. \n Current movement cost: "+(6-shipEngine)+"\nShield regeneration: "+shipEngine);
 
 
