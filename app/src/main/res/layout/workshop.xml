@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/workshopbg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/shipbgengine" />
+
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_weight="9"
         android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="money"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp" />
+
+
     </LinearLayout>
+
+
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,13 +57,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="20">
+            android:weightSum="30">
 
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="7"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/nombreengine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="ENGINE"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="5"
                 android:layout_height="match_parent">
 
                 <ImageView
@@ -49,15 +95,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <TextView
                     android:id="@+id/enginetxt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="HOLIIIIIII"
                     android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -66,7 +113,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <Button
                     android:id="@+id/enginebtn"
@@ -81,7 +128,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4"></LinearLayout>
+                android:layout_weight="5">
+
+                <TextView
+                    android:id="@+id/enginedesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="91dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="@android:color/background_light" />
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -94,35 +150,54 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="20">
+            android:weightSum="30">
 
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="7"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/nombreshield"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="SHIELD"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="5"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/shield"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/engine" />
+                    app:srcCompat="@raw/shieldgenerator2" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <TextView
                     android:id="@+id/shieldtxt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="HOLIIIIIII"
                     android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -131,7 +206,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <Button
                     android:id="@+id/shieldbtn"
@@ -145,13 +220,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="4"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="5">
+
+
+                <TextView
+                    android:id="@+id/shielddesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="91dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="@android:color/background_light" />
             </LinearLayout>
 
 
         </LinearLayout>
-
         <!--/Columna 3-->
 
         <LinearLayout
@@ -159,35 +242,54 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="20">
+            android:weightSum="30">
 
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="7"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/nombrescanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="SCANNER"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="5"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/scanner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/engine" />
+                    app:srcCompat="@raw/scanner" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <TextView
                     android:id="@+id/scannertxt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="HOLIIIIIII"
                     android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -196,7 +298,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <Button
                     android:id="@+id/scannerbtn"
@@ -210,8 +312,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="4"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="5">
+
+                <TextView
+                    android:id="@+id/scannerdesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="91dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="@android:color/background_light" />
             </LinearLayout>
 
 
@@ -224,13 +334,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="20">
+            android:weightSum="30">
 
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="7"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/nombrevidahp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="HP"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="5"
                 android:layout_height="match_parent">
 
                 <ImageView
@@ -244,15 +372,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <TextView
                     android:id="@+id/vidahptxt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="HOLIIIIIII"
                     android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -261,7 +390,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6">
+                android:layout_weight="6.5">
 
                 <Button
                     android:id="@+id/vidahpbtn"
@@ -275,8 +404,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="4"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="5">
+
+                <TextView
+                    android:id="@+id/vidahpdesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="91dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="@android:color/background_light" />
             </LinearLayout>
 
 
@@ -285,4 +422,8 @@
 
     </LinearLayout>
 
+
+
 </LinearLayout>
+
+</FrameLayout>
