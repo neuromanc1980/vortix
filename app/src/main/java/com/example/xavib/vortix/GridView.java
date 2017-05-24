@@ -542,7 +542,7 @@ public class GridView extends View{
             }
 
         //-----------------------------------------------   MINERALS   ------------------------------------------------
-        int mineralsNumber = r.nextInt(gameState.getLevel().getLevel()/3 +1) + 1;
+        int mineralsNumber = r.nextInt(gameState.getLevel().getLevel()/3 +3) + 1;
 
         Log.d("xxx", "\nPlacing "+mineralsNumber+" minerals " );
 
@@ -570,7 +570,7 @@ public class GridView extends View{
         }
 
         //-----------------------------------------------   NEBULA   ------------------------------------------------
-        int nebulaNumber = r.nextInt(gameState.getLevel().getLevel()/3 +1) + 1;
+        int nebulaNumber = r.nextInt(gameState.getLevel().getLevel()/3 +3) + 1;
 
         Log.d("xxx", "\nPlacing "+nebulaNumber+" minerals " );
 

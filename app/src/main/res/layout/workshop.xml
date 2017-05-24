@@ -132,7 +132,10 @@
                         android:layout_height="91dp"
                         android:layout_weight="1"
                         android:text="TextView"
-                        android:textColor="@android:color/background_light" />
+                        android:textAlignment="center"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -225,7 +228,10 @@
                         android:layout_height="91dp"
                         android:layout_weight="1"
                         android:text="TextView"
-                        android:textColor="@android:color/background_light" />
+                        android:textAlignment="center"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -315,7 +321,10 @@
                         android:layout_height="91dp"
                         android:layout_weight="1"
                         android:text="TextView"
-                        android:textColor="@android:color/background_light" />
+                        android:textAlignment="center"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -341,7 +350,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="HP"
+                        android:text="PLATING"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp" />
@@ -358,7 +367,7 @@
                         android:id="@+id/hull"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/engine" />
+                        app:srcCompat="@drawable/plating" />
 
                 </LinearLayout>
 
@@ -406,7 +415,10 @@
                         android:layout_height="91dp"
                         android:layout_weight="1"
                         android:text="TextView"
-                        android:textColor="@android:color/background_light" />
+                        android:textAlignment="center"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
 

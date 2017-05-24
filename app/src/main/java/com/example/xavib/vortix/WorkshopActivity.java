@@ -18,10 +18,10 @@ public class WorkshopActivity extends AppCompatActivity {
     ImageView eng;
     public GameState gameState;
     public MediaPlayer song;
-    private int length = 0;
-    private Button engineButton, scannerButton, shieldButton, hullButton;
-    private TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc;
-    private int engineCost, hullCost, shieldCost, scannerCost;
+    public int length = 0;
+    public Button engineButton, scannerButton, shieldButton, hullButton;
+    public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc;
+    public int engineCost, hullCost, shieldCost, scannerCost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,8 @@ public class WorkshopActivity extends AppCompatActivity {
         setContentView(R.layout.workshop);
 
         gameState = new GameState();
-        loadStats();
+
+        setContentView(R.layout.workshop);
 
         //botons
         engineButton = (Button) findViewById(R.id.enginebtn);
@@ -38,14 +39,16 @@ public class WorkshopActivity extends AppCompatActivity {
         hullButton = (Button) findViewById(R.id.hullbtn);
 
         //text boxes
-        TextView engineText = (TextView) findViewById(R.id.enginetxt);               TextView scannerText = (TextView) findViewById(R.id.scannertxt);
-        TextView shieldText = (TextView) findViewById(R.id.shieldtxt);               TextView hullText = (TextView) findViewById(R.id.hulltxt);
-        TextView engineDesc = (TextView) findViewById(R.id.enginedesc);              TextView scannerDesc = (TextView) findViewById(R.id.scannerdesc);
-        TextView shieldDesc = (TextView) findViewById(R.id.shielddesc);              TextView hullDesc = (TextView) findViewById(R.id.hulldesc);
+         engineText = (TextView) findViewById(R.id.enginetxt);                scannerText = (TextView) findViewById(R.id.scannertxt);
+         shieldText = (TextView) findViewById(R.id.shieldtxt);                hullText = (TextView) findViewById(R.id.hulltxt);
+         engineDesc = (TextView) findViewById(R.id.enginedesc);               scannerDesc = (TextView) findViewById(R.id.scannerdesc);
+         shieldDesc = (TextView) findViewById(R.id.shielddesc);               hullDesc = (TextView) findViewById(R.id.hulldesc);
 
         //background
         eng = (ImageView) findViewById(R.id.workshopbg);
         eng.setImageResource(R.drawable.shipbgengine);
+
+
 
     }
 
@@ -57,6 +60,7 @@ public class WorkshopActivity extends AppCompatActivity {
         song.seekTo(length);
         song.setLooping(true);
         song.start();
+        loadStats();
     }
 
     @Override
@@ -86,6 +90,16 @@ public class WorkshopActivity extends AppCompatActivity {
         scannerCost = shipScanner*250;
 
         hullText.setText("Upgrade plating cost: "+scannerCost);
+        hullDesc.setText("This is the amount of damage your ship can take. \n Current hull points: "+shipHP+"\nMaximum hull points: "+maxHp);
+
+        scannerText.setText("Upgrade scanner cost: "+scannerCost);
+        scannerDesc.setText("How far you can detect objects in space. \n Current scanner range: "+shipScanner);
+
+        shieldText.setText("Upgrade shields cost: "+scannerCost);
+        shieldDesc.setText("Shields absorb damage and regenerate slowly. \n Current shield points: "+shipHP+"\nMaximum shield points: "+maxHp);
+
+        engineText.setText("Upgrade engine cost: "+scannerCost);
+        engineDesc.setText("Improving engine reduces energy cost of movement and increases shields regeneration. \n Current movement cost: "+(6-shipEngine)+"\nShield regeneration: "+shipEngine);
 
 
 
