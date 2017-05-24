@@ -362,7 +362,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/vidahp"
+                    android:id="@+id/hull"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/engine" />
@@ -375,7 +375,7 @@
                 android:layout_weight="6.5">
 
                 <TextView
-                    android:id="@+id/vidahptxt"
+                    android:id="@+id/hulltxt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -393,7 +393,7 @@
                 android:layout_weight="6.5">
 
                 <Button
-                    android:id="@+id/vidahpbtn"
+                    android:id="@+id/hullbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -408,7 +408,7 @@
                 android:layout_weight="5">
 
                 <TextView
-                    android:id="@+id/vidahpdesc"
+                    android:id="@+id/hulldesc"
                     android:layout_width="wrap_content"
                     android:layout_height="91dp"
                     android:layout_weight="1"
