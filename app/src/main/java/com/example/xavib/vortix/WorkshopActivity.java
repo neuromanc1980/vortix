@@ -21,7 +21,7 @@ public class WorkshopActivity extends AppCompatActivity {
     public MediaPlayer song;
     public int length = 0;
     public Button engineButton, scannerButton, shieldButton, hullButton;
-    public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc;
+    public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc, money;
     public int engineCost, hullCost, shieldCost, scannerCost;
 
     @Override
@@ -47,6 +47,9 @@ public class WorkshopActivity extends AppCompatActivity {
         eng = (ImageView) findViewById(R.id.workshopbg);
         eng.setImageResource(R.drawable.workshopbg);
 
+        //superior
+
+        money = (TextView) findViewById(R.id.money);
 
 
     }
@@ -89,6 +92,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
         //costos
         scannerCost = shipScanner*250;
+        engineCost = shipEngine*350;
 
         hullText.setText("Upgrade cost: "+hullCost);
         hullDesc.setText("The damage your ship can take. \n Current points: "+shipHP+"\nMaximum points: "+maxHp);
@@ -102,10 +106,11 @@ public class WorkshopActivity extends AppCompatActivity {
         engineText.setText("Upgrade cost: "+engineCost);
         engineDesc.setText("Improving engine reduces energy cost of movement and increases shields regeneration. \n Current movement cost: "+(6-shipEngine)+"\nShield regeneration: "+shipEngine);
 
+        money.setText(""+shipCredits);
 
-        engineCost = shipEngine*350;
 
-        engineText.setText("Upgrad engine cost: "+engineCost);
+
+
 
 
         engineButton.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +128,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
                 else {
 
-                    engineText.setText("You do not have enought coins to upgrade! ");
+                    engineText.setText("Not enough credits! ");
                 }
 
 
