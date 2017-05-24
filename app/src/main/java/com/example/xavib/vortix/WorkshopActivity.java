@@ -1,7 +1,9 @@
 package com.example.xavib.vortix;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,15 +16,20 @@ import android.widget.TextView;
 public class WorkshopActivity extends AppCompatActivity {
 
     ImageView eng;
+    public GameState gameState;
     public MediaPlayer song;
     private int length = 0;
     private Button engineButton, scannerButton, shieldButton, hullButton;
     private TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc;
+    private int engineCost, hullCost, shieldCost, scannerCost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.workshop);
+
+        gameState = new GameState();
+        loadStats();
 
         //botons
         engineButton = (Button) findViewById(R.id.enginebtn);
@@ -59,6 +66,30 @@ public class WorkshopActivity extends AppCompatActivity {
         length=song.getCurrentPosition();
     }
 
+    public void loadStats(){
+        //carreguem dades
+        SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int shipHP = gameData.getInt("ShipHP", 100);
+        int maxHp = gameData.getInt("MaxHp", 100);
 
+        int shipShield = gameData.getInt("ShipShield", 100);
+        int maxShields = gameData.getInt("MaxShields", 100);
+
+        int shipScanner = gameData.getInt("ShipScanner", 1);
+        int shipEngine = gameData.getInt("ShipEngine", 1);
+        int shipCredits = gameData.getInt("Credits", 0);
+
+        int energy = gameData.getInt("Energy", 100);
+        int maxEnergy = gameData.getInt("MaxEnergy", 100);
+
+        //costos
+        scannerCost = shipScanner*250;
+
+        hullText.setText("Upgrade plating cost: "+scannerCost);
+
+
+
+
+    }
 
 }

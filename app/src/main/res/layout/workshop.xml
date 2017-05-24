@@ -12,408 +12,404 @@
         android:layout_height="match_parent"
         app:srcCompat="@drawable/shipbgengine" />
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="10">
-
-
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_weight="9"
-        android:layout_height="match_parent">
-
-
-        <TextView
-            android:id="@+id/money"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="money"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp" />
-
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="horizontal"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="4">
+        android:orientation="vertical"
+        android:weightSum="10">
 
-        <!--/Columna 1-->
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:weightSum="30">
+            android:layout_weight="9">
 
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="7"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/nombreengine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="ENGINE"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="5"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/engine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/engine" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/money"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="6.5">
-
-                <TextView
-                    android:id="@+id/enginetxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="HOLIIIIIII"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6.5">
-
-                <Button
-                    android:id="@+id/enginebtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Upgrade" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="5">
-
-                <TextView
-                    android:id="@+id/enginedesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="91dp"
-                    android:layout_weight="1"
-                    android:text="TextView"
-                    android:textColor="@android:color/background_light" />
-            </LinearLayout>
+                android:layout_weight="1"
+                android:text="money"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp" />
 
 
         </LinearLayout>
 
 
-        <!--/Columna 2-->
-
-        <LinearLayout
-            android:orientation="vertical"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="30">
+            android:orientation="horizontal"
+            android:weightSum="4">
 
-
+            <!--/Columna 1-->
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="7"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="30">
 
-                <TextView
-                    android:id="@+id/nombreshield"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="SHIELD"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp" />
+                    android:layout_weight="7">
+
+                    <TextView
+                        android:id="@+id/nombreengine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="ENGINE"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp" />
 
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="5"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/shield"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@raw/shieldgenerator2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6.5">
-
-                <TextView
-                    android:id="@+id/shieldtxt"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="HOLIIIIIII"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="14sp" />
+                    android:layout_weight="5">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/engine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/engine" />
 
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6.5">
-
-                <Button
-                    android:id="@+id/shieldbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Upgrade" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="5">
-
-
-                <TextView
-                    android:id="@+id/shielddesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="91dp"
-                    android:layout_weight="1"
-                    android:text="TextView"
-                    android:textColor="@android:color/background_light" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-        <!--/Columna 3-->
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:weightSum="30">
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="7"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/nombrescanner"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="SCANNER"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp" />
+                    android:layout_weight="6.5">
+
+                    <TextView
+                        android:id="@+id/enginetxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="HOLIIIIIII"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
 
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="5"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/scanner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@raw/scanner" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6.5">
-
-                <TextView
-                    android:id="@+id/scannertxt"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="HOLIIIIIII"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="14sp" />
+                    android:layout_weight="6.5">
 
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/enginebtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Upgrade" />
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6.5">
-
-                <Button
-                    android:id="@+id/scannerbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Upgrade" />
-
-            </LinearLayout>
+                </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="5">
-
-                <TextView
-                    android:id="@+id/scannerdesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="91dp"
-                    android:layout_weight="1"
-                    android:text="TextView"
-                    android:textColor="@android:color/background_light" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <!--/Columna 4-->
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:weightSum="30">
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="7"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/nombrevidahp"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="HP"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp" />
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/enginedesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="91dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="@android:color/background_light" />
+                </LinearLayout>
 
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="5"
-                android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/hull"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/engine" />
-
-            </LinearLayout>
+            <!--/Columna 2-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6.5">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="30">
 
-                <TextView
-                    android:id="@+id/hulltxt"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="HOLIIIIIII"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="14sp" />
+                    android:layout_weight="7">
+
+                    <TextView
+                        android:id="@+id/nombreshield"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="SHIELD"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <ImageView
+                        android:id="@+id/shield"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@raw/shieldgenerator2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6.5">
+
+                    <TextView
+                        android:id="@+id/shieldtxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="HOLIIIIIII"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6.5">
+
+                    <Button
+                        android:id="@+id/shieldbtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Upgrade" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+
+                    <TextView
+                        android:id="@+id/shielddesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="91dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="@android:color/background_light" />
+                </LinearLayout>
+
 
             </LinearLayout>
-
+            <!--/Columna 3-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="6.5">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="30">
 
-                <Button
-                    android:id="@+id/hullbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Upgrade" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7">
+
+                    <TextView
+                        android:id="@+id/nombrescanner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="SCANNER"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <ImageView
+                        android:id="@+id/scanner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@raw/scanner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6.5">
+
+                    <TextView
+                        android:id="@+id/scannertxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="HOLIIIIIII"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6.5">
+
+                    <Button
+                        android:id="@+id/scannerbtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Upgrade" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/scannerdesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="91dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="@android:color/background_light" />
+                </LinearLayout>
+
 
             </LinearLayout>
 
+            <!--/Columna 4-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="30">
 
-                <TextView
-                    android:id="@+id/hulldesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="91dp"
-                    android:layout_weight="1"
-                    android:text="TextView"
-                    android:textColor="@android:color/background_light" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7">
+
+                    <TextView
+                        android:id="@+id/nombrevidahp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="HP"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <ImageView
+                        android:id="@+id/hull"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/engine" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6.5">
+
+                    <TextView
+                        android:id="@+id/hulltxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="HOLIIIIIII"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6.5">
+
+                    <Button
+                        android:id="@+id/hullbtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Upgrade" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/hulldesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="91dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="@android:color/background_light" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
 
@@ -421,9 +417,5 @@
 
 
     </LinearLayout>
-
-
-
-</LinearLayout>
 
 </FrameLayout>
