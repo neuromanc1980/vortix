@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
         //background
         eng = (ImageView) findViewById(R.id.workshopbg);
-        eng.setImageResource(R.drawable.shipbgengine);
+        eng.setImageResource(R.drawable.workshopbg);
 
 
 
@@ -72,7 +73,9 @@ public class WorkshopActivity extends AppCompatActivity {
 
     public void loadStats(){
         //carreguem dades
-        SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
+        final SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int shipHP = gameData.getInt("ShipHP", 100);
         int maxHp = gameData.getInt("MaxHp", 100);
 
@@ -80,8 +83,8 @@ public class WorkshopActivity extends AppCompatActivity {
         int maxShields = gameData.getInt("MaxShields", 100);
 
         int shipScanner = gameData.getInt("ShipScanner", 1);
-        int shipEngine = gameData.getInt("ShipEngine", 1);
-        int shipCredits = gameData.getInt("Credits", 0);
+        final int shipEngine = gameData.getInt("ShipEngine", 1);
+        final int shipCredits = gameData.getInt("Credits", 0);
 
         int energy = gameData.getInt("Energy", 100);
         int maxEnergy = gameData.getInt("MaxEnergy", 100);
@@ -100,6 +103,36 @@ public class WorkshopActivity extends AppCompatActivity {
 
         engineText.setText("Upgrade engine cost: "+scannerCost);
         engineDesc.setText("Improving engine reduces energy cost of movement and increases shields regeneration. \n Current movement cost: "+(6-shipEngine)+"\nShield regeneration: "+shipEngine);
+
+
+        engineCost = shipEngine*350;
+
+        engineText.setText("Upgrad engine cost: "+engineCost);
+
+
+        engineButton.setOnClickListener(new View.OnClickListener() {
+            SharedPreferences.Editor ed = gameData.edit();
+            @Override
+            public void onClick(View v) {
+
+                if (shipCredits >= engineCost){
+
+                    ed.putInt("ShipEngine", shipEngine + 1);
+                    ed.putInt("Credits", shipCredits-engineCost);
+                    engineText.setText("Engine succesfully upgraded!");
+                    ed.commit();
+                }
+
+                else {
+
+                    engineText.setText("You do not have enought coins to upgrade! ");
+                }
+
+
+
+            }
+        });
+
 
 
 
