@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
@@ -104,6 +105,8 @@ public class MenuView extends View {
 
              if ((relative_y > 50) && (relative_y < 59)){
                  Log.d("xxx", "workshop");
+
+
                  //carreguem dades per comprovar el workshop
                  SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this.getContext().getApplicationContext());
                  int station = gameData.getInt("Station",0);
@@ -112,6 +115,34 @@ public class MenuView extends View {
                      intent.putExtra("new", false);
                      getContext().startActivity(intent);
                  }  else    {
+
+                     //sound
+                     MediaPlayer song;
+                     song = MediaPlayer.create(getContext(), R.raw.glitch);
+                     song.setVolume(0.4f,0.4f);
+                     song.start();
+
+                     //creem un dialog
+                     final Dialog dialog = new Dialog(super.getContext());
+                     dialog.setContentView(R.layout.workshop_warning);
+
+                     //treiem el marc
+                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                     dialog.setTitle("");
+
+                     ImageView image = (ImageView) dialog.findViewById(R.id.alert);
+                     image.setImageResource(R.drawable.alertworkshop);
+
+                     Button dialogButton = (Button) dialog.findViewById(R.id.returnutton);
+                     // tanquem dialog al clicar
+                     dialogButton.setOnClickListener(new View.OnClickListener() {
+                         @Override
+                         public void onClick(View v) {
+                             dialog.dismiss();
+                         }
+                     });
+
+                     dialog.show();
 
                  }
 

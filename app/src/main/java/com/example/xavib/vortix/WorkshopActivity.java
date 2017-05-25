@@ -22,7 +22,7 @@ public class WorkshopActivity extends AppCompatActivity {
     public int length = 0;
     public Button engineButton, scannerButton, shieldButton, hullButton;
     public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc, money, shieldd,scannerr, hull;
-    public int engineCost, hullCost, shieldCost, scannerCost, maxHp, maxShields, maxEnergy, shipHP, shipShield, shipScanner, shipEngine, shipCredits, energy;
+    public int engineCost, hullCost, shieldCost, scannerCost, maxHp, maxShields, maxEnergy, shipHP, shipShield, shipScanner, shipEngine, shipCredits, energy, shieldRegen;
     SharedPreferences gameData;
 
     @Override
@@ -84,6 +84,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
          shipShield = gameData.getInt("ShipShield", 100);
          maxShields = gameData.getInt("MaxShields", 100);
+         shieldRegen = gameData.getInt("ShieldRegen", 1);
 
          shipScanner = gameData.getInt("ShipScanner", 1);
          shipEngine = gameData.getInt("ShipEngine", 1);
@@ -100,16 +101,16 @@ public class WorkshopActivity extends AppCompatActivity {
         hullCost = shipEngine*1;
 
         hullText.setText("Upgrade cost: "+hullCost);
-        hullDesc.setText("The damage your ship can take. \n Current points: "+shipHP+"\nMaximum points: "+maxHp);
+        hullDesc.setText("Maximum hull points: \n"+maxHp);
 
         scannerText.setText("Upgrade cost: "+scannerCost);
-        scannerDesc.setText("How far you can detect objects in space. \n Current scanner range: "+shipScanner);
+        scannerDesc.setText("Scanner range: \n"+shipScanner);
 
         shieldText.setText("Upgrade cost: "+shieldCost);
-        shieldDesc.setText("Shields absorb damage and regenerate slowly. \n Current shield points: "+shipHP+"\nMaximum shield points: "+maxHp);
+        shieldDesc.setText("Shield regeneration rate: "+shieldRegen);
 
         engineText.setText("Upgrade cost: "+engineCost);
-        engineDesc.setText("Improving engine reduces energy cost of movement and increases shields regeneration. \n Current movement cost: "+(6-shipEngine)+"\nShield regeneration: "+shipEngine);
+        engineDesc.setText("Energy movement cost: \n"+(6-shipEngine));
 
         money.setText("Credits: "+shipCredits);
         shieldd.setText("Shield: "+shipShield+"/"+maxShields);
@@ -119,7 +120,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
 
 
-
+        // ENGINE
 
         engineButton.setOnClickListener(new View.OnClickListener() {
             SharedPreferences.Editor ed = gameData.edit();
@@ -145,6 +146,9 @@ public class WorkshopActivity extends AppCompatActivity {
             }
         });
 
+
+        //SHIELDS
+
         shieldButton.setOnClickListener(new View.OnClickListener() {
             SharedPreferences.Editor ed = gameData.edit();
             @Override
@@ -152,7 +156,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
                 if (shipCredits >= shieldCost){
 
-                    ed.putInt("ShipShield", shieldCost + 1);
+                    ed.putInt("ShieldRegen", shieldRegen + 1);
                     ed.putInt("Credits", shipCredits-shieldCost);
                     shieldText.setText("Shield succesfully upgraded!");
                     ed.commit();
@@ -176,7 +180,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
                 if (shipCredits >= scannerCost){
 
-                    ed.putInt("ShipScanner", scannerCost + 1);
+                    ed.putInt("ShipScanner", shipScanner + 1);
                     ed.putInt("Credits", shipCredits-scannerCost);
                     scannerText.setText("Scanner succesfully upgraded!");
                     ed.commit();
@@ -200,8 +204,9 @@ public class WorkshopActivity extends AppCompatActivity {
 
                 if (shipCredits >= hullCost){
 
-                    ed.putInt("ShipHP", hullCost + 1);
-                    ed.putInt("Credits", shipCredits-scannerCost);
+                    ed.putInt("ShipHP", shipHP + 10);
+                    ed.putInt("MaxHp", maxHp + 10);
+                    ed.putInt("Credits", shipCredits-hullCost);
                     hullText.setText("Hull succesfully upgraded!");
                     ed.commit();
                     loadStats();

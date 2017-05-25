@@ -447,7 +447,7 @@ public class GridView extends View{
                             playerShip.setCredits(playerShip.getCredits()-25);
                             mainActivity.playSound(R.raw.pulse);
                             mainActivity.mensaje.setTextColor(Color.BLUE);
-                            mainActivity.infoBox("Filled fuel tanks at a cost of 25 credits. You can visit the workshop.");
+                            mainActivity.infoBox("Refueled and repaired for  25 credits. You can visit the workshop.");
                         }   else {
                             mainActivity.mensaje.setTextColor(Color.RED);
                             mainActivity.infoBox("You need at least 25 credits to refuel. You can visit the workshop.");
