@@ -94,11 +94,10 @@ public class WorkshopActivity extends AppCompatActivity {
          maxEnergy = gameData.getInt("MaxEnergy", 100);
 
         //costos
-        scannerCost = shipEngine*1;
-        engineCost = shipEngine*10;
-        shieldCost = shipEngine*1;
-        scannerCost = shipEngine*1;
-        hullCost = shipEngine*1;
+        scannerCost = 350;
+        engineCost = 25 + shipEngine*75;
+        shieldCost = 50 + shieldRegen*50;
+        hullCost =  30 + maxHp/10;
 
         hullText.setText("Upgrade cost: "+hullCost);
         hullDesc.setText("Maximum hull points: \n"+maxHp);
@@ -127,7 +126,11 @@ public class WorkshopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (shipCredits >= engineCost){
+                if (shipEngine > 3){
+
+                    engineText.setText("Level Maxed! ");
+
+                }   else if (shipCredits >= engineCost){
 
                     ed.putInt("ShipEngine", shipEngine + 1);
                     ed.putInt("Credits", shipCredits-engineCost);
@@ -154,7 +157,11 @@ public class WorkshopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (shipCredits >= shieldCost){
+                if (shieldRegen > 4){
+
+                    shieldText.setText("Level Maxed! ");
+
+                }  else if (shipCredits >= shieldCost){
 
                     ed.putInt("ShieldRegen", shieldRegen + 1);
                     ed.putInt("Credits", shipCredits-shieldCost);
@@ -178,7 +185,11 @@ public class WorkshopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (shipCredits >= scannerCost){
+                if (shipScanner > 1){
+
+                    scannerText.setText("Level Maxed! ");
+
+                }  else if (shipCredits >= scannerCost){
 
                     ed.putInt("ShipScanner", shipScanner + 1);
                     ed.putInt("Credits", shipCredits-scannerCost);

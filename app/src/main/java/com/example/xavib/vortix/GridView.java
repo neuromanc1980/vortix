@@ -444,13 +444,14 @@ public class GridView extends View{
 
                         if (playerShip.getCredits() >= 25){
                             playerShip.setEnergy(playerShip.getMaxenergy());
+                            playerShip.setHp(playerShip.getMaxhp());
                             playerShip.setCredits(playerShip.getCredits()-25);
                             mainActivity.playSound(R.raw.pulse);
                             mainActivity.mensaje.setTextColor(Color.BLUE);
                             mainActivity.infoBox("Refueled and repaired for  25 credits. You can visit the workshop.");
                         }   else {
                             mainActivity.mensaje.setTextColor(Color.RED);
-                            mainActivity.infoBox("You need at least 25 credits to refuel. You can visit the workshop.");
+                            mainActivity.infoBox("You need at least 25 credits to repair and refuel.");
                         }
 
                         //activem opció workshop
@@ -539,7 +540,7 @@ public class GridView extends View{
 
         //-----------------------------------------------   ASTEROIDES   ------------------------------------------------
         Random r = new Random();
-        int asteroidsNumber = r.nextInt(gameState.getLevel().getLevel()/2 +2) + 2;
+        int asteroidsNumber = r.nextInt(gameState.getLevel().getLevel() +2) + 2;
 
         Log.d("xxx", "\nPlacing "+asteroidsNumber+" asteroids " );
 
@@ -558,7 +559,7 @@ public class GridView extends View{
 
                     //densitat
                     Random r3 = new Random();
-                    int daño = r3.nextInt(gameState.getLevel().getLevel()*2 ) + 1;
+                    int daño = r3.nextInt(gameState.getLevel().getLevel()*2 + 5) + 2;
                     int densitat = r2.nextInt(gameState.getLevel().getLevel()*10 ) + 1;
                         if (densitat < 25)  { asteroid.setDensity(daño);  }
                         if (densitat < 50)  { asteroid.setDensity(daño*2);  }
@@ -598,7 +599,7 @@ public class GridView extends View{
         }
 
         //-----------------------------------------------   NEBULA   ------------------------------------------------
-        int nebulaNumber = r.nextInt(gameState.getLevel().getLevel()/3 +3) + 1;
+        int nebulaNumber = r.nextInt(gameState.getLevel().getLevel()/3 +5) + 1;
 
         Log.d("xxx", "\nPlacing "+nebulaNumber+" minerals " );
 
@@ -617,8 +618,8 @@ public class GridView extends View{
                 //valor de la nebula
                 Random r3 = new Random();
                 int value = r2.nextInt(gameState.getLevel().getLevel()*5 ) + 1;
-                if (value < 20)  { nebula.setDensity(2);  }
-                if (value >= 20)  { nebula.setDensity(3);  }
+                if (value < 20)  { nebula.setDensity(2+gameState.getLevel().getLevel());  }
+                if (value >= 20)  { nebula.setDensity(5+gameState.getLevel().getLevel());  }
 
                 Log.d("xxx", "\nValor "+nebula.getDensity()+" de la nebula a coordinades: X: "+hexa.getGridX()+" Z:"+hexa.getGridZ() );
                 data.setElement(nebula);

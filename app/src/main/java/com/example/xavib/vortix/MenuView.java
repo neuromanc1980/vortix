@@ -89,7 +89,7 @@ public class MenuView extends View {
                  text.setText(""+highscore);
 
                  ImageView image = (ImageView) dialog.findViewById(R.id.gameOverBackground);
-                 image.setImageResource(R.drawable.gameover);
+                 image.setImageResource(R.drawable.score);
 
                  Button dialogButton = (Button) dialog.findViewById(R.id.returnutton);
                  // tanquem dialog al clicar
