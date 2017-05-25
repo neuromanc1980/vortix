@@ -24,45 +24,44 @@
             android:layout_height="match_parent"
             android:layout_weight="9">
 
-        <TextView
-            android:id="@+id/money"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text=""
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp" />
-
-
-        <TextView
-            android:id="@+id/shieldd"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="money"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/scannerr"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="money"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp" />
-
-
-
             <TextView
-                android:id="@+id/placa"
+                android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="money"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/shieldd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/scannerr"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/hull"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp" />

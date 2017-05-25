@@ -21,7 +21,7 @@ public class WorkshopActivity extends AppCompatActivity {
     public MediaPlayer song;
     public int length = 0;
     public Button engineButton, scannerButton, shieldButton, hullButton;
-    public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc, money;
+    public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc, money, shieldd,scannerr, hull;
     public int engineCost, hullCost, shieldCost, scannerCost, maxHp, maxShields, maxEnergy, shipHP, shipShield, shipScanner, shipEngine, shipCredits, energy;
     SharedPreferences gameData;
 
@@ -51,6 +51,9 @@ public class WorkshopActivity extends AppCompatActivity {
         //superior
 
         money = (TextView) findViewById(R.id.money);
+        shieldd = (TextView) findViewById(R.id.shieldd);
+        scannerr = (TextView) findViewById(R.id.scannerr);
+        hull = (TextView) findViewById(R.id.hull);
 
 
     }
@@ -90,8 +93,11 @@ public class WorkshopActivity extends AppCompatActivity {
          maxEnergy = gameData.getInt("MaxEnergy", 100);
 
         //costos
-        scannerCost = shipScanner*250;
+        scannerCost = shipEngine*1;
         engineCost = shipEngine*10;
+        shieldCost = shipEngine*1;
+        scannerCost = shipEngine*1;
+        hullCost = shipEngine*1;
 
         hullText.setText("Upgrade cost: "+hullCost);
         hullDesc.setText("The damage your ship can take. \n Current points: "+shipHP+"\nMaximum points: "+maxHp);
@@ -106,6 +112,9 @@ public class WorkshopActivity extends AppCompatActivity {
         engineDesc.setText("Improving engine reduces energy cost of movement and increases shields regeneration. \n Current movement cost: "+(6-shipEngine)+"\nShield regeneration: "+shipEngine);
 
         money.setText("Credits: "+shipCredits);
+        shieldd.setText("Shield: "+shipShield+"/"+maxShields);
+        scannerr.setText("Scanner Level: "+shipScanner);
+        hull.setText("HP: "+shipHP+"/"+maxHp);
 
 
 
@@ -129,6 +138,78 @@ public class WorkshopActivity extends AppCompatActivity {
                 else {
 
                     engineText.setText("Not enough credits! ");
+                }
+
+
+
+            }
+        });
+
+        shieldButton.setOnClickListener(new View.OnClickListener() {
+            SharedPreferences.Editor ed = gameData.edit();
+            @Override
+            public void onClick(View v) {
+
+                if (shipCredits >= shieldCost){
+
+                    ed.putInt("ShipShield", shieldCost + 1);
+                    ed.putInt("Credits", shipCredits-shieldCost);
+                    shieldText.setText("Shield succesfully upgraded!");
+                    ed.commit();
+                    loadStats();
+                }
+
+                else {
+
+                    shieldText.setText("Not enough credits! ");
+                }
+
+
+
+            }
+        });
+
+        scannerButton.setOnClickListener(new View.OnClickListener() {
+            SharedPreferences.Editor ed = gameData.edit();
+            @Override
+            public void onClick(View v) {
+
+                if (shipCredits >= scannerCost){
+
+                    ed.putInt("ShipScanner", scannerCost + 1);
+                    ed.putInt("Credits", shipCredits-scannerCost);
+                    scannerText.setText("Scanner succesfully upgraded!");
+                    ed.commit();
+                    loadStats();
+                }
+
+                else {
+
+                    scannerText.setText("Not enough credits! ");
+                }
+
+
+
+            }
+        });
+
+        hullButton.setOnClickListener(new View.OnClickListener() {
+            SharedPreferences.Editor ed = gameData.edit();
+            @Override
+            public void onClick(View v) {
+
+                if (shipCredits >= hullCost){
+
+                    ed.putInt("ShipHP", hullCost + 1);
+                    ed.putInt("Credits", shipCredits-scannerCost);
+                    hullText.setText("Hull succesfully upgraded!");
+                    ed.commit();
+                    loadStats();
+                }
+
+                else {
+
+                    hullText.setText("Not enough credits! ");
                 }
 
 
