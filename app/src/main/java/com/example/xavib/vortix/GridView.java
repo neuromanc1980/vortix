@@ -5,6 +5,7 @@ package com.example.xavib.vortix;
 import android.content.Context;
 import static java.lang.Math.*;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -261,6 +263,21 @@ public class GridView extends View{
                     Bitmap shieldsBM = BitmapFactory.decodeResource(getResources(), R.drawable.shields2);
                     canvas.drawBitmap(shieldsBM, (float) hexagon.getCenterX() - shieldsBM.getHeight()/2, (float) hexagon.getCenterY() - shieldsBM.getWidth()/2, new Paint() );
                 }
+
+                //comprovem si està a la workshop
+                SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this.getContext().getApplicationContext());
+                int station = gameData.getInt("Station",0);
+                if (station == 1){
+                    data.removeElement();   //treiem element si hi havia algún
+                    Station temp_station = new Station();
+                    temp_station.setXCoord(hexagon.getGridX());
+                    temp_station.setZCoord(hexagon.getGridZ());
+                    //col.loquem el portal com a element del hexagon, i guardem les coordenades en el nivell
+                    data.setElement(temp_station);
+                    hexagon.setSatelliteData(data);
+                    level.setStation(temp_station);
+                    level.setStationPlaced(true);
+                }
             }
 
             //dibuixem la graella
@@ -342,6 +359,11 @@ public class GridView extends View{
 
                     if (dataTouched.get().isMoveable()){ //ens movem a la casella
 
+                        //desactivem workshop
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext());
+                        SharedPreferences.Editor ed = prefs.edit();
+                        ed.putInt("Station", 0);
+                        ed.commit();
 
                         mainActivity.updateFuel();
                         mainActivity.infoBox("");   //netejem text box
@@ -425,11 +447,17 @@ public class GridView extends View{
                             playerShip.setCredits(playerShip.getCredits()-25);
                             mainActivity.playSound(R.raw.pulse);
                             mainActivity.mensaje.setTextColor(Color.BLUE);
-                            mainActivity.infoBox("Filled fuel tanks at a cost of 25 credits.");
+                            mainActivity.infoBox("Filled fuel tanks at a cost of 25 credits. You can visit the workshop.");
                         }   else {
                             mainActivity.mensaje.setTextColor(Color.RED);
-                            mainActivity.infoBox("You need at least 25 credits to refuel.");
+                            mainActivity.infoBox("You need at least 25 credits to refuel. You can visit the workshop.");
                         }
+
+                        //activem opció workshop
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext());
+                        SharedPreferences.Editor ed = prefs.edit();
+                        ed.putInt("Station", 1);
+                        ed.commit();
                     }
 
                 }

@@ -104,9 +104,17 @@ public class MenuView extends View {
 
              if ((relative_y > 50) && (relative_y < 59)){
                  Log.d("xxx", "workshop");
-                 Intent intent = new Intent(getContext(), WorkshopActivity.class);
-                 intent.putExtra("new", false);
-                 getContext().startActivity(intent);
+                 //carreguem dades per comprovar el workshop
+                 SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(this.getContext().getApplicationContext());
+                 int station = gameData.getInt("Station",0);
+                 if (station == 1){     //entrem al workshop
+                     Intent intent = new Intent(getContext(), WorkshopActivity.class);
+                     intent.putExtra("new", false);
+                     getContext().startActivity(intent);
+                 }  else    {
+
+                 }
+
              }
 
              if ((relative_y > 63) && (relative_y < 72)){

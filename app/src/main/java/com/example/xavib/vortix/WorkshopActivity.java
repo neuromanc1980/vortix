@@ -22,14 +22,15 @@ public class WorkshopActivity extends AppCompatActivity {
     public int length = 0;
     public Button engineButton, scannerButton, shieldButton, hullButton;
     public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc, money;
-    public int engineCost, hullCost, shieldCost, scannerCost;
+    public int engineCost, hullCost, shieldCost, scannerCost, maxHp, maxShields, maxEnergy, shipHP, shipShield, shipScanner, shipEngine, shipCredits, energy;
+    SharedPreferences gameData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.workshop);
 
-        setContentView(R.layout.workshop);
+        gameData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         //botons
         engineButton = (Button) findViewById(R.id.enginebtn);
@@ -73,26 +74,24 @@ public class WorkshopActivity extends AppCompatActivity {
     }
 
     public void loadStats(){
+
         //carreguem dades
+         shipHP = gameData.getInt("ShipHP", 100);
+         maxHp = gameData.getInt("MaxHp", 100);
 
+         shipShield = gameData.getInt("ShipShield", 100);
+         maxShields = gameData.getInt("MaxShields", 100);
 
-        final SharedPreferences gameData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int shipHP = gameData.getInt("ShipHP", 100);
-        int maxHp = gameData.getInt("MaxHp", 100);
+         shipScanner = gameData.getInt("ShipScanner", 1);
+         shipEngine = gameData.getInt("ShipEngine", 1);
+         shipCredits = gameData.getInt("Credits", 3);
 
-        int shipShield = gameData.getInt("ShipShield", 100);
-        int maxShields = gameData.getInt("MaxShields", 100);
-
-        int shipScanner = gameData.getInt("ShipScanner", 1);
-        final int shipEngine = gameData.getInt("ShipEngine", 1);
-        final int shipCredits = gameData.getInt("Credits", 0);
-
-        int energy = gameData.getInt("Energy", 100);
-        int maxEnergy = gameData.getInt("MaxEnergy", 100);
+         energy = gameData.getInt("Energy", 100);
+         maxEnergy = gameData.getInt("MaxEnergy", 100);
 
         //costos
         scannerCost = shipScanner*250;
-        engineCost = shipEngine*350;
+        engineCost = shipEngine*10;
 
         hullText.setText("Upgrade cost: "+hullCost);
         hullDesc.setText("The damage your ship can take. \n Current points: "+shipHP+"\nMaximum points: "+maxHp);
@@ -106,7 +105,7 @@ public class WorkshopActivity extends AppCompatActivity {
         engineText.setText("Upgrade cost: "+engineCost);
         engineDesc.setText("Improving engine reduces energy cost of movement and increases shields regeneration. \n Current movement cost: "+(6-shipEngine)+"\nShield regeneration: "+shipEngine);
 
-        money.setText(""+shipCredits);
+        money.setText("Credits: "+shipCredits);
 
 
 
@@ -124,6 +123,7 @@ public class WorkshopActivity extends AppCompatActivity {
                     ed.putInt("Credits", shipCredits-engineCost);
                     engineText.setText("Engine succesfully upgraded!");
                     ed.commit();
+                    loadStats();
                 }
 
                 else {

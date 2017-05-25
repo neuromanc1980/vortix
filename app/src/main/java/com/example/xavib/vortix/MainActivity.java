@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         playerShip = gameState.getPlayerShip();
         level = gameState.getLevel();
         highscore = gameState.getLevel().getLevel();
+        credits = gameState.getPlayerShip().getCredits();
         ed.putInt("ShipX", playerShip.getShipX());
         ed.putInt("ShipZ", playerShip.getShipZ());
         ed.putInt("ShipHP", playerShip.getHp());
