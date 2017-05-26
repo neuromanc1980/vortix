@@ -182,5 +182,18 @@
             android:textSize="16sp"/>
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/toWorkShop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/grid"
+        android:layout_alignEnd="@+id/grid"
+        android:layout_alignRight="@+id/grid"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginRight="46dp"
+        android:text="WorkShop"
+        android:visibility="invisible" />
+
 
 </RelativeLayout>
