@@ -480,7 +480,7 @@ public class GridView extends View{
 
                     }
 
-                    else {mainActivity.ocultarBoton();}
+                    else {mainActivity.ocultarBoton();}  //oculta workshop
 
                 }
                 break;
