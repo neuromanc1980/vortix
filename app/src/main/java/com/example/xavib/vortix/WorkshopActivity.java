@@ -1,5 +1,6 @@
 package com.example.xavib.vortix;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class WorkshopActivity extends AppCompatActivity {
     public TextView engineText, engineDesc, scannerText, scannerDesc, shieldText, shieldDesc, hullText, hullDesc, money, shieldd,scannerr, hull;
     public int engineCost, hullCost, shieldCost, scannerCost, maxHp, maxShields, maxEnergy, shipHP, shipShield, shipScanner, shipEngine, shipCredits, energy, shieldRegen;
     SharedPreferences gameData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,7 +242,8 @@ public class WorkshopActivity extends AppCompatActivity {
 
 
 
-
     }
+
+
 
 }

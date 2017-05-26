@@ -61,7 +61,7 @@ public class GridView extends View{
     HexagonSatelliteData data = new HexagonSatelliteData();
     MainActivity mainActivity;
     HexagonalGridCalculator hexCalc;
-    public Button ws;
+    public Button toWorkShop;
 
     //paràmetres del grid comuns a tots els nivells
     private static final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
@@ -344,7 +344,7 @@ public class GridView extends View{
         float relative_x = x/(this.getWidth())*100;
         float relative_y = y/(this.getHeight())*100;
 
-        ws = (Button)findViewById(R.id.toWorkShop);
+
 
         int action = event.getAction();
         switch (action) {
@@ -446,6 +446,10 @@ public class GridView extends View{
                     //station
                     if (dataTouched.get().getElement() instanceof Station && dataTouched.get().isVisible()){
 
+
+
+                        mainActivity.crearBoton();
+
                         if (playerShip.getCredits() >= 25){
                             playerShip.setEnergy(playerShip.getMaxenergy());
                             //playerShip.setHp(playerShip.getMaxhp());
@@ -454,20 +458,11 @@ public class GridView extends View{
                             mainActivity.mensaje.setTextColor(Color.BLUE);
                             mainActivity.infoBox("Refueled for  25 credits. You can visit the workshop.");
 
-                            ws.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
 
-                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext());
-                                    SharedPreferences.Editor ed = prefs.edit();
-                                    ed.putInt("Station", 1);
-                                    ed.commit();
-
-                                    Intent intent = new Intent(getContext(), WorkshopActivity.class);
-                                    getContext().startActivity(intent);
-
-                                }
-                            });
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext());
+                            SharedPreferences.Editor ed = prefs.edit();
+                            ed.putInt("Station", 1);
+                            ed.commit();
 
 
                         }   else {
@@ -475,14 +470,17 @@ public class GridView extends View{
                             mainActivity.infoBox("You need at least 25 credits and refuel. You can visit the workshop.");
                         }
 
-                        ws.setVisibility(View.INVISIBLE);
 
                         //activem opció workshop
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext());
                         SharedPreferences.Editor ed = prefs.edit();
                         ed.putInt("Station", 1);
                         ed.commit();
+
+
                     }
+
+                    else {mainActivity.ocultarBoton();}
 
                 }
                 break;

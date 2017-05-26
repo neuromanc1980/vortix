@@ -3,6 +3,7 @@ package com.example.xavib.vortix;
 //activitat principal del joc
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -36,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
     public MediaPlayer song;
     private int length=0, highscore, score, credits, maxEnergy, maxHp, maxShields, shieldRegen;
     TextView mensaje;
+    public Button toWorkShop;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        toWorkShop = (Button)findViewById(R.id.toWorkShop);
 
         //creem una vista de tipus gridview
         gridView = (GridView) findViewById(R.id.grid);
@@ -313,6 +316,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dialog.show();
+
+    }
+
+    public void ocultarBoton(){
+        toWorkShop.setVisibility(View.INVISIBLE);
+    }
+
+
+
+    public void crearBoton(){
+
+        toWorkShop.setVisibility(View.VISIBLE);
+
+        toWorkShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), WorkshopActivity.class);
+                getApplicationContext().startActivity(intent);
+
+            }
+        });
 
     }
 
