@@ -97,19 +97,19 @@ public class WorkshopActivity extends AppCompatActivity {
         scannerCost = 350;
         engineCost = 25 + shipEngine*75;
         shieldCost = 50 + shieldRegen*50;
-        hullCost =  30 + maxHp/10;
+        hullCost =  10;
 
-        hullText.setText("Upgrade cost: "+hullCost);
-        hullDesc.setText("Maximum hull points: \n"+maxHp);
+        hullText.setText("Repair cost: "+hullCost);
+        hullDesc.setText("Repairs 25 hull points.");
 
         scannerText.setText("Upgrade cost: "+scannerCost);
         scannerDesc.setText("Scanner range: \n"+shipScanner);
 
         shieldText.setText("Upgrade cost: "+shieldCost);
-        shieldDesc.setText("Shield regeneration rate: "+shieldRegen);
+        shieldDesc.setText("Shield rate of regeneration : "+shieldRegen);
 
         engineText.setText("Upgrade cost: "+engineCost);
-        engineDesc.setText("Energy movement cost: \n"+(6-shipEngine));
+        engineDesc.setText("Energy \n movement cost: \n"+(6-shipEngine));
 
         money.setText("Credits: "+shipCredits);
         shieldd.setText("Shield: "+shipShield+"/"+maxShields);
@@ -213,20 +213,24 @@ public class WorkshopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (shipCredits >= hullCost){
+                if (shipHP<100){
+                    if (shipCredits >= hullCost){
+                        if (shipHP+25>100)  {   shipHP = 75;    }
+                        ed.putInt("ShipHP", shipHP + 25);
+                        //ed.putInt("MaxHp", maxHp + 10);
+                        ed.putInt("Credits", shipCredits-hullCost);
+                        hullText.setText("Hull succesfully repaired!");
+                        ed.commit();
+                        loadStats();
+                    }
 
-                    ed.putInt("ShipHP", shipHP + 10);
-                    ed.putInt("MaxHp", maxHp + 10);
-                    ed.putInt("Credits", shipCredits-hullCost);
-                    hullText.setText("Hull succesfully upgraded!");
-                    ed.commit();
-                    loadStats();
-                }
+                    else {
 
-                else {
+                        hullText.setText("Not enough credits! ");
+                    }
+                }   else hullText.setText("Ship is already in perfect shape! ");
 
-                    hullText.setText("Not enough credits! ");
-                }
+
 
 
 
