@@ -456,7 +456,7 @@ public class GridView extends View{
                             playerShip.setCredits(playerShip.getCredits()-25);
                             mainActivity.playSound(R.raw.pulse);
                             mainActivity.mensaje.setTextColor(Color.BLUE);
-                            mainActivity.infoBox("Refueled for  25 credits. You can visit the workshop.");
+                            mainActivity.infoBox("Refueled for  25 credits.");
 
 
                             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext());
@@ -467,7 +467,7 @@ public class GridView extends View{
 
                         }   else {
                             mainActivity.mensaje.setTextColor(Color.RED);
-                            mainActivity.infoBox("You need at least 25 credits and refuel. You can visit the workshop.");
+                            mainActivity.infoBox("You need at least 25 credits and refuel.");
                         }
 
 
