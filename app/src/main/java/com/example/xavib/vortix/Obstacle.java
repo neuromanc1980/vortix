@@ -1,7 +1,7 @@
 package com.example.xavib.vortix;
 
 /**
- * Created by xaviB on 29/3/17.
+ * Created by xaviB on29/3/17.
  */
 
 public class Obstacle {
