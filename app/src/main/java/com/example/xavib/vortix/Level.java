@@ -74,6 +74,7 @@ public class Level {
             case 13:                this.background = (R.drawable.lvl8);                break;
             case 14:                this.background = (R.drawable.lvl9);                break;
             case 15:                this.background = (R.drawable.lvl10);               break;
+            default:                this.background = (R.drawable.lvl10);               break;
         }
 
         Random random = new Random();   int min = this.level;   int max = this.level*2 + 1;

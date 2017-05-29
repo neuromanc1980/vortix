@@ -5,25 +5,18 @@ package com.example.xavib.vortix;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.puppycrawl.tools.checkstyle.Main;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -130,8 +123,13 @@ public class MainActivity extends AppCompatActivity {
         int shipShield = gameData.getInt("ShipShield", 100);
         int shipScanner = gameData.getInt("ShipScanner", 1);
         int shipEngine = gameData.getInt("ShipEngine", 1);
-        int shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
         int levelSaved = gameData.getInt("Level", 1);
+        int shipImatge;
+        if (levelSaved <16){
+             shipImatge = gameData.getInt("Imatge", (R.drawable.ship1_s));
+        }   else {     shipImatge = gameData.getInt("Imatge", (R.drawable.ship2_2));     }
+
+
         int shipCredits = gameData.getInt("Credits", 0);
         int maxEnergy = gameData.getInt("MaxEnergy", 100);
         int energy = gameData.getInt("Energy", 100);
@@ -202,7 +200,10 @@ public class MainActivity extends AppCompatActivity {
 
     public GameState getGameState () {   return gameState;        }
 
-    public void playSound(int sound){        effect = MediaPlayer.create(MainActivity.this, sound); effect.setVolume(0.8f,0.8f);   effect.start();  }
+    public void playSound(int sound){
+        effect = MediaPlayer.create(MainActivity.this, sound);
+        effect.setVolume(0.8f,0.8f);
+        effect.start();  }
 
     public void playSong(int level){
         switch (level) {
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
             case 13:              song =  MediaPlayer.create(MainActivity.this, R.raw.song14);                  break;
             case 14:              song =  MediaPlayer.create(MainActivity.this, R.raw.song15);                  break;
             case 15:              song =  MediaPlayer.create(MainActivity.this, R.raw.song1);                  break;
+            default:              song =  MediaPlayer.create(MainActivity.this, R.raw.song1);                  break;
 
         }
         song.setVolume(0.3f,0.3f);

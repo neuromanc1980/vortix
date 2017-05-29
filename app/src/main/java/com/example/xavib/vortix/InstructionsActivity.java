@@ -2,6 +2,7 @@ package com.example.xavib.vortix;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,8 @@ public class InstructionsActivity extends Activity{
 
 
     public Button nextIns,backIns;
+    public MediaPlayer song;
+    public int length = 0;
 
     ImageView rl;
     private int currentImage = 0;
@@ -100,4 +103,21 @@ public class InstructionsActivity extends Activity{
 
     };
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        song = MediaPlayer.create(InstructionsActivity.this, R.raw.cosmos);
+        song.setVolume(0.3f,0.3f);
+        song.seekTo(length);
+        song.setLooping(true);
+        song.start();
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        song.stop();
+        length=song.getCurrentPosition();
+    }
+
+}
