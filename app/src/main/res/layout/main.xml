@@ -184,16 +184,15 @@
 
     <Button
         android:id="@+id/toWorkShop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/station"
-        android:text="WorkShop"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/dock"
         android:visibility="invisible"
+        android:layout_marginRight="37dp"
+        android:layout_marginEnd="37dp"
         android:layout_alignBottom="@+id/grid"
         android:layout_alignRight="@+id/grid"
-        android:layout_alignEnd="@+id/grid"
-        android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp" />
+        android:layout_alignEnd="@+id/grid" />
 
 
 </RelativeLayout>
