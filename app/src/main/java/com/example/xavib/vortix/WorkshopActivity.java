@@ -90,7 +90,7 @@ public class WorkshopActivity extends AppCompatActivity {
 
          shipScanner = gameData.getInt("ShipScanner", 1);
          shipEngine = gameData.getInt("ShipEngine", 1);
-         shipCredits = gameData.getInt("Credits", 3);
+         shipCredits = gameData.getInt("Credits", 0);
 
          energy = gameData.getInt("Energy", 100);
          maxEnergy = gameData.getInt("MaxEnergy", 100);
