@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         playerShip.setShipX(level.getStartingX());           playerShip.setShipZ(level.getStartingZ());
         playerShip.setHp(100);             playerShip.setScanner(1);
         playerShip.setShields(100);        playerShip.setEngine(1);
-        playerShip.setCredits(500);          playerShip.setMaxenergy(100);
+        playerShip.setCredits(5000);          playerShip.setMaxenergy(100);
         playerShip.setMaxshields(100);     playerShip.setMaxhp(100);
         playerShip.setEnergy(100);         playerShip.setShieldregen(1);
 
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateFuel(){
 
         int fuelCost;
-        fuelCost = 5 - gameState.getPlayerShip().getEngine();
+        fuelCost = 6 - gameState.getPlayerShip().getEngine();
         if (fuelCost < 1) fuelCost = 1;
 
         //si està regenerant escuts
