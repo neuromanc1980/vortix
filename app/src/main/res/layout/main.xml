@@ -177,7 +177,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="45dp"
             android:layout_marginTop="260dp"
-            android:text="info box"
+            android:text=""
             android:textColor="@android:color/holo_green_light"
             android:textSize="14sp" />
     </RelativeLayout>
