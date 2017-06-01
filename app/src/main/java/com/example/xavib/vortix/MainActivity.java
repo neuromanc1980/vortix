@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         playerShip.setShipX(level.getStartingX());           playerShip.setShipZ(level.getStartingZ());
         playerShip.setHp(100);             playerShip.setScanner(1);
         playerShip.setShields(100);        playerShip.setEngine(1);
-        playerShip.setCredits(5000);          playerShip.setMaxenergy(100);
+        playerShip.setCredits(0);          playerShip.setMaxenergy(100);
         playerShip.setMaxshields(100);     playerShip.setMaxhp(100);
         playerShip.setEnergy(100);         playerShip.setShieldregen(1);
 

@@ -402,7 +402,7 @@ public class GridView extends View{
                         mainActivity.infoBox("You found an ancient portal to a new sector!");
 
                         //nova nau
-                        if (gameState.getLevel().getLevel() >= 2){
+                        if (gameState.getLevel().getLevel() >= 16){
                             gameState.getPlayerShip().setImatge(R.drawable.ship2_2);
                             //sound
                             mainActivity.playSound(R.raw.levelupsound);
